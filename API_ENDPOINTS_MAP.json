@@ -1,0 +1,282 @@
+[
+  {
+    "tag": "abonnements",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "path": "/api/abonnements/abonnements/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/abonnements/abonnements/{id}/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/abonnements/abonnements/{id}/annuler/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/abonnements/abonnements/{id}/evenements/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/abonnements/abonnements/{id}/reactiver/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/abonnements/abonnements/{id}/renouveler/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/abonnements/abonnements/{id}/suspendre/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "path": "/api/abonnements/plans/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH",
+      "PUT"
+    ],
+    "path": "/api/abonnements/plans/{id}/"
+  },
+  {
+    "tag": "agents",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "path": "/api/agents/"
+  },
+  {
+    "tag": "agents",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/agents/activer/"
+  },
+  {
+    "tag": "agents",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/agents/renvoyer-code/"
+  },
+  {
+    "tag": "agents",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH",
+      "PUT"
+    ],
+    "path": "/api/agents/{id}/"
+  },
+  {
+    "tag": "clients",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "path": "/api/clients/"
+  },
+  {
+    "tag": "clients",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/clients/activer/"
+  },
+  {
+    "tag": "clients",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/clients/renvoyer-code/"
+  },
+  {
+    "tag": "clients",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH",
+      "PUT"
+    ],
+    "path": "/api/clients/{id}/"
+  },
+  {
+    "tag": "comptes",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/comptes/login/"
+  },
+  {
+    "tag": "comptes",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/comptes/logout/"
+  },
+  {
+    "tag": "comptes",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/comptes/me/"
+  },
+  {
+    "tag": "comptes",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/comptes/mot-de-passe/"
+  },
+  {
+    "tag": "comptes",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/comptes/refresh/"
+  },
+  {
+    "tag": "encaissements",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "path": "/api/encaissements/"
+  },
+  {
+    "tag": "encaissements",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/encaissements/confirmer-par-code/"
+  },
+  {
+    "tag": "encaissements",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH",
+      "PUT"
+    ],
+    "path": "/api/encaissements/{id}/"
+  },
+  {
+    "tag": "encaissements",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/encaissements/{id}/annuler/"
+  },
+  {
+    "tag": "encaissements",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/encaissements/{id}/confirmer/"
+  },
+  {
+    "tag": "fournisseurs",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "path": "/api/fournisseurs/"
+  },
+  {
+    "tag": "fournisseurs",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/fournisseurs/abonnement/"
+  },
+  {
+    "tag": "fournisseurs",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH",
+      "PUT"
+    ],
+    "path": "/api/fournisseurs/{id}/"
+  },
+  {
+    "tag": "super-admin",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/super-admin/fournisseurs/"
+  },
+  {
+    "tag": "super-admin",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/super-admin/fournisseurs/{id}/"
+  },
+  {
+    "tag": "super-admin",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/super-admin/fournisseurs/{id}/abonnements/"
+  },
+  {
+    "tag": "super-admin",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/super-admin/fournisseurs/{id}/reactiver/"
+  },
+  {
+    "tag": "super-admin",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/super-admin/fournisseurs/{id}/statistiques/"
+  },
+  {
+    "tag": "super-admin",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/super-admin/fournisseurs/{id}/suspendre/"
+  },
+  {
+    "tag": "super-admin",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/super-admin/tableau-de-bord/"
+  }
+]

@@ -1,29 +1,52 @@
 @import "tailwindcss";
 
-@layer utilities {
-  .bg-grid-pattern {
-    background-size: 36px 36px;
-    background-image: 
-      linear-gradient(to right, rgba(245, 158, 11, 0.08) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(245, 158, 11, 0.08) 1px, transparent 1px);
+@theme {
+  --color-brand: #0c3b2e;
+  --color-brand-dark: #082a21;
+  --color-brand-accent: #2f7d5b;
+  --color-brand-soft: #e8f2ec;
+  --color-surface: #f7f9f8;
+  --color-ink: #17211d;
+  --color-muted: #68756e;
+  --color-border: #e5ebe7;
+
+  --animate-fade-up: fade-up 0.7s ease-out both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 
-  .bg-grid-pattern-subtle {
-    background-size: 40px 40px;
-    background-image: 
-      linear-gradient(to right, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
-  }
-  
-  .bg-grid-pattern-dark {
-    background-size: 36px 36px;
-    background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  body {
+    background-color: #ffffff;
+    color: #17211d;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .bg-grid-dots {
-    background-size: 24px 24px;
-    background-image: radial-gradient(circle, rgba(245, 158, 11, 0.12) 1px, transparent 1px);
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

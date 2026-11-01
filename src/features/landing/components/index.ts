@@ -1,0 +1,10 @@
+export { Navbar } from "./Navbar";
+export { Hero } from "./Hero";
+export { Pillars } from "./Pillars";
+export { Features } from "./Features";
+export { Steps } from "./Steps";
+export { ForWho } from "./ForWho";
+export { Plans } from "./Plans";
+export { Faq } from "./Faq";
+export { Cta } from "./Cta";
+export { Footer } from "./Footer";

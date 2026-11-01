@@ -1,0 +1,3045 @@
+openapi: 3.0.3
+info:
+  title: API - App Remboursement
+  version: 1.0.0
+  description: API pour la gestion des fournisseurs, clients et agents d'encaissement
+paths:
+  /api/abonnements/abonnements/:
+    get:
+      operationId: abonnements_abonnements_list
+      description: Gestion des abonnements par le super administrateur.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - abonnements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAbonnementList'
+          description: ''
+    post:
+      operationId: abonnements_abonnements_create
+      description: Gestion des abonnements par le super administrateur.
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AbonnementCreation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AbonnementCreation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AbonnementCreation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Abonnement'
+          description: ''
+  /api/abonnements/abonnements/{id}/:
+    get:
+      operationId: abonnements_abonnements_retrieve
+      description: Gestion des abonnements par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this abonnement.
+        required: true
+      tags:
+      - abonnements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Abonnement'
+          description: ''
+  /api/abonnements/abonnements/{id}/annuler/:
+    post:
+      operationId: abonnements_abonnements_annuler_create
+      description: Gestion des abonnements par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this abonnement.
+        required: true
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnulationAbonnement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AnnulationAbonnement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AnnulationAbonnement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Abonnement'
+          description: ''
+  /api/abonnements/abonnements/{id}/evenements/:
+    get:
+      operationId: abonnements_abonnements_evenements_list
+      description: Gestion des abonnements par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this abonnement.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - abonnements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEvenementAbonnementList'
+          description: ''
+  /api/abonnements/abonnements/{id}/reactiver/:
+    post:
+      operationId: abonnements_abonnements_reactiver_create
+      description: Gestion des abonnements par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this abonnement.
+        required: true
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Abonnement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Abonnement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Abonnement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Abonnement'
+          description: ''
+  /api/abonnements/abonnements/{id}/renouveler/:
+    post:
+      operationId: abonnements_abonnements_renouveler_create
+      description: Gestion des abonnements par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this abonnement.
+        required: true
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RenouvellementAbonnement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RenouvellementAbonnement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RenouvellementAbonnement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Abonnement'
+          description: ''
+  /api/abonnements/abonnements/{id}/suspendre/:
+    post:
+      operationId: abonnements_abonnements_suspendre_create
+      description: Gestion des abonnements par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this abonnement.
+        required: true
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SuspensionAbonnement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SuspensionAbonnement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SuspensionAbonnement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Abonnement'
+          description: ''
+  /api/abonnements/plans/:
+    get:
+      operationId: abonnements_plans_list
+      description: Catalogue des plans et administration par le super administrateur.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - abonnements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPlanAbonnementList'
+          description: ''
+    post:
+      operationId: abonnements_plans_create
+      description: Catalogue des plans et administration par le super administrateur.
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanAbonnement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PlanAbonnement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PlanAbonnement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanAbonnement'
+          description: ''
+  /api/abonnements/plans/{id}/:
+    get:
+      operationId: abonnements_plans_retrieve
+      description: Catalogue des plans et administration par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this plan d'abonnement.
+        required: true
+      tags:
+      - abonnements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanAbonnement'
+          description: ''
+    put:
+      operationId: abonnements_plans_update
+      description: Catalogue des plans et administration par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this plan d'abonnement.
+        required: true
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanAbonnement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PlanAbonnement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PlanAbonnement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanAbonnement'
+          description: ''
+    patch:
+      operationId: abonnements_plans_partial_update
+      description: Catalogue des plans et administration par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this plan d'abonnement.
+        required: true
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPlanAbonnement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPlanAbonnement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPlanAbonnement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanAbonnement'
+          description: ''
+    delete:
+      operationId: abonnements_plans_destroy
+      description: Catalogue des plans et administration par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this plan d'abonnement.
+        required: true
+      tags:
+      - abonnements
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/agents/:
+    get:
+      operationId: agents_list
+      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
+        SMS, un seul autorisé).
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - agents
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAgentList'
+          description: ''
+    post:
+      operationId: agents_create
+      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
+        SMS, un seul autorisé).
+      tags:
+      - agents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentCreation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AgentCreation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AgentCreation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentCreation'
+          description: ''
+  /api/agents/{id}/:
+    get:
+      operationId: agents_retrieve
+      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
+        SMS, un seul autorisé).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this agent.
+        required: true
+      tags:
+      - agents
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: ''
+    put:
+      operationId: agents_update
+      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
+        SMS, un seul autorisé).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this agent.
+        required: true
+      tags:
+      - agents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Agent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Agent'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: ''
+    patch:
+      operationId: agents_partial_update
+      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
+        SMS, un seul autorisé).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this agent.
+        required: true
+      tags:
+      - agents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAgent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAgent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAgent'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: ''
+    delete:
+      operationId: agents_destroy
+      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
+        SMS, un seul autorisé).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this agent.
+        required: true
+      tags:
+      - agents
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/agents/activer/:
+    post:
+      operationId: agents_activer_create
+      description: 'L''agent active son compte : téléphone + code SMS + mot de passe
+        choisi.'
+      tags:
+      - agents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Agent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Agent'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: ''
+  /api/agents/renvoyer-code/:
+    post:
+      operationId: agents_renvoyer_code_create
+      description: Renvoie un nouveau code SMS si le compte n'est pas encore activé.
+      tags:
+      - agents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Agent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Agent'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: ''
+  /api/clients/:
+    get:
+      operationId: clients_list
+      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
+        + SMS).
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - clients
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedClientList'
+          description: ''
+    post:
+      operationId: clients_create
+      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
+        + SMS).
+      tags:
+      - clients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientCreation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClientCreation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ClientCreation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientCreation'
+          description: ''
+  /api/clients/{id}/:
+    get:
+      operationId: clients_retrieve
+      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
+        + SMS).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - clients
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+    put:
+      operationId: clients_update
+      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
+        + SMS).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - clients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+    patch:
+      operationId: clients_partial_update
+      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
+        + SMS).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - clients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedClient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedClient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedClient'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+    delete:
+      operationId: clients_destroy
+      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
+        + SMS).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - clients
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/clients/activer/:
+    post:
+      operationId: clients_activer_create
+      description: 'Le client active son compte : téléphone + code SMS + mot de passe
+        choisi.'
+      tags:
+      - clients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+  /api/clients/renvoyer-code/:
+    post:
+      operationId: clients_renvoyer_code_create
+      description: Renvoie un nouveau code SMS si le compte n'est pas encore activé.
+      tags:
+      - clients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+  /api/comptes/login/:
+    post:
+      operationId: comptes_login_create
+      description: Connexion par téléphone et mot de passe.
+      tags:
+      - comptes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Connexion'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Connexion'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Connexion'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnexionResponse'
+          description: ''
+  /api/comptes/logout/:
+    post:
+      operationId: comptes_logout_create
+      description: Invalide le refresh token fourni (blacklist).
+      tags:
+      - comptes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deconnexion'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Deconnexion'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Deconnexion'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '205':
+          description: No response body
+  /api/comptes/me/:
+    get:
+      operationId: comptes_me_retrieve
+      description: Renvoie les informations de l'utilisateur actuellement connecté.
+      tags:
+      - comptes
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Utilisateur'
+          description: ''
+  /api/comptes/mot-de-passe/:
+    post:
+      operationId: comptes_mot_de_passe_create
+      description: Change le mot de passe et invalide toutes les sessions existantes.
+      tags:
+      - comptes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangementMotDePasse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChangementMotDePasse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChangementMotDePasse'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Detail'
+          description: ''
+  /api/comptes/refresh/:
+    post:
+      operationId: comptes_refresh_create
+      description: Renouvelle l'access token à partir du refresh token.
+      tags:
+      - comptes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/encaissements/:
+    get:
+      operationId: encaissements_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - encaissements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEncaissementList'
+          description: ''
+    post:
+      operationId: encaissements_create
+      tags:
+      - encaissements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaissement'
+          description: ''
+  /api/encaissements/{id}/:
+    get:
+      operationId: encaissements_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this encaissement.
+        required: true
+      tags:
+      - encaissements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaissement'
+          description: ''
+    put:
+      operationId: encaissements_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this encaissement.
+        required: true
+      tags:
+      - encaissements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaissement'
+          description: ''
+    patch:
+      operationId: encaissements_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this encaissement.
+        required: true
+      tags:
+      - encaissements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEncaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEncaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEncaissement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaissement'
+          description: ''
+    delete:
+      operationId: encaissements_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this encaissement.
+        required: true
+      tags:
+      - encaissements
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/encaissements/{id}/annuler/:
+    post:
+      operationId: encaissements_annuler_create
+      description: Le client (propriétaire) ou le fournisseur peut annuler un encaissement
+        en attente.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this encaissement.
+        required: true
+      tags:
+      - encaissements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaissement'
+          description: ''
+  /api/encaissements/{id}/confirmer/:
+    post:
+      operationId: encaissements_confirmer_create
+      description: Confirmation par clic sur le bouton "Confirmer" dans la liste de
+        l'agent.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this encaissement.
+        required: true
+      tags:
+      - encaissements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaissement'
+          description: ''
+  /api/encaissements/confirmer-par-code/:
+    post:
+      operationId: encaissements_confirmer_par_code_create
+      description: Confirmation par scan du QR code affiché par le client (code_confirmation).
+      tags:
+      - encaissements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaissement'
+          description: ''
+  /api/fournisseurs/:
+    get:
+      operationId: fournisseurs_list
+      description: |-
+        Profil du fournisseur connecté et inscription publique.
+
+        - create : inscription publique (compte Utilisateur + profil + essai gratuit)
+        - retrieve/update/partial_update : uniquement son propre profil
+        - destroy : supprime le profil et le compte, sauf si des données
+          protégées (abonnements, encaissements) empêchent la suppression
+        - abonnement : état de l'abonnement, des quotas et de leur utilisation
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - fournisseurs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFournisseurList'
+          description: ''
+    post:
+      operationId: fournisseurs_create
+      description: |-
+        Profil du fournisseur connecté et inscription publique.
+
+        - create : inscription publique (compte Utilisateur + profil + essai gratuit)
+        - retrieve/update/partial_update : uniquement son propre profil
+        - destroy : supprime le profil et le compte, sauf si des données
+          protégées (abonnements, encaissements) empêchent la suppression
+        - abonnement : état de l'abonnement, des quotas et de leur utilisation
+      tags:
+      - fournisseurs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FournisseurInscription'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FournisseurInscription'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FournisseurInscription'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FournisseurInscription'
+          description: ''
+  /api/fournisseurs/{id}/:
+    get:
+      operationId: fournisseurs_retrieve
+      description: |-
+        Profil du fournisseur connecté et inscription publique.
+
+        - create : inscription publique (compte Utilisateur + profil + essai gratuit)
+        - retrieve/update/partial_update : uniquement son propre profil
+        - destroy : supprime le profil et le compte, sauf si des données
+          protégées (abonnements, encaissements) empêchent la suppression
+        - abonnement : état de l'abonnement, des quotas et de leur utilisation
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this fournisseur.
+        required: true
+      tags:
+      - fournisseurs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fournisseur'
+          description: ''
+    put:
+      operationId: fournisseurs_update
+      description: |-
+        Profil du fournisseur connecté et inscription publique.
+
+        - create : inscription publique (compte Utilisateur + profil + essai gratuit)
+        - retrieve/update/partial_update : uniquement son propre profil
+        - destroy : supprime le profil et le compte, sauf si des données
+          protégées (abonnements, encaissements) empêchent la suppression
+        - abonnement : état de l'abonnement, des quotas et de leur utilisation
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this fournisseur.
+        required: true
+      tags:
+      - fournisseurs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fournisseur'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Fournisseur'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Fournisseur'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fournisseur'
+          description: ''
+    patch:
+      operationId: fournisseurs_partial_update
+      description: |-
+        Profil du fournisseur connecté et inscription publique.
+
+        - create : inscription publique (compte Utilisateur + profil + essai gratuit)
+        - retrieve/update/partial_update : uniquement son propre profil
+        - destroy : supprime le profil et le compte, sauf si des données
+          protégées (abonnements, encaissements) empêchent la suppression
+        - abonnement : état de l'abonnement, des quotas et de leur utilisation
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this fournisseur.
+        required: true
+      tags:
+      - fournisseurs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFournisseur'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFournisseur'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFournisseur'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fournisseur'
+          description: ''
+    delete:
+      operationId: fournisseurs_destroy
+      description: |-
+        Profil du fournisseur connecté et inscription publique.
+
+        - create : inscription publique (compte Utilisateur + profil + essai gratuit)
+        - retrieve/update/partial_update : uniquement son propre profil
+        - destroy : supprime le profil et le compte, sauf si des données
+          protégées (abonnements, encaissements) empêchent la suppression
+        - abonnement : état de l'abonnement, des quotas et de leur utilisation
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this fournisseur.
+        required: true
+      tags:
+      - fournisseurs
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/fournisseurs/abonnement/:
+    get:
+      operationId: fournisseurs_abonnement_retrieve
+      description: |-
+        Profil du fournisseur connecté et inscription publique.
+
+        - create : inscription publique (compte Utilisateur + profil + essai gratuit)
+        - retrieve/update/partial_update : uniquement son propre profil
+        - destroy : supprime le profil et le compte, sauf si des données
+          protégées (abonnements, encaissements) empêchent la suppression
+        - abonnement : état de l'abonnement, des quotas et de leur utilisation
+      tags:
+      - fournisseurs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fournisseur'
+          description: ''
+  /api/super-admin/fournisseurs/:
+    get:
+      operationId: super_admin_fournisseurs_list
+      description: Supervision en lecture des fournisseurs et actions d'administration.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - super-admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFournisseurSupervisionList'
+          description: ''
+  /api/super-admin/fournisseurs/{id}/:
+    get:
+      operationId: super_admin_fournisseurs_retrieve
+      description: Supervision en lecture des fournisseurs et actions d'administration.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this fournisseur.
+        required: true
+      tags:
+      - super-admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FournisseurSupervision'
+          description: ''
+  /api/super-admin/fournisseurs/{id}/abonnements/:
+    get:
+      operationId: super_admin_fournisseurs_abonnements_list
+      description: Supervision en lecture des fournisseurs et actions d'administration.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this fournisseur.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - super-admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAbonnementList'
+          description: ''
+  /api/super-admin/fournisseurs/{id}/reactiver/:
+    post:
+      operationId: super_admin_fournisseurs_reactiver_create
+      description: Supervision en lecture des fournisseurs et actions d'administration.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this fournisseur.
+        required: true
+      tags:
+      - super-admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FournisseurSupervision'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FournisseurSupervision'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FournisseurSupervision'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FournisseurSupervision'
+          description: ''
+  /api/super-admin/fournisseurs/{id}/statistiques/:
+    get:
+      operationId: super_admin_fournisseurs_statistiques_retrieve
+      description: Supervision en lecture des fournisseurs et actions d'administration.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this fournisseur.
+        required: true
+      tags:
+      - super-admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatistiquesFournisseur'
+          description: ''
+  /api/super-admin/fournisseurs/{id}/suspendre/:
+    post:
+      operationId: super_admin_fournisseurs_suspendre_create
+      description: Supervision en lecture des fournisseurs et actions d'administration.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this fournisseur.
+        required: true
+      tags:
+      - super-admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SuspensionFournisseur'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SuspensionFournisseur'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SuspensionFournisseur'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FournisseurSupervision'
+          description: ''
+  /api/super-admin/tableau-de-bord/:
+    get:
+      operationId: super_admin_tableau_de_bord_retrieve
+      description: Indicateurs agrégés de la plateforme.
+      tags:
+      - super-admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableauDeBord'
+          description: ''
+components:
+  schemas:
+    Abonnement:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        fournisseur:
+          allOf:
+          - $ref: '#/components/schemas/FournisseurAbonnementResume'
+          readOnly: true
+        plan:
+          allOf:
+          - $ref: '#/components/schemas/PlanAbonnement'
+          readOnly: true
+        date_debut:
+          type: string
+          format: date-time
+          readOnly: true
+        date_fin:
+          type: string
+          format: date-time
+          readOnly: true
+        statut:
+          allOf:
+          - $ref: '#/components/schemas/AbonnementStatutEnum'
+          readOnly: true
+        statut_effectif:
+          type: string
+          readOnly: true
+        est_actif:
+          type: boolean
+          readOnly: true
+        est_essai:
+          type: boolean
+          readOnly: true
+        jours_restants:
+          type: integer
+          readOnly: true
+        montant:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
+          description: Montant facturé au moment de la souscription.
+        devise:
+          type: string
+          readOnly: true
+        reference_paiement:
+          type: string
+          readOnly: true
+        notes:
+          type: string
+          readOnly: true
+        cree_par:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: integer
+            telephone:
+              type: string
+          readOnly: true
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        date_modification:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - cree_par
+      - date_creation
+      - date_debut
+      - date_fin
+      - date_modification
+      - devise
+      - est_actif
+      - est_essai
+      - fournisseur
+      - id
+      - jours_restants
+      - montant
+      - notes
+      - plan
+      - reference_paiement
+      - statut
+      - statut_effectif
+    AbonnementCreation:
+      type: object
+      properties:
+        fournisseur:
+          type: integer
+        plan:
+          type: integer
+        date_debut:
+          type: string
+          format: date-time
+          nullable: true
+        reference_paiement:
+          type: string
+          maxLength: 100
+        notes:
+          type: string
+      required:
+      - fournisseur
+      - plan
+    AbonnementResume:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        plan_nom:
+          type: string
+          readOnly: true
+        statut:
+          $ref: '#/components/schemas/AbonnementStatutEnum'
+        statut_effectif:
+          type: string
+          readOnly: true
+        est_actif:
+          type: boolean
+          readOnly: true
+        est_essai:
+          type: boolean
+        date_debut:
+          type: string
+          format: date-time
+        date_fin:
+          type: string
+          format: date-time
+        jours_restants:
+          type: integer
+          readOnly: true
+        montant:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          description: Montant facturé au moment de la souscription.
+        devise:
+          type: string
+          maxLength: 3
+      required:
+      - date_debut
+      - date_fin
+      - est_actif
+      - id
+      - jours_restants
+      - plan_nom
+      - statut_effectif
+    AbonnementStatutEnum:
+      enum:
+      - ACTIF
+      - EXPIRE
+      - SUSPENDU
+      - ANNULE
+      type: string
+      description: |-
+        * `ACTIF` - Actif
+        * `EXPIRE` - Expiré
+        * `SUSPENDU` - Suspendu
+        * `ANNULE` - Annulé
+    Agent:
+      type: object
+      description: Utilisé pour la lecture et la mise à jour (pas la création).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        utilisateur:
+          type: integer
+          readOnly: true
+        fournisseur:
+          type: integer
+          readOnly: true
+        telephone:
+          type: string
+          readOnly: true
+        zone:
+          type: string
+          description: Zone / secteur de travail
+          maxLength: 255
+        compte_active:
+          type: boolean
+          readOnly: true
+          description: Passe à True une fois le code SMS validé et le mot de passe
+            défini.
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - compte_active
+      - date_creation
+      - fournisseur
+      - id
+      - telephone
+      - utilisateur
+    AgentCreation:
+      type: object
+      description: |-
+        Utilisé uniquement à la création : le fournisseur ajoute son agent en
+        saisissant juste son numéro de téléphone (même principe que le client).
+        Un compte Utilisateur est créé inactif, sans mot de passe, et un SMS avec
+        un code d'activation à 6 chiffres est envoyé à ce numéro (l'agent
+        choisira son mot de passe au moment de l'activation, voir
+        AgentActivationSerializer).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        telephone:
+          type: string
+          maxLength: 20
+        zone:
+          type: string
+          description: Zone / secteur de travail
+          maxLength: 255
+        compte_active:
+          type: boolean
+          readOnly: true
+          description: Passe à True une fois le code SMS validé et le mot de passe
+            défini.
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - compte_active
+      - date_creation
+      - id
+      - telephone
+    AnnulationAbonnement:
+      type: object
+      properties:
+        motif:
+          type: string
+      required:
+      - motif
+    ChangementMotDePasse:
+      type: object
+      properties:
+        ancien_mot_de_passe:
+          type: string
+          writeOnly: true
+        nouveau_mot_de_passe:
+          type: string
+          writeOnly: true
+          minLength: 8
+        confirmation:
+          type: string
+          writeOnly: true
+      required:
+      - ancien_mot_de_passe
+      - confirmation
+      - nouveau_mot_de_passe
+    Client:
+      type: object
+      description: Utilisé pour la lecture et la mise à jour (pas la création).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        utilisateur:
+          type: integer
+          readOnly: true
+        fournisseur:
+          type: integer
+          readOnly: true
+        telephone:
+          type: string
+          readOnly: true
+        adresse:
+          type: string
+          maxLength: 255
+        solde_du:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
+        compte_active:
+          type: boolean
+          readOnly: true
+          description: Passe à True une fois le code SMS validé et le mot de passe
+            défini.
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - compte_active
+      - date_creation
+      - fournisseur
+      - id
+      - solde_du
+      - telephone
+      - utilisateur
+    ClientCreation:
+      type: object
+      description: |-
+        Utilisé uniquement à la création : le fournisseur ajoute son client en
+        saisissant juste son numéro de téléphone. Un compte Utilisateur est créé
+        inactif, sans mot de passe, et un SMS avec un code d'activation à 6
+        chiffres est envoyé à ce numéro (le client choisira son mot de passe au
+        moment de l'activation, voir ClientActivationSerializer).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        telephone:
+          type: string
+          maxLength: 20
+        adresse:
+          type: string
+          maxLength: 255
+        solde_du:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
+        compte_active:
+          type: boolean
+          readOnly: true
+          description: Passe à True une fois le code SMS validé et le mot de passe
+            défini.
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - compte_active
+      - date_creation
+      - id
+      - solde_du
+      - telephone
+    Connexion:
+      type: object
+      description: Connexion par téléphone et mot de passe, avec enrichissement du
+        JWT.
+      properties:
+        telephone:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - telephone
+    ConnexionResponse:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+        utilisateur:
+          allOf:
+          - $ref: '#/components/schemas/Utilisateur'
+          readOnly: true
+      required:
+      - access
+      - refresh
+      - utilisateur
+    Deconnexion:
+      type: object
+      properties:
+        refresh:
+          type: string
+      required:
+      - refresh
+    Detail:
+      type: object
+      properties:
+        detail:
+          type: string
+          readOnly: true
+      required:
+      - detail
+    Encaissement:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client:
+          type: integer
+          readOnly: true
+        agent:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Rempli automatiquement au moment de la confirmation.
+        montant:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        statut:
+          allOf:
+          - $ref: '#/components/schemas/EncaissementStatutEnum'
+          readOnly: true
+        code_confirmation:
+          type: string
+          format: uuid
+          readOnly: true
+          description: Encodé dans le QR code affiché au client.
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        date_confirmation:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        commentaire:
+          type: string
+      required:
+      - agent
+      - client
+      - code_confirmation
+      - date_confirmation
+      - date_creation
+      - id
+      - montant
+      - statut
+    EncaissementStatutEnum:
+      enum:
+      - EN_ATTENTE
+      - CONFIRME
+      - ANNULE
+      type: string
+      description: |-
+        * `EN_ATTENTE` - En attente de confirmation
+        * `CONFIRME` - Confirmé
+        * `ANNULE` - Annulé
+    EvenementAbonnement:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        type_evenement:
+          $ref: '#/components/schemas/TypeEvenementEnum'
+        type_evenement_display:
+          type: string
+          readOnly: true
+        ancien_statut:
+          type: string
+          maxLength: 20
+        nouveau_statut:
+          type: string
+          maxLength: 20
+        montant:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: Montant encaissé pour cet événement, si applicable.
+        reference_paiement:
+          type: string
+          maxLength: 100
+        motif:
+          type: string
+        effectue_par:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: integer
+            telephone:
+              type: string
+          readOnly: true
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_creation
+      - effectue_par
+      - id
+      - type_evenement
+      - type_evenement_display
+    Fournisseur:
+      type: object
+      description: Utilisé pour la lecture et la mise à jour du profil (pas la création).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        utilisateur:
+          type: integer
+          readOnly: true
+        nom_entreprise:
+          type: string
+          maxLength: 255
+        code_entreprise:
+          type: string
+          readOnly: true
+          description: Étiquette unique de l'entreprise, générée automatiquement (visible
+            du client/agent dans le SMS d'invitation).
+        adresse:
+          type: string
+          maxLength: 255
+        telephone:
+          type: string
+          readOnly: true
+        est_suspendu:
+          type: boolean
+          readOnly: true
+          description: Un fournisseur suspendu ne peut plus se connecter à la plateforme.
+        date_suspension:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        motif_suspension:
+          type: string
+          readOnly: true
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - code_entreprise
+      - date_creation
+      - date_suspension
+      - est_suspendu
+      - id
+      - motif_suspension
+      - nom_entreprise
+      - telephone
+      - utilisateur
+    FournisseurAbonnement:
+      type: object
+      properties:
+        abonnement:
+          allOf:
+          - $ref: '#/components/schemas/AbonnementResume'
+          readOnly: true
+          nullable: true
+        plan:
+          allOf:
+          - $ref: '#/components/schemas/PlanAbonnement'
+          readOnly: true
+          nullable: true
+        statut:
+          type: string
+          readOnly: true
+          nullable: true
+        date_debut:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        date_fin:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        jours_restants:
+          type: integer
+          readOnly: true
+        est_actif:
+          type: boolean
+          readOnly: true
+        quotas:
+          allOf:
+          - $ref: '#/components/schemas/QuotasAbonnement'
+          readOnly: true
+        utilisation:
+          allOf:
+          - $ref: '#/components/schemas/UtilisationAbonnement'
+          readOnly: true
+        peut_creer_client:
+          type: boolean
+          readOnly: true
+        peut_creer_agent:
+          type: boolean
+          readOnly: true
+      required:
+      - abonnement
+      - date_debut
+      - date_fin
+      - est_actif
+      - jours_restants
+      - peut_creer_agent
+      - peut_creer_client
+      - plan
+      - quotas
+      - statut
+      - utilisation
+    FournisseurAbonnementResume:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nom_entreprise:
+          type: string
+          maxLength: 255
+        code_entreprise:
+          type: string
+          readOnly: true
+          description: Étiquette unique de l'entreprise, générée automatiquement (visible
+            du client/agent dans le SMS d'invitation).
+        telephone:
+          type: string
+          maxLength: 20
+      required:
+      - code_entreprise
+      - id
+      - nom_entreprise
+    FournisseurInscription:
+      type: object
+      description: |-
+        Inscription publique : crée le compte et le profil en une transaction.
+
+        Le numéro de téléphone sert à la fois d'identifiant de connexion et de
+        coordonnée de l'entreprise. Un essai gratuit est immédiatement attribué.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+        nom_entreprise:
+          type: string
+          maxLength: 255
+        code_entreprise:
+          type: string
+          readOnly: true
+          description: Étiquette unique de l'entreprise, générée automatiquement (visible
+            du client/agent dans le SMS d'invitation).
+        adresse:
+          type: string
+          maxLength: 255
+        telephone:
+          type: string
+          maxLength: 20
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - code_entreprise
+      - date_creation
+      - id
+      - nom_entreprise
+      - password
+      - telephone
+    FournisseurSupervision:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nom_entreprise:
+          type: string
+          readOnly: true
+        code_entreprise:
+          type: string
+          readOnly: true
+          description: Étiquette unique de l'entreprise, générée automatiquement (visible
+            du client/agent dans le SMS d'invitation).
+        telephone:
+          type: string
+          readOnly: true
+        adresse:
+          type: string
+          readOnly: true
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        statut:
+          type: string
+          readOnly: true
+        est_suspendu:
+          type: boolean
+          readOnly: true
+          description: Un fournisseur suspendu ne peut plus se connecter à la plateforme.
+        date_suspension:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        motif_suspension:
+          type: string
+          readOnly: true
+        suspendu_par:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: integer
+            telephone:
+              type: string
+          readOnly: true
+        utilisateur:
+          allOf:
+          - $ref: '#/components/schemas/UtilisateurResume'
+          readOnly: true
+        nombre_clients:
+          type: integer
+          readOnly: true
+        nombre_agents:
+          type: integer
+          readOnly: true
+        abonnement:
+          allOf:
+          - $ref: '#/components/schemas/AbonnementResume'
+          readOnly: true
+      required:
+      - abonnement
+      - adresse
+      - code_entreprise
+      - date_creation
+      - date_suspension
+      - est_suspendu
+      - id
+      - motif_suspension
+      - nom_entreprise
+      - nombre_agents
+      - nombre_clients
+      - statut
+      - suspendu_par
+      - telephone
+      - utilisateur
+    PaginatedAbonnementList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Abonnement'
+    PaginatedAgentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agent'
+    PaginatedClientList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Client'
+    PaginatedEncaissementList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Encaissement'
+    PaginatedEvenementAbonnementList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvenementAbonnement'
+    PaginatedFournisseurList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Fournisseur'
+    PaginatedFournisseurSupervisionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FournisseurSupervision'
+    PaginatedPlanAbonnementList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlanAbonnement'
+    PatchedAgent:
+      type: object
+      description: Utilisé pour la lecture et la mise à jour (pas la création).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        utilisateur:
+          type: integer
+          readOnly: true
+        fournisseur:
+          type: integer
+          readOnly: true
+        telephone:
+          type: string
+          readOnly: true
+        zone:
+          type: string
+          description: Zone / secteur de travail
+          maxLength: 255
+        compte_active:
+          type: boolean
+          readOnly: true
+          description: Passe à True une fois le code SMS validé et le mot de passe
+            défini.
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedClient:
+      type: object
+      description: Utilisé pour la lecture et la mise à jour (pas la création).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        utilisateur:
+          type: integer
+          readOnly: true
+        fournisseur:
+          type: integer
+          readOnly: true
+        telephone:
+          type: string
+          readOnly: true
+        adresse:
+          type: string
+          maxLength: 255
+        solde_du:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
+        compte_active:
+          type: boolean
+          readOnly: true
+          description: Passe à True une fois le code SMS validé et le mot de passe
+            défini.
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedEncaissement:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client:
+          type: integer
+          readOnly: true
+        agent:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Rempli automatiquement au moment de la confirmation.
+        montant:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        statut:
+          allOf:
+          - $ref: '#/components/schemas/EncaissementStatutEnum'
+          readOnly: true
+        code_confirmation:
+          type: string
+          format: uuid
+          readOnly: true
+          description: Encodé dans le QR code affiché au client.
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        date_confirmation:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        commentaire:
+          type: string
+    PatchedFournisseur:
+      type: object
+      description: Utilisé pour la lecture et la mise à jour du profil (pas la création).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        utilisateur:
+          type: integer
+          readOnly: true
+        nom_entreprise:
+          type: string
+          maxLength: 255
+        code_entreprise:
+          type: string
+          readOnly: true
+          description: Étiquette unique de l'entreprise, générée automatiquement (visible
+            du client/agent dans le SMS d'invitation).
+        adresse:
+          type: string
+          maxLength: 255
+        telephone:
+          type: string
+          readOnly: true
+        est_suspendu:
+          type: boolean
+          readOnly: true
+          description: Un fournisseur suspendu ne peut plus se connecter à la plateforme.
+        date_suspension:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        motif_suspension:
+          type: string
+          readOnly: true
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedPlanAbonnement:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          description: Identifiant stable du plan (ex. essai, mensuel, annuel).
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        nom:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        prix:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        devise:
+          type: string
+          maxLength: 3
+        duree_jours:
+          type: integer
+          maximum: 2147483647
+          minimum: 1
+          description: Durée du plan en jours.
+        max_clients:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          description: Nombre maximal de clients. Laisser vide pour un quota illimité.
+        max_agents:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          description: Nombre maximal d'agents. Laisser vide pour un quota illimité.
+        est_essai:
+          type: boolean
+          description: Un seul plan d'essai peut être actif à la fois.
+        actif:
+          type: boolean
+          description: Un plan inactif ne peut plus être souscrit, mais reste valable
+            pour les abonnements existants.
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        date_modification:
+          type: string
+          format: date-time
+          readOnly: true
+    PlanAbonnement:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          description: Identifiant stable du plan (ex. essai, mensuel, annuel).
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        nom:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        prix:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        devise:
+          type: string
+          maxLength: 3
+        duree_jours:
+          type: integer
+          maximum: 2147483647
+          minimum: 1
+          description: Durée du plan en jours.
+        max_clients:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          description: Nombre maximal de clients. Laisser vide pour un quota illimité.
+        max_agents:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          description: Nombre maximal d'agents. Laisser vide pour un quota illimité.
+        est_essai:
+          type: boolean
+          description: Un seul plan d'essai peut être actif à la fois.
+        actif:
+          type: boolean
+          description: Un plan inactif ne peut plus être souscrit, mais reste valable
+            pour les abonnements existants.
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        date_modification:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - code
+      - date_creation
+      - date_modification
+      - id
+      - nom
+    QuotasAbonnement:
+      type: object
+      properties:
+        clients:
+          type: integer
+          readOnly: true
+          nullable: true
+        agents:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - agents
+      - clients
+    RenouvellementAbonnement:
+      type: object
+      properties:
+        plan:
+          type: integer
+          nullable: true
+        reference_paiement:
+          type: string
+          maxLength: 100
+        notes:
+          type: string
+    RoleEnum:
+      enum:
+      - fournisseur
+      - client
+      - agent
+      - super_admin
+      type: string
+      description: |-
+        * `fournisseur` - Fournisseur
+        * `client` - Client
+        * `agent` - Agent
+        * `super_admin` - Super administrateur
+    StatistiquesAbonnementsGlobales:
+      type: object
+      properties:
+        actifs:
+          type: integer
+          readOnly: true
+        expires:
+          type: integer
+          readOnly: true
+        suspendus:
+          type: integer
+          readOnly: true
+        annules:
+          type: integer
+          readOnly: true
+        essais_actifs:
+          type: integer
+          readOnly: true
+      required:
+      - actifs
+      - annules
+      - essais_actifs
+      - expires
+      - suspendus
+    StatistiquesAgents:
+      type: object
+      properties:
+        total:
+          type: integer
+          readOnly: true
+        actifs:
+          type: integer
+          readOnly: true
+      required:
+      - actifs
+      - total
+    StatistiquesClients:
+      type: object
+      properties:
+        total:
+          type: integer
+          readOnly: true
+        actifs:
+          type: integer
+          readOnly: true
+      required:
+      - actifs
+      - total
+    StatistiquesEncaissements:
+      type: object
+      properties:
+        total:
+          type: integer
+          readOnly: true
+        en_attente:
+          type: integer
+          readOnly: true
+        confirmes:
+          type: integer
+          readOnly: true
+        annules:
+          type: integer
+          readOnly: true
+        montant_confirme:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
+        montant_en_attente:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
+      required:
+      - annules
+      - confirmes
+      - en_attente
+      - montant_confirme
+      - montant_en_attente
+      - total
+    StatistiquesFournisseur:
+      type: object
+      properties:
+        fournisseur:
+          allOf:
+          - $ref: '#/components/schemas/FournisseurAbonnementResume'
+          readOnly: true
+        clients:
+          allOf:
+          - $ref: '#/components/schemas/StatistiquesClients'
+          readOnly: true
+        agents:
+          allOf:
+          - $ref: '#/components/schemas/StatistiquesAgents'
+          readOnly: true
+        encaissements:
+          allOf:
+          - $ref: '#/components/schemas/StatistiquesEncaissements'
+          readOnly: true
+        abonnement:
+          allOf:
+          - $ref: '#/components/schemas/FournisseurAbonnement'
+          readOnly: true
+      required:
+      - abonnement
+      - agents
+      - clients
+      - encaissements
+      - fournisseur
+    StatistiquesFournisseursGlobales:
+      type: object
+      properties:
+        total:
+          type: integer
+          readOnly: true
+        actifs:
+          type: integer
+          readOnly: true
+        suspendus:
+          type: integer
+          readOnly: true
+      required:
+      - actifs
+      - suspendus
+      - total
+    SuspensionAbonnement:
+      type: object
+      properties:
+        motif:
+          type: string
+      required:
+      - motif
+    SuspensionFournisseur:
+      type: object
+      properties:
+        motif:
+          type: string
+      required:
+      - motif
+    TableauDeBord:
+      type: object
+      properties:
+        fournisseurs:
+          allOf:
+          - $ref: '#/components/schemas/StatistiquesFournisseursGlobales'
+          readOnly: true
+        clients:
+          allOf:
+          - $ref: '#/components/schemas/StatistiquesClients'
+          readOnly: true
+        agents:
+          allOf:
+          - $ref: '#/components/schemas/StatistiquesAgents'
+          readOnly: true
+        encaissements:
+          allOf:
+          - $ref: '#/components/schemas/StatistiquesEncaissements'
+          readOnly: true
+        abonnements:
+          allOf:
+          - $ref: '#/components/schemas/StatistiquesAbonnementsGlobales'
+          readOnly: true
+        montant_facture_total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
+      required:
+      - abonnements
+      - agents
+      - clients
+      - encaissements
+      - fournisseurs
+      - montant_facture_total
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    TypeEvenementEnum:
+      enum:
+      - CREATION
+      - RENOUVELLEMENT
+      - SUSPENSION
+      - REACTIVATION
+      - ANNULATION
+      - EXPIRATION
+      type: string
+      description: |-
+        * `CREATION` - Création
+        * `RENOUVELLEMENT` - Renouvellement
+        * `SUSPENSION` - Suspension
+        * `REACTIVATION` - Réactivation
+        * `ANNULATION` - Annulation
+        * `EXPIRATION` - Expiration
+    Utilisateur:
+      type: object
+      description: 'Serializer de lecture : n''expose jamais le mot de passe.'
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        telephone:
+          type: string
+          maxLength: 20
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        role_display:
+          type: string
+          readOnly: true
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_joined
+      - id
+      - role
+      - role_display
+      - telephone
+    UtilisateurResume:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        telephone:
+          type: string
+          readOnly: true
+        role:
+          type: string
+          readOnly: true
+        is_active:
+          type: boolean
+          readOnly: true
+      required:
+      - id
+      - is_active
+      - role
+      - telephone
+    UtilisationAbonnement:
+      type: object
+      properties:
+        clients:
+          type: integer
+          readOnly: true
+        agents:
+          type: integer
+          readOnly: true
+      required:
+      - agents
+      - clients
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

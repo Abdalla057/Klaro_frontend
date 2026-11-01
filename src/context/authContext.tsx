@@ -1,70 +1,55 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { getAccess, clearAccess } from "../utils/storage";
-import { getMe } from "../services/authService";
+import { useEffect, useState } from "react";
+import type { Utilisateur } from "../types/auth";
+import { storage } from "../utils/storage";
+import { me } from "../services/authService";
+import { AuthContext } from "./authContextCore";
 
-interface AuthUser {
-  id: number;
-  nom: string;
-  prenom: string;
-  email: string;
-  avatar: string | null;
-  role: "eleve" | "professeur" | "administrateur";
-}
-
-interface AuthContextType {
-  user: AuthUser | null;
-  isLoading: boolean;
-  isAuthenticated: boolean;
-  setUser: (user: AuthUser | null) => void;
-  logoutLocal: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUserState] = useState<Utilisateur | null>(() =>
+    storage.getAccessToken() ? storage.getUser<Utilisateur>() : null,
+  );
+  const [loading, setLoading] = useState(() => Boolean(storage.getAccessToken()));
 
   useEffect(() => {
-    async function restoreSession() {
-      const token = getAccess();
+    const token = storage.getAccessToken();
 
-      if (!token) {
-        setIsLoading(false);
-        return;
-      }
+    if (!token) return;
 
-      try {
-        const me = await getMe();
-        setUser(me);
-      } catch {
-        // token invalide/expiré -> on nettoie
-        clearAccess();
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+    let cancelled = false;
 
-    restoreSession();
+    me()
+      .then((currentUser) => {
+        if (!cancelled) setUserState(currentUser);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          storage.clearTokens();
+          setUserState(null);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  function logoutLocal() {
-    clearAccess();
-    setUser(null);
-  }
+  const setUser = (nextUser: Utilisateur | null) => {
+    setUserState(nextUser);
+    if (nextUser) storage.setUser(nextUser);
+    else storage.clearTokens();
+  };
+
+  const logoutLocal = () => {
+    storage.clearTokens();
+    setUserState(null);
+  };
 
   return (
-    <AuthContext.Provider
-      value={{ user, isLoading, isAuthenticated: !!user, setUser, logoutLocal }}
-    >
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, loading, setUser, logoutLocal }}>
       {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth doit être utilisé dans un AuthProvider");
-  return ctx;
 }
