@@ -137,6 +137,12 @@ export type DecaissementStatut =
   | "PAYE"
   | "ANNULE";
 
+export interface DemandeDecaissementCreate {
+  montant: string;
+  commentaire?: string;
+  cle_idempotence?: string;
+}
+
 export interface DemandeDecaissement {
   id: number;
   reference: string;

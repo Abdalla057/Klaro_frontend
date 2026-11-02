@@ -1,5 +1,6 @@
 import api from "./api";
 import { fetchAllPages, type AllPagesResult } from "./pagination";
+import type { Paginated } from "../types/api";
 import type {
   AttributionSoldeRequest,
   Client,
@@ -12,6 +13,11 @@ import type {
 
 export function getAllClients(): Promise<AllPagesResult<Client>> {
   return fetchAllPages<Client>("/api/clients/");
+}
+
+export async function getMonProfilClient(): Promise<Client | null> {
+  const response = await api.get<Paginated<Client>>("/api/clients/");
+  return response.data.results[0] ?? null;
 }
 
 export async function createClient(data: ClientCreate): Promise<Client> {

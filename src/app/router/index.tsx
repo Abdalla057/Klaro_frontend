@@ -3,6 +3,7 @@ import { LandingPage } from "../../features/landing/pages/LandingPage";
 import { LoginPage } from "../../features/auth/pages/LoginPage";
 import { RegisterPage } from "../../features/auth/pages/RegisterPage";
 import { ActivationPage } from "../../features/auth/pages/ActivationPage";
+import { ClientActivationPage } from "../../features/client/pages/ClientActivationPage";
 import { RequireAuth, RequireGuest } from "./guards";
 import { AgentLayout } from "../../features/agent/layouts/AgentLayout";
 import { AgentDashboardPage } from "../../features/agent/pages/AgentDashboardPage";
@@ -11,7 +12,13 @@ import { DecaissementsAgentPage } from "../../features/agent/pages/Decaissements
 import { ClientsAgentPage } from "../../features/agent/pages/ClientsAgentPage";
 import { TransactionsAgentPage } from "../../features/agent/pages/TransactionsAgentPage";
 import { ProfilAgentPage } from "../../features/agent/pages/ProfilAgentPage";
-import { ClientHome } from "../../features/client/pages/ClientHome";
+import { ClientLayout } from "../../features/client/layouts/ClientLayout";
+import { ClientDashboardPage } from "../../features/client/pages/ClientDashboardPage";
+import { SoldePage } from "../../features/client/pages/SoldePage";
+import { DemandeDecaissementPage } from "../../features/client/pages/DemandeDecaissementPage";
+import { MesDemandesPage } from "../../features/client/pages/MesDemandesPage";
+import { TransactionsClientPage } from "../../features/client/pages/TransactionsClientPage";
+import { ProfilClientPage } from "../../features/client/pages/ProfilClientPage";
 import { FournisseurLayout } from "../../features/fournisseur/layouts/FournisseurLayout";
 import { FournisseurDashboard } from "../../features/fournisseur/pages/FournisseurDashboard";
 import { ClientsPage } from "../../features/fournisseur/pages/ClientsPage";
@@ -52,6 +59,14 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: "/auth/activation/client",
+    element: (
+      <RequireGuest>
+        <ClientActivationPage />
+      </RequireGuest>
+    ),
+  },
+  {
     path: "/agent",
     element: (
       <RequireAuth allowedRoles={["agent"]}>
@@ -71,9 +86,17 @@ export const router = createBrowserRouter([
     path: "/client",
     element: (
       <RequireAuth allowedRoles={["client"]}>
-        <ClientHome />
+        <ClientLayout />
       </RequireAuth>
     ),
+    children: [
+      { index: true, element: <ClientDashboardPage /> },
+      { path: "solde", element: <SoldePage /> },
+      { path: "demandes/nouvelle", element: <DemandeDecaissementPage /> },
+      { path: "demandes", element: <MesDemandesPage /> },
+      { path: "transactions", element: <TransactionsClientPage /> },
+      { path: "profil", element: <ProfilClientPage /> },
+    ],
   },
   {
     path: "/fournisseur",

@@ -48,6 +48,31 @@ export interface ActivationResponse {
   role: UserRole;
 }
 
+export interface VerificationCodeRequest {
+  telephone: string;
+  code: string;
+}
+
+export interface VerificationCodeResponse {
+  telephone: string;
+  role: UserRole;
+  token: string;
+  expire_dans_minutes: number;
+}
+
+export interface DefinitionMotDePasseRequest {
+  telephone: string;
+  token: string;
+  password: string;
+  confirmation: string;
+}
+
+export interface DefinitionMotDePasseResponse {
+  detail: string;
+  telephone: string;
+  role: UserRole;
+}
+
 export interface StatutActivation {
   telephone: string;
   role: UserRole;

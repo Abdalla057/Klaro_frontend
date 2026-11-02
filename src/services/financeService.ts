@@ -2,10 +2,34 @@ import api from "./api";
 import { fetchAllPages, type AllPagesResult } from "./pagination";
 import type {
   DemandeDecaissement,
+  DemandeDecaissementCreate,
   RegularisationRequest,
+  SoldeClient,
   StatistiquesFinancieres,
   TransactionFinanciere,
 } from "../types/fournisseur";
+
+export async function getMonSolde(): Promise<SoldeClient> {
+  const response = await api.get<SoldeClient>("/api/finances/solde/");
+  return response.data;
+}
+
+export async function getDecaissement(id: number): Promise<DemandeDecaissement> {
+  const response = await api.get<DemandeDecaissement>(`/api/finances/decaissements/${id}/`);
+  return response.data;
+}
+
+export async function createDemandeDecaissement(
+  data: DemandeDecaissementCreate,
+): Promise<DemandeDecaissement> {
+  const response = await api.post<DemandeDecaissement>("/api/finances/decaissements/", data);
+  return response.data;
+}
+
+export async function getTransaction(id: number): Promise<TransactionFinanciere> {
+  const response = await api.get<TransactionFinanciere>(`/api/finances/transactions/${id}/`);
+  return response.data;
+}
 
 export function getAllTransactions(): Promise<AllPagesResult<TransactionFinanciere>> {
   return fetchAllPages<TransactionFinanciere>("/api/finances/transactions/");

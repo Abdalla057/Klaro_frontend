@@ -25,15 +25,21 @@ export function LoginPage() {
             )}
             <LoginForm />
             <Text size="sm" className="mt-4 text-center text-gray-600">
-              Première connexion avec un code d'activation ?{" "}
-              <Link to="/auth/activation" className="text-gray-900 underline">
-                Activer mon compte
+              Client, première connexion ?{" "}
+              <Link to="/auth/activation/client" className="font-medium text-gray-900 underline">
+                Activer mon compte client
               </Link>
             </Text>
             <Text size="sm" className="mt-2 text-center text-gray-600">
-              Pas de compte ?{" "}
+              Agent, première connexion ?{" "}
+              <Link to="/auth/activation" className="font-medium text-gray-900 underline">
+                Activer mon compte agent
+              </Link>
+            </Text>
+            <Text size="sm" className="mt-2 text-center text-gray-600">
+              Vous êtes fournisseur ?{" "}
               <Link to="/auth/register" className="text-gray-900 underline">
-                S'inscrire
+                Créer un compte
               </Link>
             </Text>
           </Card>

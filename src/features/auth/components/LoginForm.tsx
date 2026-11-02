@@ -30,6 +30,7 @@ export function LoginForm() {
   const { setUser } = useAuth();
   const [formError, setFormError] = useState<string | null>(null);
   const [activationPhone, setActivationPhone] = useState<string | null>(null);
+  const [activationRole, setActivationRole] = useState<"client" | "agent" | null>(null);
 
   const {
     register,
@@ -43,6 +44,7 @@ export function LoginForm() {
   const onSubmit = async (data: FormData) => {
     setFormError(null);
     setActivationPhone(null);
+    setActivationRole(null);
 
     try {
       const res = await login(data);
@@ -58,10 +60,20 @@ export function LoginForm() {
       if (status === 401) {
         try {
           const statut = await getStatutActivation(data.telephone);
-          if (!statut.compte_active) {
+          if (
+            !statut.compte_active &&
+            (statut.role === "client" || statut.role === "agent")
+          ) {
             setActivationPhone(statut.telephone);
+            setActivationRole(statut.role);
             setFormError(
               "Ce compte existe mais n'est pas encore activé. Utilisez le code fourni par votre fournisseur pour choisir votre mot de passe.",
+            );
+            return;
+          }
+          if (!statut.compte_active) {
+            setFormError(
+              "Ce compte n'est pas encore actif. Contactez votre administrateur.",
             );
             return;
           }
@@ -87,7 +99,11 @@ export function LoginForm() {
           variant="outline"
           className="w-full"
           onClick={() =>
-            navigate(`/auth/activation?telephone=${encodeURIComponent(activationPhone)}`)
+            navigate(
+              `${
+                activationRole === "client" ? "/auth/activation/client" : "/auth/activation"
+              }?telephone=${encodeURIComponent(activationPhone)}`,
+            )
           }
         >
           <KeyRound className="h-4 w-4" />
