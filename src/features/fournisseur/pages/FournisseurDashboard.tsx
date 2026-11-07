@@ -101,7 +101,7 @@ function DashboardSkeleton() {
         ))}
       </div>
       <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-        <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
           <div className="border-b border-border px-5 py-4">
             <Skeleton className="h-5 w-48" />
             <Skeleton className="mt-2 h-3 w-64" />
@@ -271,7 +271,7 @@ export function FournisseurDashboard() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-        <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+        <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
           <div className="flex flex-col gap-3 border-b border-border px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-base font-semibold text-ink">Encaissements récents</h2>
@@ -350,7 +350,7 @@ export function FournisseurDashboard() {
         </section>
 
         <div className="space-y-6">
-          <section className="rounded-2xl border border-border bg-white p-5 shadow-sm">
+          <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
             <h2 className="text-base font-semibold text-ink">Raccourcis</h2>
             <div className="mt-4 grid gap-2">
               <QuickLink
@@ -390,7 +390,7 @@ export function FournisseurDashboard() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-border bg-white p-5 shadow-sm">
+          <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
             <div className="flex items-start justify-between gap-3">
               <div>
                 <h2 className="text-base font-semibold text-ink">Mon abonnement</h2>

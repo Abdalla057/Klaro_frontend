@@ -15,7 +15,7 @@ export function AuthAlert({ variant, children, className }: AuthAlertProps) {
     <div
       role={isError ? "alert" : "status"}
       className={cn(
-        "flex items-start gap-2 rounded-lg border px-3 py-2.5 text-sm",
+        "flex items-start gap-2 rounded-xl border px-3.5 py-3 text-sm",
         isError
           ? "border-red-200 bg-red-50 text-red-700"
           : "border-emerald-200 bg-emerald-50 text-emerald-700",

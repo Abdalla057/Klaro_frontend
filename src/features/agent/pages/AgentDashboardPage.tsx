@@ -286,7 +286,7 @@ export function AgentDashboardPage() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-        <section className="rounded-2xl border border-border bg-white p-5 shadow-sm">
+        <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h2 className="text-base font-semibold text-ink">Collectes des 7 derniers jours</h2>
@@ -359,7 +359,7 @@ export function AgentDashboardPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-border bg-white p-5 shadow-sm">
+        <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
           <div className="flex items-start justify-between gap-3">
             <div>
               <h2 className="text-base font-semibold text-ink">Activité récente</h2>
@@ -427,7 +427,7 @@ export function AgentDashboardPage() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-        <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+        <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
           <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
             <div>
               <h2 className="text-base font-semibold text-ink">Mes dernières transactions</h2>
@@ -491,7 +491,7 @@ export function AgentDashboardPage() {
           )}
         </section>
 
-        <section className="rounded-2xl border border-border bg-white p-5 shadow-sm">
+        <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
           <div>
             <h2 className="text-base font-semibold text-ink">Actions rapides</h2>
             <p className="mt-0.5 text-sm text-muted">Les gestes essentiels de votre journée.</p>

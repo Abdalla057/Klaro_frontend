@@ -16,7 +16,7 @@ export function Heading({
     size === "5xl" ? "text-5xl sm:text-6xl" :
     size === "3xl" ? "text-3xl sm:text-4xl" :
     size === "xl" ? "text-xl" : "text-2xl";
-  return <Comp className={cn("font-semibold tracking-tight text-gray-900", sizeClass, className)} {...props} />;
+  return <Comp className={cn("font-semibold tracking-tight text-ink", sizeClass, className)} {...props} />;
 }
 
 export function Text({
@@ -25,7 +25,7 @@ export function Text({
   ...props
 }: React.HTMLAttributes<HTMLParagraphElement> & { size?: "sm" | "base" | "lg" }) {
   const sizeClass = size === "sm" ? "text-sm" : size === "lg" ? "text-lg" : "text-base";
-  return <p className={cn("text-gray-700", sizeClass, className)} {...props} />;
+  return <p className={cn("text-ink/75", sizeClass, className)} {...props} />;
 }
 
 export default { Heading, Text };

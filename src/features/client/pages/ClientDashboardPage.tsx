@@ -151,7 +151,7 @@ export function ClientDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <section className="flex flex-col gap-4 rounded-2xl border border-border bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+      <section className="flex flex-col gap-4 rounded-2xl border border-border bg-white p-5 shadow-card sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-accent">
             Bonjour, {firstName}
@@ -237,7 +237,7 @@ export function ClientDashboardPage() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
-        <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+        <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
           <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
             <div>
               <h2 className="text-base font-semibold text-ink">Mes dernières demandes</h2>
@@ -318,7 +318,7 @@ export function ClientDashboardPage() {
         </section>
 
         <div className="space-y-6">
-          <section className="rounded-2xl border border-border bg-white p-5 shadow-sm">
+          <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
             <div>
               <h2 className="text-base font-semibold text-ink">Actions rapides</h2>
               <p className="mt-0.5 text-sm text-muted">Les gestes essentiels de votre compte.</p>
@@ -351,7 +351,7 @@ export function ClientDashboardPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-border bg-white p-5 shadow-sm">
+          <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
             <h2 className="text-base font-semibold text-ink">Activité récente</h2>
             <p className="mt-0.5 text-sm text-muted">Derniers mouvements sur votre compte.</p>
 

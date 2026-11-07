@@ -31,6 +31,13 @@
   {
     "tag": "abonnements",
     "methods": [
+      "GET"
+    ],
+    "path": "/api/abonnements/abonnements/{id}/paiements/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
       "POST"
     ],
     "path": "/api/abonnements/abonnements/{id}/reactiver/"
@@ -55,15 +62,51 @@
       "GET",
       "POST"
     ],
+    "path": "/api/abonnements/paiements/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/abonnements/paiements/{id}/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/abonnements/paiements/{id}/annuler/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/abonnements/paiements/{id}/confirmer/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/abonnements/paiements/{id}/refuser/"
+  },
+  {
+    "tag": "abonnements",
+    "methods": [
+      "GET",
+      "POST"
+    ],
     "path": "/api/abonnements/plans/"
   },
   {
     "tag": "abonnements",
     "methods": [
-      "DELETE",
       "GET",
+      "PUT",
       "PATCH",
-      "PUT"
+      "DELETE"
     ],
     "path": "/api/abonnements/plans/{id}/"
   },
@@ -87,17 +130,38 @@
     "methods": [
       "POST"
     ],
+    "path": "/api/agents/definir-mot-de-passe/"
+  },
+  {
+    "tag": "agents",
+    "methods": [
+      "POST"
+    ],
     "path": "/api/agents/renvoyer-code/"
   },
   {
     "tag": "agents",
     "methods": [
-      "DELETE",
+      "POST"
+    ],
+    "path": "/api/agents/verifier-code/"
+  },
+  {
+    "tag": "agents",
+    "methods": [
       "GET",
+      "PUT",
       "PATCH",
-      "PUT"
+      "DELETE"
     ],
     "path": "/api/agents/{id}/"
+  },
+  {
+    "tag": "agents",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/agents/{id}/statistiques/"
   },
   {
     "tag": "clients",
@@ -119,17 +183,80 @@
     "methods": [
       "POST"
     ],
+    "path": "/api/clients/definir-mot-de-passe/"
+  },
+  {
+    "tag": "clients",
+    "methods": [
+      "POST"
+    ],
     "path": "/api/clients/renvoyer-code/"
   },
   {
     "tag": "clients",
     "methods": [
-      "DELETE",
+      "POST"
+    ],
+    "path": "/api/clients/verifier-code/"
+  },
+  {
+    "tag": "clients",
+    "methods": [
       "GET",
+      "PUT",
       "PATCH",
-      "PUT"
+      "DELETE"
     ],
     "path": "/api/clients/{id}/"
+  },
+  {
+    "tag": "clients",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/clients/{id}/attribuer-solde/"
+  },
+  {
+    "tag": "clients",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/clients/{id}/solde/"
+  },
+  {
+    "tag": "clients",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/clients/{id}/transactions/"
+  },
+  {
+    "tag": "comptes",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/comptes/activation/activer/"
+  },
+  {
+    "tag": "comptes",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/comptes/activation/definir-mot-de-passe/"
+  },
+  {
+    "tag": "comptes",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/comptes/activation/statut/"
+  },
+  {
+    "tag": "comptes",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/comptes/activation/verifier-code/"
   },
   {
     "tag": "comptes",
@@ -179,15 +306,22 @@
     "methods": [
       "POST"
     ],
+    "path": "/api/encaissements/collecter/"
+  },
+  {
+    "tag": "encaissements",
+    "methods": [
+      "POST"
+    ],
     "path": "/api/encaissements/confirmer-par-code/"
   },
   {
     "tag": "encaissements",
     "methods": [
-      "DELETE",
       "GET",
+      "PUT",
       "PATCH",
-      "PUT"
+      "DELETE"
     ],
     "path": "/api/encaissements/{id}/"
   },
@@ -204,6 +338,91 @@
       "POST"
     ],
     "path": "/api/encaissements/{id}/confirmer/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "path": "/api/finances/decaissements/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/finances/decaissements/{id}/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/finances/decaissements/{id}/annuler/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/finances/decaissements/{id}/approuver/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/finances/decaissements/{id}/confirmer/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/finances/decaissements/{id}/payer/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/finances/decaissements/{id}/refuser/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/finances/solde/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/finances/statistiques/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/finances/transactions/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "POST"
+    ],
+    "path": "/api/finances/transactions/regulariser/"
+  },
+  {
+    "tag": "finances",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/finances/transactions/{id}/"
   },
   {
     "tag": "fournisseurs",
@@ -223,10 +442,17 @@
   {
     "tag": "fournisseurs",
     "methods": [
-      "DELETE",
+      "GET"
+    ],
+    "path": "/api/fournisseurs/statistiques/"
+  },
+  {
+    "tag": "fournisseurs",
+    "methods": [
       "GET",
+      "PUT",
       "PATCH",
-      "PUT"
+      "DELETE"
     ],
     "path": "/api/fournisseurs/{id}/"
   },
@@ -271,6 +497,27 @@
       "POST"
     ],
     "path": "/api/super-admin/fournisseurs/{id}/suspendre/"
+  },
+  {
+    "tag": "super-admin",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/super-admin/statistiques/abonnements/"
+  },
+  {
+    "tag": "super-admin",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/super-admin/statistiques/financieres/"
+  },
+  {
+    "tag": "super-admin",
+    "methods": [
+      "GET"
+    ],
+    "path": "/api/super-admin/statistiques/revenus/"
   },
   {
     "tag": "super-admin",

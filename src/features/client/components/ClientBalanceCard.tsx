@@ -17,7 +17,7 @@ export function ClientBalanceCard({
   }
 
   return (
-    <section className="relative overflow-hidden rounded-2xl bg-brand p-5 text-white shadow-sm sm:p-6">
+    <section className="relative overflow-hidden rounded-2xl bg-brand p-5 text-white shadow-float sm:p-6">
       <div className="pointer-events-none absolute -right-12 -top-16 h-48 w-48 rounded-full bg-white/10" />
       <div className="pointer-events-none absolute -bottom-20 right-20 h-40 w-40 rounded-full bg-brand-accent/30 blur-2xl" />
 

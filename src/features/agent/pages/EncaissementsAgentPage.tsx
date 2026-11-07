@@ -35,6 +35,7 @@ import { TableSkeleton } from "../../../shared/ui/loading";
 import { PageHeader } from "../../../shared/ui/page-header";
 import { Pagination } from "../../../shared/ui/pagination";
 import { Select } from "../../../shared/ui/select";
+import { StatCard } from "../../../shared/ui/stat-card";
 import { CollecteEncaissementModal } from "../components/CollecteEncaissementModal";
 import { ConfirmationQrModal } from "../components/ConfirmationQrModal";
 import { EncaissementDetailModal } from "../components/EncaissementDetailModal";
@@ -187,7 +188,7 @@ export function EncaissementsAgentPage() {
           {Array.from({ length: 4 }).map((_, index) => (
             <div
               key={index}
-              className="h-28 animate-pulse rounded-2xl border border-border bg-white"
+              className="h-[118px] animate-pulse rounded-2xl border border-border bg-white"
             />
           ))}
         </div>
@@ -238,48 +239,38 @@ export function EncaissementsAgentPage() {
       {actionError && <Alert variant="error">{actionError}</Alert>}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-2xl border border-border bg-white p-5 shadow-sm">
-          <div className="flex items-start justify-between">
-            <p className="text-sm font-medium text-muted">Encaissements</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-soft text-brand">
-              <Wallet className="h-4 w-4" aria-hidden="true" />
-            </span>
-          </div>
-          <p className="mt-2 text-2xl font-semibold text-ink">{summary.total}</p>
-          <p className="mt-1 text-xs text-muted">Accessibles sur votre réseau</p>
-        </div>
-        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm">
-          <div className="flex items-start justify-between">
-            <p className="text-sm font-medium text-amber-700">À confirmer</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
-              <Clock3 className="h-4 w-4" aria-hidden="true" />
-            </span>
-          </div>
-          <p className="mt-2 text-2xl font-semibold text-amber-900">{summary.pending}</p>
-          <p className="mt-1 text-xs text-amber-700">
-            {formatMoney(summary.pendingAmount)} en attente
-          </p>
-        </div>
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 shadow-sm">
-          <div className="flex items-start justify-between">
-            <p className="text-sm font-medium text-emerald-700">Confirmés</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
-              <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-            </span>
-          </div>
-          <p className="mt-2 text-2xl font-semibold text-emerald-900">{summary.confirmed}</p>
-          <p className="mt-1 text-xs text-emerald-700">Paiements confirmés</p>
-        </div>
-        <div className="rounded-2xl border border-border bg-brand p-5 text-white shadow-sm">
-          <div className="flex items-start justify-between">
-            <p className="text-sm font-medium text-white/65">Montant confirmé</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white">
-              <CircleDollarSign className="h-4 w-4" aria-hidden="true" />
-            </span>
-          </div>
-          <p className="mt-2 text-2xl font-semibold">{formatMoney(summary.confirmedAmount)}</p>
-          <p className="mt-1 text-xs text-white/55">Cumul des encaissements confirmés</p>
-        </div>
+        <StatCard
+          label="Encaissements"
+          value={summary.total}
+          hint="Accessibles sur votre réseau"
+          icon={<Wallet className="h-4 w-4" aria-hidden="true" />}
+          tone="brand"
+          delay={0}
+        />
+        <StatCard
+          label="À confirmer"
+          value={summary.pending}
+          hint={`${formatMoney(summary.pendingAmount)} en attente`}
+          icon={<Clock3 className="h-4 w-4" aria-hidden="true" />}
+          tone="warning"
+          delay={0.05}
+        />
+        <StatCard
+          label="Confirmés"
+          value={summary.confirmed}
+          hint="Paiements confirmés"
+          icon={<CheckCircle2 className="h-4 w-4" aria-hidden="true" />}
+          tone="success"
+          delay={0.1}
+        />
+        <StatCard
+          label="Montant confirmé"
+          value={formatMoney(summary.confirmedAmount)}
+          hint="Cumul des encaissements confirmés"
+          icon={<CircleDollarSign className="h-4 w-4" aria-hidden="true" />}
+          tone="brand"
+          delay={0.15}
+        />
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">

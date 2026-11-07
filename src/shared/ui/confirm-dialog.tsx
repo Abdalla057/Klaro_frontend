@@ -1,6 +1,14 @@
+import { Loader2 } from "lucide-react";
 import { Button } from "./button/button";
 import { Modal } from "./modal";
 
+/**
+ * ConfirmDialog
+ *
+ * Confirmation d'une action sensible (suppression, validation, réactivation).
+ * Le bouton de confirmation affiche un état de chargement explicite pour
+ * empêcher les doubles soumissions.
+ */
 export function ConfirmDialog({
   open,
   title,
@@ -34,6 +42,7 @@ export function ConfirmDialog({
           onClick={onConfirm}
           disabled={loading}
         >
+          {loading && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
           {loading ? "Traitement..." : confirmLabel}
         </Button>
       </div>

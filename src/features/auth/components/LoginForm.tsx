@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocation, useNavigate } from "react-router-dom";
-import { KeyRound } from "lucide-react";
+import { KeyRound, Loader2 } from "lucide-react";
 import { login } from "../../../services/authService";
 import { getStatutActivation } from "../../../services/activationService";
 import { getApiError } from "../../../services/apiError";
@@ -112,7 +112,7 @@ export function LoginForm() {
       )}
 
       <div>
-        <label htmlFor="login-telephone" className="block text-sm text-gray-700">
+        <label htmlFor="login-telephone" className="mb-1.5 block text-sm font-medium text-ink">
           Téléphone
         </label>
         <Input
@@ -133,7 +133,7 @@ export function LoginForm() {
       </div>
 
       <div>
-        <label htmlFor="login-password" className="block text-sm text-gray-700">
+        <label htmlFor="login-password" className="mb-1.5 block text-sm font-medium text-ink">
           Mot de passe
         </label>
         <Input
@@ -153,6 +153,7 @@ export function LoginForm() {
       </div>
 
       <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
         {isSubmitting ? "Connexion..." : "Se connecter"}
       </Button>
     </form>

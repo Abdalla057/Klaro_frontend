@@ -3,7 +3,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, Eye, EyeOff, KeyRound, LockKeyhole } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Eye,
+  EyeOff,
+  KeyRound,
+  Loader2,
+  LockKeyhole,
+} from "lucide-react";
 import {
   definirMotDePasseActivation,
   verifierCodeActivation,
@@ -260,7 +268,7 @@ export function ActivationForm({ expectedRole }: { expectedRole?: "client" | "ag
           </div>
 
           <div>
-            <label htmlFor="activation-telephone" className="block text-sm text-gray-700">
+            <label htmlFor="activation-telephone" className="mb-1.5 block text-sm font-medium text-ink">
               Téléphone
             </label>
             <Input
@@ -283,7 +291,7 @@ export function ActivationForm({ expectedRole }: { expectedRole?: "client" | "ag
           </div>
 
           <div>
-            <label htmlFor="activation-code" className="block text-sm text-gray-700">
+            <label htmlFor="activation-code" className="mb-1.5 block text-sm font-medium text-ink">
               Code d'activation
             </label>
             <Input
@@ -312,10 +320,13 @@ export function ActivationForm({ expectedRole }: { expectedRole?: "client" | "ag
             className="w-full"
             disabled={codeForm.formState.isSubmitting}
           >
+            {codeForm.formState.isSubmitting && (
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+            )}
             {codeForm.formState.isSubmitting ? "Vérification..." : "Vérifier le code"}
           </Button>
 
-          <p className="text-center text-xs text-gray-500">
+          <p className="text-center text-xs text-muted">
             Code expiré ou introuvable ? Contactez votre fournisseur pour en générer un nouveau.
           </p>
         </form>
@@ -330,7 +341,7 @@ export function ActivationForm({ expectedRole }: { expectedRole?: "client" | "ag
           </div>
 
           <div>
-            <label htmlFor="activation-password" className="block text-sm text-gray-700">
+            <label htmlFor="activation-password" className="mb-1.5 block text-sm font-medium text-ink">
               Nouveau mot de passe
             </label>
             <div className="relative">
@@ -349,7 +360,7 @@ export function ActivationForm({ expectedRole }: { expectedRole?: "client" | "ag
               <button
                 type="button"
                 onClick={() => setShowPassword((value) => !value)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700"
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-muted transition-colors hover:bg-surface hover:text-ink"
                 aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -363,7 +374,7 @@ export function ActivationForm({ expectedRole }: { expectedRole?: "client" | "ag
           </div>
 
           <div>
-            <label htmlFor="activation-confirmation" className="block text-sm text-gray-700">
+            <label htmlFor="activation-confirmation" className="mb-1.5 block text-sm font-medium text-ink">
               Confirmer le mot de passe
             </label>
             <div className="relative">
@@ -384,7 +395,7 @@ export function ActivationForm({ expectedRole }: { expectedRole?: "client" | "ag
               <button
                 type="button"
                 onClick={() => setShowConfirmation((value) => !value)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700"
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-muted transition-colors hover:bg-surface hover:text-ink"
                 aria-label={
                   showConfirmation
                     ? "Masquer la confirmation"
@@ -410,6 +421,9 @@ export function ActivationForm({ expectedRole }: { expectedRole?: "client" | "ag
             className="w-full"
             disabled={passwordForm.formState.isSubmitting}
           >
+            {passwordForm.formState.isSubmitting && (
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+            )}
             {passwordForm.formState.isSubmitting
               ? "Activation..."
               : "Définir mon mot de passe"}
@@ -418,7 +432,7 @@ export function ActivationForm({ expectedRole }: { expectedRole?: "client" | "ag
           <button
             type="button"
             onClick={restart}
-            className="flex w-full items-center justify-center gap-1.5 text-xs font-medium text-gray-500 transition-colors hover:text-gray-900"
+            className="flex w-full items-center justify-center gap-1.5 text-xs font-medium text-muted transition-colors hover:text-brand"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
             Modifier le numéro ou le code

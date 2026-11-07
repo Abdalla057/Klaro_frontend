@@ -2,6 +2,12 @@ import { Inbox } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "../utils/cn";
 
+/**
+ * EmptyState
+ *
+ * État vide explicite : il indique pourquoi la zone est vide et propose une
+ * action pertinente plutôt que de laisser un écran blanc.
+ */
 export function EmptyState({
   title,
   description,
@@ -22,11 +28,11 @@ export function EmptyState({
         className,
       )}
     >
-      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-soft text-brand">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-soft text-brand">
         {icon ?? <Inbox className="h-5 w-5" aria-hidden="true" />}
       </div>
       <h3 className="mt-3 text-sm font-semibold text-ink">{title}</h3>
-      {description && <p className="mt-1 max-w-sm text-sm text-muted">{description}</p>}
+      {description && <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted">{description}</p>}
       {action && <div className="mt-4">{action}</div>}
     </div>
   );

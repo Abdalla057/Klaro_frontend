@@ -136,6 +136,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedEvenementAbonnementList'
           description: ''
+  /api/abonnements/abonnements/{id}/paiements/:
+    get:
+      operationId: abonnements_abonnements_paiements_list
+      description: Gestion des abonnements par le super administrateur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this abonnement.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - abonnements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPaiementAbonnementList'
+          description: ''
   /api/abonnements/abonnements/{id}/reactiver/:
     post:
       operationId: abonnements_abonnements_reactiver_create
@@ -235,6 +263,175 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Abonnement'
+          description: ''
+  /api/abonnements/paiements/:
+    get:
+      operationId: abonnements_paiements_list
+      description: Historique et gestion des paiements d'abonnement (super admin).
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - abonnements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPaiementAbonnementList'
+          description: ''
+    post:
+      operationId: abonnements_paiements_create
+      description: Historique et gestion des paiements d'abonnement (super admin).
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaiementAbonnementCreation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PaiementAbonnementCreation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PaiementAbonnementCreation'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaiementAbonnement'
+          description: ''
+  /api/abonnements/paiements/{id}/:
+    get:
+      operationId: abonnements_paiements_retrieve
+      description: Historique et gestion des paiements d'abonnement (super admin).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this paiement d'abonnement.
+        required: true
+      tags:
+      - abonnements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaiementAbonnement'
+          description: ''
+  /api/abonnements/paiements/{id}/annuler/:
+    post:
+      operationId: abonnements_paiements_annuler_create
+      description: Historique et gestion des paiements d'abonnement (super admin).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this paiement d'abonnement.
+        required: true
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MotifPaiement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MotifPaiement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MotifPaiement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaiementAbonnement'
+          description: ''
+  /api/abonnements/paiements/{id}/confirmer/:
+    post:
+      operationId: abonnements_paiements_confirmer_create
+      description: Historique et gestion des paiements d'abonnement (super admin).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this paiement d'abonnement.
+        required: true
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaiementAbonnement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PaiementAbonnement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PaiementAbonnement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaiementAbonnement'
+          description: ''
+  /api/abonnements/paiements/{id}/refuser/:
+    post:
+      operationId: abonnements_paiements_refuser_create
+      description: Historique et gestion des paiements d'abonnement (super admin).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this paiement d'abonnement.
+        required: true
+      tags:
+      - abonnements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MotifPaiement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MotifPaiement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MotifPaiement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaiementAbonnement'
           description: ''
   /api/abonnements/plans/:
     get:
@@ -391,8 +588,7 @@ paths:
   /api/agents/:
     get:
       operationId: agents_list
-      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
-        SMS, un seul autorisé).
+      description: Gestion des agents d'un fournisseur.
       parameters:
       - name: page
         required: false
@@ -413,8 +609,7 @@ paths:
           description: ''
     post:
       operationId: agents_create
-      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
-        SMS, un seul autorisé).
+      description: Gestion des agents d'un fournisseur.
       tags:
       - agents
       requestBody:
@@ -441,8 +636,7 @@ paths:
   /api/agents/{id}/:
     get:
       operationId: agents_retrieve
-      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
-        SMS, un seul autorisé).
+      description: Gestion des agents d'un fournisseur.
       parameters:
       - in: path
         name: id
@@ -463,8 +657,7 @@ paths:
           description: ''
     put:
       operationId: agents_update
-      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
-        SMS, un seul autorisé).
+      description: Gestion des agents d'un fournisseur.
       parameters:
       - in: path
         name: id
@@ -496,8 +689,7 @@ paths:
           description: ''
     patch:
       operationId: agents_partial_update
-      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
-        SMS, un seul autorisé).
+      description: Gestion des agents d'un fournisseur.
       parameters:
       - in: path
         name: id
@@ -529,8 +721,7 @@ paths:
           description: ''
     delete:
       operationId: agents_destroy
-      description: Le fournisseur ajoute son agent (téléphone -> compte inactif +
-        SMS, un seul autorisé).
+      description: Gestion des agents d'un fournisseur.
       parameters:
       - in: path
         name: id
@@ -545,11 +736,59 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/agents/{id}/statistiques/:
+    get:
+      operationId: agents_statistiques_retrieve
+      description: Gestion des agents d'un fournisseur.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this agent.
+        required: true
+      tags:
+      - agents
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: ''
   /api/agents/activer/:
     post:
       operationId: agents_activer_create
-      description: 'L''agent active son compte : téléphone + code SMS + mot de passe
-        choisi.'
+      description: Active le compte agent avec le code reçu et un mot de passe choisi.
+      tags:
+      - agents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Agent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Agent'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: ''
+  /api/agents/definir-mot-de-passe/:
+    post:
+      operationId: agents_definir_mot_de_passe_create
+      description: Gestion des agents d'un fournisseur.
       tags:
       - agents
       requestBody:
@@ -576,7 +815,33 @@ paths:
   /api/agents/renvoyer-code/:
     post:
       operationId: agents_renvoyer_code_create
-      description: Renvoie un nouveau code SMS si le compte n'est pas encore activé.
+      description: Renvoie un nouveau code d'activation pour un agent du fournisseur.
+      tags:
+      - agents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Agent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Agent'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+          description: ''
+  /api/agents/verifier-code/:
+    post:
+      operationId: agents_verifier_code_create
+      description: Gestion des agents d'un fournisseur.
       tags:
       - agents
       requestBody:
@@ -603,8 +868,7 @@ paths:
   /api/clients/:
     get:
       operationId: clients_list
-      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
-        + SMS).
+      description: Gestion des clients d'un fournisseur et de leur solde.
       parameters:
       - name: page
         required: false
@@ -625,8 +889,7 @@ paths:
           description: ''
     post:
       operationId: clients_create
-      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
-        + SMS).
+      description: Gestion des clients d'un fournisseur et de leur solde.
       tags:
       - clients
       requestBody:
@@ -653,8 +916,7 @@ paths:
   /api/clients/{id}/:
     get:
       operationId: clients_retrieve
-      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
-        + SMS).
+      description: Gestion des clients d'un fournisseur et de leur solde.
       parameters:
       - in: path
         name: id
@@ -675,8 +937,7 @@ paths:
           description: ''
     put:
       operationId: clients_update
-      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
-        + SMS).
+      description: Gestion des clients d'un fournisseur et de leur solde.
       parameters:
       - in: path
         name: id
@@ -708,8 +969,7 @@ paths:
           description: ''
     patch:
       operationId: clients_partial_update
-      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
-        + SMS).
+      description: Gestion des clients d'un fournisseur et de leur solde.
       parameters:
       - in: path
         name: id
@@ -741,8 +1001,7 @@ paths:
           description: ''
     delete:
       operationId: clients_destroy
-      description: Le fournisseur ajoute ses clients (téléphone -> compte inactif
-        + SMS).
+      description: Gestion des clients d'un fournisseur et de leur solde.
       parameters:
       - in: path
         name: id
@@ -757,11 +1016,114 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/clients/{id}/attribuer-solde/:
+    post:
+      operationId: clients_attribuer_solde_create
+      description: Attribue le solde initial du client. Une seule fois par client.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - clients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+  /api/clients/{id}/solde/:
+    get:
+      operationId: clients_solde_retrieve
+      description: Gestion des clients d'un fournisseur et de leur solde.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - clients
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+  /api/clients/{id}/transactions/:
+    get:
+      operationId: clients_transactions_retrieve
+      description: Gestion des clients d'un fournisseur et de leur solde.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - clients
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
   /api/clients/activer/:
     post:
       operationId: clients_activer_create
-      description: 'Le client active son compte : téléphone + code SMS + mot de passe
-        choisi.'
+      description: Active le compte client avec le code reçu et un mot de passe choisi.
+      tags:
+      - clients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+  /api/clients/definir-mot-de-passe/:
+    post:
+      operationId: clients_definir_mot_de_passe_create
+      description: Définit le mot de passe à partir du jeton d'activation temporaire.
       tags:
       - clients
       requestBody:
@@ -788,7 +1150,33 @@ paths:
   /api/clients/renvoyer-code/:
     post:
       operationId: clients_renvoyer_code_create
-      description: Renvoie un nouveau code SMS si le compte n'est pas encore activé.
+      description: Renvoie un nouveau code d'activation pour un client du fournisseur.
+      tags:
+      - clients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+  /api/clients/verifier-code/:
+    post:
+      operationId: clients_verifier_code_create
+      description: Vérifie le code d'activation et renvoie un jeton temporaire.
       tags:
       - clients
       requestBody:
@@ -811,6 +1199,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Client'
+          description: ''
+  /api/comptes/activation/activer/:
+    post:
+      operationId: comptes_activation_activer_create
+      description: Active directement le compte avec le code et le mot de passe.
+      tags:
+      - comptes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivationParCode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActivationParCode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActivationParCode'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Detail'
+          description: ''
+  /api/comptes/activation/definir-mot-de-passe/:
+    post:
+      operationId: comptes_activation_definir_mot_de_passe_create
+      description: Définit le mot de passe à partir du jeton d'activation temporaire.
+      tags:
+      - comptes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefinitionMotDePasse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DefinitionMotDePasse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DefinitionMotDePasse'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Detail'
+          description: ''
+  /api/comptes/activation/statut/:
+    get:
+      operationId: comptes_activation_statut_retrieve
+      description: Consulte l'état d'activation d'un compte client ou agent.
+      tags:
+      - comptes
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatutActivation'
+          description: ''
+  /api/comptes/activation/verifier-code/:
+    post:
+      operationId: comptes_activation_verifier_code_create
+      description: Vérifie le code d'activation et renvoie un jeton temporaire.
+      tags:
+      - comptes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerificationCode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VerificationCode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VerificationCode'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReponseVerificationCode'
           description: ''
   /api/comptes/login/:
     post:
@@ -1147,6 +1635,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/Encaissement'
           description: ''
+  /api/encaissements/collecter/:
+    post:
+      operationId: encaissements_collecter_create
+      description: Encaissement saisi et confirmé directement par un agent.
+      tags:
+      - encaissements
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Encaissement'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaissement'
+          description: ''
   /api/encaissements/confirmer-par-code/:
     post:
       operationId: encaissements_confirmer_par_code_create
@@ -1173,6 +1688,319 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Encaissement'
+          description: ''
+  /api/finances/decaissements/:
+    get:
+      operationId: finances_decaissements_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - finances
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDemandeDecaissementList'
+          description: ''
+    post:
+      operationId: finances_decaissements_create
+      tags:
+      - finances
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandeDecaissement'
+          description: ''
+  /api/finances/decaissements/{id}/:
+    get:
+      operationId: finances_decaissements_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this demande decaissement.
+        required: true
+      tags:
+      - finances
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandeDecaissement'
+          description: ''
+  /api/finances/decaissements/{id}/annuler/:
+    post:
+      operationId: finances_decaissements_annuler_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this demande decaissement.
+        required: true
+      tags:
+      - finances
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandeDecaissement'
+          description: ''
+  /api/finances/decaissements/{id}/approuver/:
+    post:
+      operationId: finances_decaissements_approuver_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this demande decaissement.
+        required: true
+      tags:
+      - finances
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandeDecaissement'
+          description: ''
+  /api/finances/decaissements/{id}/confirmer/:
+    post:
+      operationId: finances_decaissements_confirmer_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this demande decaissement.
+        required: true
+      tags:
+      - finances
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandeDecaissement'
+          description: ''
+  /api/finances/decaissements/{id}/payer/:
+    post:
+      operationId: finances_decaissements_payer_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this demande decaissement.
+        required: true
+      tags:
+      - finances
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandeDecaissement'
+          description: ''
+  /api/finances/decaissements/{id}/refuser/:
+    post:
+      operationId: finances_decaissements_refuser_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this demande decaissement.
+        required: true
+      tags:
+      - finances
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DemandeDecaissement'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandeDecaissement'
+          description: ''
+  /api/finances/solde/:
+    get:
+      operationId: finances_solde_retrieve
+      tags:
+      - finances
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/finances/statistiques/:
+    get:
+      operationId: finances_statistiques_retrieve
+      tags:
+      - finances
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/finances/transactions/:
+    get:
+      operationId: finances_transactions_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - finances
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTransactionFinanciereList'
+          description: ''
+  /api/finances/transactions/{id}/:
+    get:
+      operationId: finances_transactions_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this transaction financiere.
+        required: true
+      tags:
+      - finances
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFinanciere'
+          description: ''
+  /api/finances/transactions/regulariser/:
+    post:
+      operationId: finances_transactions_regulariser_create
+      tags:
+      - finances
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionFinanciere'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionFinanciere'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionFinanciere'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionFinanciere'
           description: ''
   /api/fournisseurs/:
     get:
@@ -1391,6 +2219,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/Fournisseur'
           description: ''
+  /api/fournisseurs/statistiques/:
+    get:
+      operationId: fournisseurs_statistiques_retrieve
+      description: |-
+        Profil du fournisseur connecté et inscription publique.
+
+        - create : inscription publique (compte Utilisateur + profil + essai gratuit)
+        - retrieve/update/partial_update : uniquement son propre profil
+        - destroy : supprime le profil et le compte, sauf si des données
+          protégées (abonnements, encaissements) empêchent la suppression
+        - abonnement : état de l'abonnement, des quotas et de leur utilisation
+      tags:
+      - fournisseurs
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fournisseur'
+          description: ''
   /api/super-admin/fournisseurs/:
     get:
       operationId: super_admin_fournisseurs_list
@@ -1552,6 +2402,100 @@ paths:
               schema:
                 $ref: '#/components/schemas/FournisseurSupervision'
           description: ''
+  /api/super-admin/statistiques/abonnements/:
+    get:
+      operationId: super_admin_statistiques_abonnements_retrieve
+      description: Statuts des abonnements et évolution des souscriptions/renouvellements.
+      parameters:
+      - in: query
+        name: date_reference
+        schema:
+          type: string
+          format: date
+        description: 'Date de référence (AAAA-MM-JJ). Défaut : aujourd''hui.'
+      - in: query
+        name: periode
+        schema:
+          type: string
+          enum:
+          - annuelle
+          - hebdomadaire
+          - mensuelle
+        description: 'Période d''analyse. Défaut : mensuelle.'
+      tags:
+      - super-admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatistiquesAbonnementsEvolution'
+          description: ''
+  /api/super-admin/statistiques/financieres/:
+    get:
+      operationId: super_admin_statistiques_financieres_retrieve
+      description: Indicateurs de chiffre d'affaires confirmé, par devise.
+      parameters:
+      - in: query
+        name: date_reference
+        schema:
+          type: string
+          format: date
+        description: 'Date de référence (AAAA-MM-JJ). Défaut : aujourd''hui.'
+      tags:
+      - super-admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatistiquesFinancieres'
+          description: ''
+  /api/super-admin/statistiques/revenus/:
+    get:
+      operationId: super_admin_statistiques_revenus_retrieve
+      description: Évolution du chiffre d'affaires confirmé (semaine, mois, année).
+      parameters:
+      - in: query
+        name: date_reference
+        schema:
+          type: string
+          format: date
+        description: 'Date de référence (AAAA-MM-JJ). Défaut : aujourd''hui.'
+      - in: query
+        name: granularite
+        schema:
+          type: string
+          enum:
+          - jour
+          - mois
+          - semaine
+        description: 'Granularité des points. Mensuelle : jour ou semaine. Annuelle
+          : mois (forcé).'
+      - in: query
+        name: periode
+        schema:
+          type: string
+          enum:
+          - annuelle
+          - hebdomadaire
+          - mensuelle
+        description: 'Période d''analyse. Défaut : hebdomadaire.'
+      tags:
+      - super-admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SerieChiffreAffaires'
+          description: ''
   /api/super-admin/tableau-de-bord/:
     get:
       operationId: super_admin_tableau_de_bord_retrieve
@@ -1660,6 +2604,24 @@ components:
     AbonnementCreation:
       type: object
       properties:
+        montant_paiement:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: Montant réellement payé. Par défaut, le prix du plan.
+        moyen_paiement:
+          oneOf:
+          - $ref: '#/components/schemas/MoyenPaiementEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        paiement_confirme:
+          type: boolean
+          default: false
+          description: Comptabilise immédiatement le paiement dans le chiffre d'affaires.
+        cle_idempotence:
+          type: string
+          description: Évite la création d'un doublon en cas de nouvel envoi.
+          maxLength: 100
         fournisseur:
           type: integer
         plan:
@@ -1732,9 +2694,24 @@ components:
         * `EXPIRE` - Expiré
         * `SUSPENDU` - Suspendu
         * `ANNULE` - Annulé
+    ActivationParCode:
+      type: object
+      properties:
+        telephone:
+          type: string
+        code:
+          type: string
+          pattern: ^\d{6}$
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+      required:
+      - code
+      - password
+      - telephone
     Agent:
       type: object
-      description: Utilisé pour la lecture et la mise à jour (pas la création).
       properties:
         id:
           type: integer
@@ -1745,6 +2722,10 @@ components:
         fournisseur:
           type: integer
           readOnly: true
+        nom:
+          type: string
+        prenom:
+          type: string
         telephone:
           type: string
           readOnly: true
@@ -1755,14 +2736,24 @@ components:
         compte_active:
           type: boolean
           readOnly: true
-          description: Passe à True une fois le code SMS validé et le mot de passe
-            défini.
+          description: Passe à True après validation du code et définition du mot
+            de passe.
+        code_activation:
+          type: string
+          readOnly: true
         date_creation:
           type: string
           format: date-time
           readOnly: true
+        date_activation:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
       required:
+      - code_activation
       - compte_active
+      - date_activation
       - date_creation
       - fournisseur
       - id
@@ -1770,17 +2761,16 @@ components:
       - utilisateur
     AgentCreation:
       type: object
-      description: |-
-        Utilisé uniquement à la création : le fournisseur ajoute son agent en
-        saisissant juste son numéro de téléphone (même principe que le client).
-        Un compte Utilisateur est créé inactif, sans mot de passe, et un SMS avec
-        un code d'activation à 6 chiffres est envoyé à ce numéro (l'agent
-        choisira son mot de passe au moment de l'activation, voir
-        AgentActivationSerializer).
       properties:
         id:
           type: integer
           readOnly: true
+        nom:
+          type: string
+          default: ''
+        prenom:
+          type: string
+          default: ''
         telephone:
           type: string
           maxLength: 20
@@ -1791,13 +2781,17 @@ components:
         compte_active:
           type: boolean
           readOnly: true
-          description: Passe à True une fois le code SMS validé et le mot de passe
-            défini.
+          description: Passe à True après validation du code et définition du mot
+            de passe.
+        code_activation:
+          type: string
+          readOnly: true
         date_creation:
           type: string
           format: date-time
           readOnly: true
       required:
+      - code_activation
       - compte_active
       - date_creation
       - id
@@ -1809,6 +2803,9 @@ components:
           type: string
       required:
       - motif
+    BlankEnum:
+      enum:
+      - ''
     ChangementMotDePasse:
       type: object
       properties:
@@ -1828,7 +2825,6 @@ components:
       - nouveau_mot_de_passe
     Client:
       type: object
-      description: Utilisé pour la lecture et la mise à jour (pas la création).
       properties:
         id:
           type: integer
@@ -1839,6 +2835,10 @@ components:
         fournisseur:
           type: integer
           readOnly: true
+        nom:
+          type: string
+        prenom:
+          type: string
         telephone:
           type: string
           readOnly: true
@@ -1850,59 +2850,94 @@ components:
           format: decimal
           pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
+        solde_disponible:
+          type: string
+          readOnly: true
+        montant_credit_initial:
+          type: string
+          readOnly: true
         compte_active:
           type: boolean
           readOnly: true
-          description: Passe à True une fois le code SMS validé et le mot de passe
-            défini.
+          description: Passe à True après validation du code et définition du mot
+            de passe.
+        code_activation:
+          type: string
+          readOnly: true
         date_creation:
           type: string
           format: date-time
           readOnly: true
+        date_activation:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
       required:
+      - code_activation
       - compte_active
+      - date_activation
       - date_creation
       - fournisseur
       - id
+      - montant_credit_initial
+      - solde_disponible
       - solde_du
       - telephone
       - utilisateur
     ClientCreation:
       type: object
-      description: |-
-        Utilisé uniquement à la création : le fournisseur ajoute son client en
-        saisissant juste son numéro de téléphone. Un compte Utilisateur est créé
-        inactif, sans mot de passe, et un SMS avec un code d'activation à 6
-        chiffres est envoyé à ce numéro (le client choisira son mot de passe au
-        moment de l'activation, voir ClientActivationSerializer).
       properties:
         id:
           type: integer
           readOnly: true
+        nom:
+          type: string
+        prenom:
+          type: string
         telephone:
           type: string
           maxLength: 20
         adresse:
           type: string
-          maxLength: 255
         solde_du:
           type: string
           format: decimal
           pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
+        solde_disponible:
+          type: string
+          readOnly: true
+        solde_initial:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          writeOnly: true
+        montant_credit_initial:
+          type: string
+          readOnly: true
         compte_active:
           type: boolean
           readOnly: true
-          description: Passe à True une fois le code SMS validé et le mot de passe
-            défini.
+          description: Passe à True après validation du code et définition du mot
+            de passe.
+        code_activation:
+          type: string
+          readOnly: true
         date_creation:
           type: string
           format: date-time
           readOnly: true
       required:
+      - adresse
+      - code_activation
       - compte_active
       - date_creation
       - id
+      - montant_credit_initial
+      - nom
+      - prenom
+      - solde_disponible
       - solde_du
       - telephone
     Connexion:
@@ -1943,6 +2978,127 @@ components:
           type: string
       required:
       - refresh
+    DefinitionMotDePasse:
+      type: object
+      properties:
+        telephone:
+          type: string
+        token:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+        confirmation:
+          type: string
+          writeOnly: true
+      required:
+      - confirmation
+      - password
+      - telephone
+      - token
+    DemandeDecaissement:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        reference:
+          type: string
+          format: uuid
+          readOnly: true
+        fournisseur:
+          type: integer
+          readOnly: true
+        client:
+          type: integer
+          readOnly: true
+        client_nom:
+          type: string
+          readOnly: true
+        client_telephone:
+          type: string
+          readOnly: true
+        agent:
+          type: integer
+          readOnly: true
+          nullable: true
+        agent_nom:
+          type: string
+          readOnly: true
+        montant:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        statut:
+          allOf:
+          - $ref: '#/components/schemas/DemandeDecaissementStatutEnum'
+          readOnly: true
+        statut_display:
+          type: string
+          readOnly: true
+        commentaire:
+          type: string
+          readOnly: true
+        motif_refus:
+          type: string
+          readOnly: true
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        date_confirmation_agent:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        date_decision:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        date_paiement:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - agent
+      - agent_nom
+      - client
+      - client_nom
+      - client_telephone
+      - commentaire
+      - date_confirmation_agent
+      - date_creation
+      - date_decision
+      - date_paiement
+      - fournisseur
+      - id
+      - montant
+      - motif_refus
+      - reference
+      - statut
+      - statut_display
+    DemandeDecaissementStatutEnum:
+      enum:
+      - EN_ATTENTE
+      - CONFIRMATION_AGENT
+      - EN_ATTENTE_VALIDATION
+      - APPROUVE
+      - REFUSE
+      - PAYE
+      - ANNULE
+      type: string
+      description: |-
+        * `EN_ATTENTE` - En attente
+        * `CONFIRMATION_AGENT` - Confirmée par l'agent
+        * `EN_ATTENTE_VALIDATION` - En attente de validation
+        * `APPROUVE` - Approuvée
+        * `REFUSE` - Refusée
+        * `PAYE` - Payée
+        * `ANNULE` - Annulée
     Detail:
       type: object
       properties:
@@ -2055,6 +3211,31 @@ components:
       - id
       - type_evenement
       - type_evenement_display
+    EvolutionFinanciere:
+      type: object
+      properties:
+        semaine:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        mois:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        annee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+      required:
+      - annee
+      - mois
+      - semaine
     Fournisseur:
       type: object
       description: Utilisé pour la lecture et la mise à jour du profil (pas la création).
@@ -2303,6 +3484,25 @@ components:
       - suspendu_par
       - telephone
       - utilisateur
+    MotifPaiement:
+      type: object
+      properties:
+        motif:
+          type: string
+    MoyenPaiementEnum:
+      enum:
+      - MOBILE_MONEY
+      - VIREMENT
+      - ESPECES
+      - CARTE
+      - AUTRE
+      type: string
+      description: |-
+        * `MOBILE_MONEY` - Mobile money
+        * `VIREMENT` - Virement
+        * `ESPECES` - Espèces
+        * `CARTE` - Carte bancaire
+        * `AUTRE` - Autre
     PaginatedAbonnementList:
       type: object
       required:
@@ -2372,6 +3572,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Client'
+    PaginatedDemandeDecaissementList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DemandeDecaissement'
     PaginatedEncaissementList:
       type: object
       required:
@@ -2464,6 +3687,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FournisseurSupervision'
+    PaginatedPaiementAbonnementList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaiementAbonnement'
     PaginatedPlanAbonnementList:
       type: object
       required:
@@ -2487,9 +3733,186 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PlanAbonnement'
+    PaginatedTransactionFinanciereList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionFinanciere'
+    PaiementAbonnement:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        reference:
+          type: string
+          format: uuid
+          readOnly: true
+          description: Identifiant unique et immuable du paiement.
+        fournisseur:
+          allOf:
+          - $ref: '#/components/schemas/FournisseurAbonnementResume'
+          readOnly: true
+        abonnement:
+          type: integer
+          readOnly: true
+        plan:
+          type: integer
+          readOnly: true
+        plan_nom:
+          type: string
+          readOnly: true
+        montant:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
+        devise:
+          type: string
+          readOnly: true
+        statut:
+          allOf:
+          - $ref: '#/components/schemas/PaiementAbonnementStatutEnum'
+          readOnly: true
+        statut_display:
+          type: string
+          readOnly: true
+        type_operation:
+          allOf:
+          - $ref: '#/components/schemas/TypeOperationEnum'
+          readOnly: true
+        type_operation_display:
+          type: string
+          readOnly: true
+        moyen_paiement:
+          allOf:
+          - $ref: '#/components/schemas/MoyenPaiementEnum'
+          readOnly: true
+        moyen_paiement_display:
+          type: string
+          readOnly: true
+        reference_transaction:
+          type: string
+          readOnly: true
+          description: Référence externe de la transaction (opérateur, banque…).
+        cle_idempotence:
+          type: string
+          readOnly: true
+          nullable: true
+          description: Empêche l'enregistrement en double d'une même opération.
+        commentaire:
+          type: string
+          readOnly: true
+        confirme_par:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: integer
+            telephone:
+              type: string
+          readOnly: true
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        date_confirmation:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        date_modification:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - abonnement
+      - cle_idempotence
+      - commentaire
+      - confirme_par
+      - date_confirmation
+      - date_creation
+      - date_modification
+      - devise
+      - fournisseur
+      - id
+      - montant
+      - moyen_paiement
+      - moyen_paiement_display
+      - plan
+      - plan_nom
+      - reference
+      - reference_transaction
+      - statut
+      - statut_display
+      - type_operation
+      - type_operation_display
+    PaiementAbonnementCreation:
+      type: object
+      properties:
+        abonnement:
+          type: integer
+        montant:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+        devise:
+          type: string
+          maxLength: 3
+        type_operation:
+          allOf:
+          - $ref: '#/components/schemas/TypeOperationEnum'
+          default: SOUSCRIPTION
+        moyen_paiement:
+          oneOf:
+          - $ref: '#/components/schemas/MoyenPaiementEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        reference_transaction:
+          type: string
+          maxLength: 150
+        cle_idempotence:
+          type: string
+          maxLength: 100
+        commentaire:
+          type: string
+        confirmer:
+          type: boolean
+          default: false
+      required:
+      - abonnement
+    PaiementAbonnementStatutEnum:
+      enum:
+      - EN_ATTENTE
+      - CONFIRME
+      - REFUSE
+      - ANNULE
+      type: string
+      description: |-
+        * `EN_ATTENTE` - En attente
+        * `CONFIRME` - Confirmé
+        * `REFUSE` - Refusé
+        * `ANNULE` - Annulé
     PatchedAgent:
       type: object
-      description: Utilisé pour la lecture et la mise à jour (pas la création).
       properties:
         id:
           type: integer
@@ -2500,6 +3923,10 @@ components:
         fournisseur:
           type: integer
           readOnly: true
+        nom:
+          type: string
+        prenom:
+          type: string
         telephone:
           type: string
           readOnly: true
@@ -2510,15 +3937,22 @@ components:
         compte_active:
           type: boolean
           readOnly: true
-          description: Passe à True une fois le code SMS validé et le mot de passe
-            défini.
+          description: Passe à True après validation du code et définition du mot
+            de passe.
+        code_activation:
+          type: string
+          readOnly: true
         date_creation:
           type: string
           format: date-time
           readOnly: true
+        date_activation:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
     PatchedClient:
       type: object
-      description: Utilisé pour la lecture et la mise à jour (pas la création).
       properties:
         id:
           type: integer
@@ -2529,6 +3963,10 @@ components:
         fournisseur:
           type: integer
           readOnly: true
+        nom:
+          type: string
+        prenom:
+          type: string
         telephone:
           type: string
           readOnly: true
@@ -2540,15 +3978,29 @@ components:
           format: decimal
           pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
+        solde_disponible:
+          type: string
+          readOnly: true
+        montant_credit_initial:
+          type: string
+          readOnly: true
         compte_active:
           type: boolean
           readOnly: true
-          description: Passe à True une fois le code SMS validé et le mot de passe
-            défini.
+          description: Passe à True après validation du code et définition du mot
+            de passe.
+        code_activation:
+          type: string
+          readOnly: true
         date_creation:
           type: string
           format: date-time
           readOnly: true
+        date_activation:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
     PatchedEncaissement:
       type: object
       properties:
@@ -2682,6 +4134,18 @@ components:
           type: string
           format: date-time
           readOnly: true
+    PeriodeAbonnements:
+      type: object
+      properties:
+        nouvelles_souscriptions:
+          type: integer
+          readOnly: true
+        renouvellements:
+          type: integer
+          readOnly: true
+      required:
+      - nouvelles_souscriptions
+      - renouvellements
     PlanAbonnement:
       type: object
       properties:
@@ -2743,6 +4207,46 @@ components:
       - date_modification
       - id
       - nom
+    PointEvolutionAbonnements:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          readOnly: true
+        nouvelles_souscriptions:
+          type: integer
+          readOnly: true
+        renouvellements:
+          type: integer
+          readOnly: true
+        total_abonnements:
+          type: integer
+          readOnly: true
+      required:
+      - date
+      - nouvelles_souscriptions
+      - renouvellements
+      - total_abonnements
+    PointSerieChiffreAffaires:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          readOnly: true
+        montant:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        nombre_paiements:
+          type: integer
+          readOnly: true
+      required:
+      - date
+      - montant
+      - nombre_paiements
     QuotasAbonnement:
       type: object
       properties:
@@ -2760,6 +4264,24 @@ components:
     RenouvellementAbonnement:
       type: object
       properties:
+        montant_paiement:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: Montant réellement payé. Par défaut, le prix du plan.
+        moyen_paiement:
+          oneOf:
+          - $ref: '#/components/schemas/MoyenPaiementEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        paiement_confirme:
+          type: boolean
+          default: false
+          description: Comptabilise immédiatement le paiement dans le chiffre d'affaires.
+        cle_idempotence:
+          type: string
+          description: Évite la création d'un doublon en cas de nouvel envoi.
+          maxLength: 100
         plan:
           type: integer
           nullable: true
@@ -2768,6 +4290,26 @@ components:
           maxLength: 100
         notes:
           type: string
+    ReponseVerificationCode:
+      type: object
+      properties:
+        telephone:
+          type: string
+          readOnly: true
+        role:
+          type: string
+          readOnly: true
+        token:
+          type: string
+          readOnly: true
+        expire_dans_minutes:
+          type: integer
+          readOnly: true
+      required:
+      - expire_dans_minutes
+      - role
+      - telephone
+      - token
     RoleEnum:
       enum:
       - fournisseur
@@ -2780,9 +4322,102 @@ components:
         * `client` - Client
         * `agent` - Agent
         * `super_admin` - Super administrateur
+    SerieChiffreAffaires:
+      type: object
+      properties:
+        periode:
+          type: string
+          readOnly: true
+        granularite:
+          type: string
+          readOnly: true
+        date_debut:
+          type: string
+          format: date
+          readOnly: true
+        date_fin:
+          type: string
+          format: date
+          readOnly: true
+        devises:
+          type: array
+          items:
+            $ref: '#/components/schemas/SerieChiffreAffairesDevise'
+          readOnly: true
+      required:
+      - date_debut
+      - date_fin
+      - devises
+      - granularite
+      - periode
+    SerieChiffreAffairesDevise:
+      type: object
+      properties:
+        devise:
+          type: string
+          readOnly: true
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        nombre_paiements:
+          type: integer
+          readOnly: true
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/PointSerieChiffreAffaires'
+          readOnly: true
+      required:
+      - devise
+      - nombre_paiements
+      - points
+      - total
+    StatistiquesAbonnementsEvolution:
+      type: object
+      properties:
+        periode:
+          type: string
+          readOnly: true
+        granularite:
+          type: string
+          readOnly: true
+        date_debut:
+          type: string
+          format: date
+          readOnly: true
+        date_fin:
+          type: string
+          format: date
+          readOnly: true
+        statuts:
+          allOf:
+          - $ref: '#/components/schemas/StatistiquesAbonnementsGlobales'
+          readOnly: true
+        periode_courante:
+          allOf:
+          - $ref: '#/components/schemas/PeriodeAbonnements'
+          readOnly: true
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/PointEvolutionAbonnements'
+          readOnly: true
+      required:
+      - date_debut
+      - date_fin
+      - granularite
+      - periode
+      - periode_courante
+      - points
+      - statuts
     StatistiquesAbonnementsGlobales:
       type: object
       properties:
+        total:
+          type: integer
+          readOnly: true
         actifs:
           type: integer
           readOnly: true
@@ -2804,6 +4439,7 @@ components:
       - essais_actifs
       - expires
       - suspendus
+      - total
     StatistiquesAgents:
       type: object
       properties:
@@ -2860,6 +4496,110 @@ components:
       - montant_confirme
       - montant_en_attente
       - total
+    StatistiquesFinancieres:
+      type: object
+      properties:
+        devise:
+          type: string
+          readOnly: true
+        chiffre_affaires_total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        chiffre_affaires_semaine:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        chiffre_affaires_mois:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        chiffre_affaires_annee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        nombre_paiements_confirmes:
+          type: integer
+          readOnly: true
+        montant_moyen_paiement:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        evolution:
+          allOf:
+          - $ref: '#/components/schemas/EvolutionFinanciere'
+          readOnly: true
+        multi_devise:
+          type: boolean
+          readOnly: true
+        devises:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatistiquesFinancieresDevise'
+          readOnly: true
+      required:
+      - chiffre_affaires_annee
+      - chiffre_affaires_mois
+      - chiffre_affaires_semaine
+      - chiffre_affaires_total
+      - devise
+      - devises
+      - evolution
+      - montant_moyen_paiement
+      - multi_devise
+      - nombre_paiements_confirmes
+    StatistiquesFinancieresDevise:
+      type: object
+      properties:
+        devise:
+          type: string
+          readOnly: true
+        chiffre_affaires_total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        chiffre_affaires_semaine:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        chiffre_affaires_mois:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        chiffre_affaires_annee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        nombre_paiements_confirmes:
+          type: integer
+          readOnly: true
+        montant_moyen_paiement:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        evolution:
+          allOf:
+          - $ref: '#/components/schemas/EvolutionFinanciere'
+          readOnly: true
+      required:
+      - chiffre_affaires_annee
+      - chiffre_affaires_mois
+      - chiffre_affaires_semaine
+      - chiffre_affaires_total
+      - devise
+      - evolution
+      - montant_moyen_paiement
+      - nombre_paiements_confirmes
     StatistiquesFournisseur:
       type: object
       properties:
@@ -2905,6 +4645,43 @@ components:
       - actifs
       - suspendus
       - total
+    StatutActivation:
+      type: object
+      properties:
+        telephone:
+          type: string
+          readOnly: true
+        role:
+          type: string
+          readOnly: true
+        compte_active:
+          type: boolean
+          readOnly: true
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        date_activation:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        code_expiration:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        tentatives_restantes:
+          type: integer
+          readOnly: true
+      required:
+      - code_expiration
+      - compte_active
+      - date_activation
+      - date_creation
+      - role
+      - telephone
+      - tentatives_restantes
     SuspensionAbonnement:
       type: object
       properties:
@@ -2947,11 +4724,16 @@ components:
           format: decimal
           pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
+        finances:
+          allOf:
+          - $ref: '#/components/schemas/StatistiquesFinancieres'
+          readOnly: true
       required:
       - abonnements
       - agents
       - clients
       - encaissements
+      - finances
       - fournisseurs
       - montant_facture_total
     TokenRefresh:
@@ -2965,6 +4747,130 @@ components:
       required:
       - access
       - refresh
+    TransactionFinanciere:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        reference:
+          type: string
+          format: uuid
+          readOnly: true
+        fournisseur:
+          type: integer
+          readOnly: true
+        client:
+          type: integer
+          readOnly: true
+        client_nom:
+          type: string
+          readOnly: true
+        client_telephone:
+          type: string
+          readOnly: true
+        agent:
+          type: integer
+          readOnly: true
+          nullable: true
+        agent_nom:
+          type: string
+          readOnly: true
+        encaissement:
+          type: integer
+          readOnly: true
+          nullable: true
+        decaissement:
+          type: integer
+          readOnly: true
+          nullable: true
+        type_transaction:
+          allOf:
+          - $ref: '#/components/schemas/TransactionFinanciereTypeEnum'
+          readOnly: true
+        type_transaction_display:
+          type: string
+          readOnly: true
+        sens:
+          allOf:
+          - $ref: '#/components/schemas/TransactionFinanciereSensEnum'
+          readOnly: true
+        sens_display:
+          type: string
+          readOnly: true
+        montant:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,12}(?:\.\d{0,2})?$
+          readOnly: true
+        statut:
+          allOf:
+          - $ref: '#/components/schemas/TransactionFinanciereStatutEnum'
+          readOnly: true
+        statut_display:
+          type: string
+          readOnly: true
+        commentaire:
+          type: string
+          readOnly: true
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        date_validation:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - agent
+      - agent_nom
+      - client
+      - client_nom
+      - client_telephone
+      - commentaire
+      - date_creation
+      - date_validation
+      - decaissement
+      - encaissement
+      - fournisseur
+      - id
+      - montant
+      - reference
+      - sens
+      - sens_display
+      - statut
+      - statut_display
+      - type_transaction
+      - type_transaction_display
+    TransactionFinanciereSensEnum:
+      enum:
+      - CREDIT
+      - DEBIT
+      type: string
+      description: |-
+        * `CREDIT` - Crédit
+        * `DEBIT` - Débit
+    TransactionFinanciereStatutEnum:
+      enum:
+      - VALIDEE
+      - ANNULEE
+      type: string
+      description: |-
+        * `VALIDEE` - Validée
+        * `ANNULEE` - Annulée
+    TransactionFinanciereTypeEnum:
+      enum:
+      - ATTRIBUTION_INITIALE
+      - ENCAISSEMENT
+      - DECAISSEMENT
+      - REGULARISATION
+      type: string
+      description: |-
+        * `ATTRIBUTION_INITIALE` - Attribution initiale
+        * `ENCAISSEMENT` - Encaissement
+        * `DECAISSEMENT` - Décaissement
+        * `REGULARISATION` - Régularisation
     TypeEvenementEnum:
       enum:
       - CREATION
@@ -2981,6 +4887,16 @@ components:
         * `REACTIVATION` - Réactivation
         * `ANNULATION` - Annulation
         * `EXPIRATION` - Expiration
+    TypeOperationEnum:
+      enum:
+      - SOUSCRIPTION
+      - RENOUVELLEMENT
+      - REGULARISATION
+      type: string
+      description: |-
+        * `SOUSCRIPTION` - Souscription
+        * `RENOUVELLEMENT` - Renouvellement
+        * `REGULARISATION` - Régularisation
     Utilisateur:
       type: object
       description: 'Serializer de lecture : n''expose jamais le mot de passe.'
@@ -3038,6 +4954,17 @@ components:
       required:
       - agents
       - clients
+    VerificationCode:
+      type: object
+      properties:
+        telephone:
+          type: string
+        code:
+          type: string
+          pattern: ^\d{6}$
+      required:
+      - code
+      - telephone
   securitySchemes:
     jwtAuth:
       type: http

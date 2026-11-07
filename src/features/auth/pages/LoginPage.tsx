@@ -1,56 +1,58 @@
 import { Link, useLocation } from "react-router-dom";
-import { Container } from "../../../shared/ui/container";
-import { Card } from "../../../shared/ui/card";
-import { Heading, Text } from "../../../shared/ui/typography";
+import { AuthShell } from "../components/AuthShell";
 import { LoginForm } from "../components/LoginForm";
 import { AuthAlert } from "../components/AuthAlert";
 
+/**
+ * LoginPage
+ *
+ * Point d'entrée commun aux fournisseurs, agents, clients et super admins.
+ * Le rôle est déterminé côté serveur, puis redirigé vers l'espace correspondant.
+ */
 export function LoginPage() {
   const location = useLocation();
   const message = (location.state as { message?: string } | null)?.message;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Container className="flex min-h-screen items-center justify-center py-10">
-        <div className="w-full max-w-md">
-          <div className="mb-6 text-center">
-            <Heading as="h1" size="2xl">Connexion</Heading>
-            <Text className="mt-2 text-gray-600">Accédez à votre espace</Text>
-          </div>
-          <Card className="p-6">
-            {message && (
-              <AuthAlert variant="success" className="mb-4">
-                {message}
-              </AuthAlert>
-            )}
-            <LoginForm />
-            <Text size="sm" className="mt-4 text-center text-gray-600">
-              Client, première connexion ?{" "}
-              <Link to="/auth/activation/client" className="font-medium text-gray-900 underline">
-                Activer mon compte client
-              </Link>
-            </Text>
-            <Text size="sm" className="mt-2 text-center text-gray-600">
-              Agent, première connexion ?{" "}
-              <Link to="/auth/activation" className="font-medium text-gray-900 underline">
-                Activer mon compte agent
-              </Link>
-            </Text>
-            <Text size="sm" className="mt-2 text-center text-gray-600">
-              Vous êtes fournisseur ?{" "}
-              <Link to="/auth/register" className="text-gray-900 underline">
-                Créer un compte
-              </Link>
-            </Text>
-          </Card>
-          <Text size="sm" className="mt-4 text-center">
-            <Link to="/" className="text-gray-600 hover:text-gray-900">
-              Retour à l'accueil
-            </Link>
-          </Text>
-        </div>
-      </Container>
-    </div>
+    <AuthShell
+      eyebrow="Connexion sécurisée"
+      title="Bon retour parmi nous"
+      subtitle="Connectez-vous à votre espace Klaro pour retrouver vos encaissements et votre activité."
+      footer={
+        <span>
+          Pas encore de compte fournisseur ?{" "}
+          <Link to="/auth/register" className="font-medium text-brand hover:underline">
+            Créer un compte
+          </Link>
+        </span>
+      }
+    >
+      {message && (
+        <AuthAlert variant="success" className="mb-4">
+          {message}
+        </AuthAlert>
+      )}
+
+      <LoginForm />
+
+      <div className="mt-6 space-y-2 border-t border-border pt-5 text-center text-sm text-muted">
+        <p>
+          Client, première connexion ?{" "}
+          <Link
+            to="/auth/activation/client"
+            className="font-medium text-brand hover:underline"
+          >
+            Activer mon compte client
+          </Link>
+        </p>
+        <p>
+          Agent, première connexion ?{" "}
+          <Link to="/auth/activation" className="font-medium text-brand hover:underline">
+            Activer mon compte agent
+          </Link>
+        </p>
+      </div>
+    </AuthShell>
   );
 }
 

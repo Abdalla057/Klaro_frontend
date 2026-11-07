@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, Wallet, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "../../../shared/ui/button/button";
 import { Container } from "../../../shared/ui/container";
+import { KlaroLogo } from "../../../shared/ui/klaro-logo";
 import { cn } from "../../../shared/utils/cn";
-import { BRAND, NAV, PRIMARY_CTA, ROUTES } from "../constants";
+import { NAV, PRIMARY_CTA, ROUTES } from "../constants";
 import { AnchorLink } from "./common";
 
 export function Navbar() {
@@ -26,11 +27,12 @@ export function Navbar() {
       )}
     >
       <Container className="flex h-16 items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2 text-lg font-extrabold text-brand">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand text-white">
-            <Wallet className="h-4 w-4" aria-hidden="true" />
-          </span>
-          {BRAND}
+        <Link
+          to="/"
+          className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
+          aria-label="Klaro, accueil"
+        >
+          <KlaroLogo />
         </Link>
 
         <nav aria-label="Navigation principale" className="hidden items-center gap-1 lg:flex">

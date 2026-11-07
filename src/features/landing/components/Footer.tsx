@@ -1,22 +1,18 @@
 import { Link } from "react-router-dom";
-import { ArrowUp, Wallet } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { Container } from "../../../shared/ui/container";
-import { BRAND, ROUTES } from "../constants";
+import { KlaroLogo } from "../../../shared/ui/klaro-logo";
+import { ROUTES } from "../constants";
 import { AnchorLink } from "./common";
 
 const LINK_CLASS = "text-sm text-muted transition-colors hover:text-ink";
 
 export function Footer() {
   return (
-    <footer className="border-t border-gray-100 bg-green/10 text-gray-400 ">
+    <footer className="border-t border-border bg-surface">
       <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="sm:col-span-2 lg:col-span-1">
-          <p className="flex items-center gap-2 text-lg font-extrabold text-brand">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand text-white">
-              <Wallet className="h-4 w-4" aria-hidden="true" />
-            </span>
-            {BRAND}
-          </p>
+          <KlaroLogo />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
             Plateforme de gestion des encaissements, des clients, des agents et des abonnements.
           </p>
@@ -71,7 +67,9 @@ export function Footer() {
 
       <div className="border-t border-gray-100 py-6">
         <Container className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-          <p className="text-sm text-muted">© 2026 {BRAND}. Nom et logo provisoires.</p>
+          <p className="text-sm text-muted">
+            © {new Date().getFullYear()} Klaro. Tous droits réservés.
+          </p>
           <a
             href="#accueil"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-brand transition-colors hover:text-brand-accent"

@@ -1,25 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
+/**
+ * Design tokens Klaro
+ * -------------------
+ * Toutes les couleurs, ombres et animations récurrentes sont centralisées ici.
+ * Les composants doivent consommer ces tokens (bg-brand, text-ink, shadow-card…)
+ * plutôt que des valeurs hexadécimales isolées, afin de garantir la cohérence
+ * visuelle entre les espaces fournisseur, agent, client et super admin.
+ */
 @theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-admin: "Prompt", ui-sans-serif, system-ui, sans-serif;
+
+  /* Identité de marque */
   --color-brand: #0c3b2e;
   --color-brand-dark: #082a21;
   --color-brand-accent: #2f7d5b;
-  --color-brand-soft: #e8f2ec;
+  --color-brand-soft: #e8f3ed;
   --color-surface: #f7f9f8;
   --color-ink: #17211d;
   --color-muted: #68756e;
   --color-border: #e5ebe7;
 
-  --animate-fade-up: fade-up 0.7s ease-out both;
+  /* Palette dashboard Super Admin */
+  --color-mint: #d3f4ec;
+  --color-pine: #4a9a81;
+  --color-pine-deep: #3b8069;
+  --color-sun: #f9cf4a;
+  --color-panel: #f7f7fc;
+  --color-sage: #e3ecec;
+
+  /* États sémantiques */
+  --color-success: #15803d;
+  --color-success-soft: #ecfdf5;
+  --color-warning: #b45309;
+  --color-warning-soft: #fffbeb;
+  --color-danger: #b91c1c;
+  --color-danger-soft: #fef2f2;
+  --color-info: #0369a1;
+  --color-info-soft: #f0f9ff;
+
+  /* Élévations */
+  --shadow-card: 0 1px 2px rgba(12, 59, 46, 0.04), 0 10px 28px -18px rgba(12, 59, 46, 0.18);
+  --shadow-float: 0 18px 42px -22px rgba(12, 59, 46, 0.32);
+  --shadow-sidebar: 0 24px 60px -30px rgba(8, 42, 33, 0.55);
+
+  --animate-fade-up: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
 
   @keyframes fade-up {
     from {
       opacity: 0;
-      transform: translateY(18px);
+      transform: translateY(16px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
     }
   }
 }
@@ -28,14 +74,44 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background-color: #ffffff;
-    color: #17211d;
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-brand-accent) 22%, transparent);
+    color: var(--color-brand-dark);
+  }
+
+  /* Barre de défilement discrète et cohérente avec l'identité Klaro. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background-color: color-mix(in srgb, var(--color-muted) 28%, transparent);
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Respect de la préférence système : aucune animation décorative. */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -47,6 +123,7 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 }

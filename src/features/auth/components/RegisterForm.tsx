@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 import { Button } from "../../../shared/ui/button/button";
 import { Input } from "../components/Input";
 import { AuthAlert } from "./AuthAlert";
@@ -86,7 +87,7 @@ export function RegisterForm() {
       {formError && <AuthAlert variant="error">{formError}</AuthAlert>}
 
       <div>
-        <label htmlFor="register-telephone" className="block text-sm text-gray-700">
+        <label htmlFor="register-telephone" className="mb-1.5 block text-sm font-medium text-ink">
           Téléphone
         </label>
         <Input
@@ -107,7 +108,7 @@ export function RegisterForm() {
       </div>
 
       <div>
-        <label htmlFor="register-entreprise" className="block text-sm text-gray-700">
+        <label htmlFor="register-entreprise" className="mb-1.5 block text-sm font-medium text-ink">
           Nom de l'entreprise
         </label>
         <Input
@@ -126,7 +127,7 @@ export function RegisterForm() {
       </div>
 
       <div>
-        <label htmlFor="register-adresse" className="block text-sm text-gray-700">
+        <label htmlFor="register-adresse" className="mb-1.5 block text-sm font-medium text-ink">
           Adresse
         </label>
         <Input
@@ -145,7 +146,7 @@ export function RegisterForm() {
       </div>
 
       <div>
-        <label htmlFor="register-password" className="block text-sm text-gray-700">
+        <label htmlFor="register-password" className="mb-1.5 block text-sm font-medium text-ink">
           Mot de passe
         </label>
         <Input
@@ -165,7 +166,7 @@ export function RegisterForm() {
       </div>
 
       <div>
-        <label htmlFor="register-password2" className="block text-sm text-gray-700">
+        <label htmlFor="register-password2" className="mb-1.5 block text-sm font-medium text-ink">
           Confirmer le mot de passe
         </label>
         <Input
@@ -185,10 +186,11 @@ export function RegisterForm() {
       </div>
 
       <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
         {isSubmitting ? "Création..." : "S'inscrire"}
       </Button>
 
-      <p className="text-center text-xs text-gray-500">
+      <p className="text-center text-xs text-muted">
         Un essai gratuit est activé automatiquement à la création du compte.
       </p>
     </form>

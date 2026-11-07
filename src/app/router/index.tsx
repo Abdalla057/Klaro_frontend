@@ -1,4 +1,6 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Link, createBrowserRouter } from "react-router-dom";
+import { Button } from "../../shared/ui/button/button";
+import { KlaroMark } from "../../shared/ui/klaro-logo";
 import { LandingPage } from "../../features/landing/pages/LandingPage";
 import { LoginPage } from "../../features/auth/pages/LoginPage";
 import { RegisterPage } from "../../features/auth/pages/RegisterPage";
@@ -27,8 +29,20 @@ import { EncaissementsPage } from "../../features/fournisseur/pages/Encaissement
 import { FinancesPage } from "../../features/fournisseur/pages/FinancesPage";
 import { AbonnementPage } from "../../features/fournisseur/pages/AbonnementPage";
 import { ProfilPage } from "../../features/fournisseur/pages/ProfilPage";
+import { AdminLayout } from "../../features/admin/layouts/AdminLayout";
 import { AdminHome } from "../../features/admin/pages/AdminHome";
+import { AdminFournisseursPage } from "../../features/admin/pages/AdminFournisseursPage";
+import { AdminAbonnementsPage } from "../../features/admin/pages/AdminAbonnementsPage";
+import { AdminPlansPage } from "../../features/admin/pages/AdminPlansPage";
+import { AdminPaiementsPage } from "../../features/admin/pages/AdminPaiementsPage";
 
+/**
+ * Table de routage de l'application.
+ *
+ * Chaque espace (agent, client, fournisseur, super admin) est protégé par
+ * `RequireAuth` avec la liste des rôles autorisés. Les pages d'authentification
+ * sont réservées aux visiteurs via `RequireGuest`.
+ */
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -120,15 +134,36 @@ export const router = createBrowserRouter([
     path: "/admin",
     element: (
       <RequireAuth allowedRoles={["super_admin"]}>
-        <AdminHome />
+        <AdminLayout />
       </RequireAuth>
     ),
+    children: [
+      { index: true, element: <AdminHome /> },
+      { path: "fournisseurs", element: <AdminFournisseursPage /> },
+      { path: "abonnements", element: <AdminAbonnementsPage /> },
+      { path: "plans", element: <AdminPlansPage /> },
+      { path: "paiements", element: <AdminPaiementsPage /> },
+    ],
   },
   {
     path: "*",
     element: (
-      <div className="flex min-h-screen items-center justify-center text-gray-600">
-        Page non trouvée
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-surface px-6 text-center">
+        <KlaroMark className="h-12 w-12" />
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-accent">
+            Erreur 404
+          </p>
+          <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink">
+            Cette page n'existe pas
+          </h1>
+          <p className="mt-1 max-w-sm text-sm text-muted">
+            Le lien est peut-être obsolète ou l'adresse a été mal saisie.
+          </p>
+        </div>
+        <Button asChild>
+          <Link to="/">Retour à l'accueil</Link>
+        </Button>
       </div>
     ),
   },
