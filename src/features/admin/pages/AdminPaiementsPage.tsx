@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { Ban, CheckCircle2, RefreshCw, XCircle } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Ban, CheckCircle2, FileClock, RefreshCw, XCircle } from "lucide-react";
 import { Alert } from "../../../shared/ui/alert";
 import { Badge } from "../../../shared/ui/badge";
 import { Button } from "../../../shared/ui/button/button";
@@ -88,7 +89,7 @@ export function AdminPaiementsPage() {
   if (error && paiements.length === 0) return <ErrorState message={error} onRetry={() => void refresh(false)} />;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <ListPageHeader
         titre="Paiements"
         description="Historique complet des paiements d'abonnement. Seuls les paiements confirmés comptent dans le chiffre d'affaires."
@@ -113,10 +114,14 @@ export function AdminPaiementsPage() {
           onChange={(v) => definir({ statut: v })}
           options={[
             { value: "", label: "Tous les statuts" },
+            { value: "INITIE", label: "Initiés" },
             { value: "EN_ATTENTE", label: "En attente" },
+            { value: "EN_VERIFICATION", label: "En vérification" },
             { value: "CONFIRME", label: "Confirmés" },
             { value: "REFUSE", label: "Refusés" },
+            { value: "ECHEC", label: "Échecs" },
             { value: "ANNULE", label: "Annulés" },
+            { value: "REMBOURSE", label: "Remboursés" },
           ]}
         />
         <FiltreSelect
@@ -153,7 +158,12 @@ export function AdminPaiementsPage() {
                 <p className="text-ink">{p.fournisseur.nom_entreprise}</p>
                 <p className="text-xs text-muted">Plan {p.plan_nom}</p>
               </Cell>
-              <Cell className="text-ink">{TYPE_OPERATION[p.type_operation] ?? p.type_operation}</Cell>
+              <Cell>
+                <p className="text-ink">{TYPE_OPERATION[p.type_operation] ?? p.type_operation}</p>
+                {p.demande_reference && (
+                  <p className="text-xs text-muted">Demande {p.demande_reference}</p>
+                )}
+              </Cell>
               <Cell className="whitespace-nowrap font-semibold text-ink">{formatMoney(p.montant, p.devise)}</Cell>
               <Cell className="whitespace-nowrap text-muted">
                 {formatDate(p.date_confirmation ?? p.date_creation, true)}
@@ -163,18 +173,29 @@ export function AdminPaiementsPage() {
               </Cell>
               <Cell>
                 <div className="flex justify-end gap-1.5">
-                  {p.statut === "EN_ATTENTE" && (
-                    <>
-                      <ActionBouton label={`Confirmer le paiement ${p.reference}`} tone="success" onClick={() => ouvrir(p, "confirmer")}>
-                        <CheckCircle2 className="h-4 w-4" />
-                      </ActionBouton>
-                      <ActionBouton label={`Refuser le paiement ${p.reference}`} tone="danger" onClick={() => ouvrir(p, "refuser")}>
-                        <XCircle className="h-4 w-4" />
-                      </ActionBouton>
-                      <ActionBouton label={`Annuler le paiement ${p.reference}`} onClick={() => ouvrir(p, "annuler")}>
-                        <Ban className="h-4 w-4" />
-                      </ActionBouton>
-                    </>
+                  {p.demande_abonnement ? (
+                    <Link
+                      to={`/admin/demandes?q=${encodeURIComponent(p.demande_reference ?? "")}`}
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-muted transition-colors hover:bg-surface hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pine/30"
+                      aria-label={`Traiter le paiement ${p.reference} depuis sa demande`}
+                      title="Traiter depuis la demande"
+                    >
+                      <FileClock className="h-4 w-4" />
+                    </Link>
+                  ) : (
+                    p.statut === "EN_ATTENTE" && (
+                      <>
+                        <ActionBouton label={`Confirmer le paiement ${p.reference}`} tone="success" onClick={() => ouvrir(p, "confirmer")}>
+                          <CheckCircle2 className="h-4 w-4" />
+                        </ActionBouton>
+                        <ActionBouton label={`Refuser le paiement ${p.reference}`} tone="danger" onClick={() => ouvrir(p, "refuser")}>
+                          <XCircle className="h-4 w-4" />
+                        </ActionBouton>
+                        <ActionBouton label={`Annuler le paiement ${p.reference}`} onClick={() => ouvrir(p, "annuler")}>
+                          <Ban className="h-4 w-4" />
+                        </ActionBouton>
+                      </>
+                    )
                   )}
                 </div>
               </Cell>

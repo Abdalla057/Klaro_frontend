@@ -24,12 +24,12 @@
   --color-border: #e5ebe7;
 
   /* Palette dashboard Super Admin */
-  --color-mint: #d3f4ec;
-  --color-pine: #4a9a81;
-  --color-pine-deep: #3b8069;
-  --color-sun: #f9cf4a;
-  --color-panel: #f7f7fc;
-  --color-sage: #e3ecec;
+  --color-mint: #edf3f0;
+  --color-pine: #245f4f;
+  --color-pine-deep: #1a473b;
+  --color-sun: #f3c65d;
+  --color-panel: #f5f8f6;
+  --color-sage: #e2ebe7;
 
   /* États sémantiques */
   --color-success: #15803d;

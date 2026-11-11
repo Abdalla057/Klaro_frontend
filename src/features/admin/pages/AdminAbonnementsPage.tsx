@@ -114,7 +114,7 @@ export function AdminAbonnementsPage() {
   const nom = cible?.fournisseur.nom_entreprise ?? "";
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <ListPageHeader
         titre="Abonnements"
         description="Tous les abonnements souscrits par les fournisseurs : renouvelez, suspendez, réactivez ou annulez."

@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Search } from "lucide-react";
+import { Search, SearchX } from "lucide-react";
 import { Button } from "../../../shared/ui/button/button";
 import { Modal } from "../../../shared/ui/modal";
 import { Pagination } from "../../../shared/ui/pagination";
@@ -19,10 +19,14 @@ export function ListPageHeader({
   actions?: ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div className="min-w-0">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink">{titre}</h1>
-        <p className="mt-1 max-w-2xl text-sm text-muted">{description}</p>
+        <p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">
+          <span className="h-1.5 w-1.5 rounded-full bg-pine" aria-hidden="true" />
+          Espace super admin
+        </p>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">{titre}</h1>
+        <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted">{description}</p>
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </div>
@@ -42,7 +46,7 @@ export function Toolbar({
 }) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-      <label className="flex h-10 min-w-0 flex-1 items-center gap-2.5 rounded-2xl bg-white px-3.5 text-sm focus-within:ring-2 focus-within:ring-pine/25">
+      <label className="flex h-11 min-w-0 flex-1 items-center gap-2.5 rounded-2xl border border-border/70 bg-white px-3.5 text-sm shadow-sm transition-shadow focus-within:border-pine/30 focus-within:ring-2 focus-within:ring-pine/20">
         <Search className="h-4 w-4 shrink-0 text-muted" aria-hidden="true" />
         <input
           value={recherche}
@@ -73,7 +77,7 @@ export function FiltreSelect({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       aria-label={label}
-      className="h-10 rounded-2xl bg-white px-3.5 text-sm text-ink outline-none focus-visible:ring-2 focus-visible:ring-pine/25"
+      className="h-11 rounded-2xl border border-border/70 bg-white px-3.5 text-sm text-ink shadow-sm outline-none transition-shadow focus-visible:border-pine/30 focus-visible:ring-2 focus-visible:ring-pine/20"
     >
       {options.map((o) => (
         <option key={o.value} value={o.value}>
@@ -121,13 +125,18 @@ export function DataPanel<T>({
   return (
     <Panel className="overflow-hidden p-0">
       {lignes.length === 0 ? (
-        <div className="px-6 py-14 text-center text-sm text-muted">{vide}</div>
+        <div className="flex flex-col items-center justify-center gap-3 px-6 py-16 text-center">
+          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-panel text-muted">
+            <SearchX className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <p className="max-w-sm text-sm text-muted">{vide}</p>
+        </div>
       ) : (
         <>
           <div className="overflow-x-auto">
             <table className="w-full min-w-176 text-left text-sm">
               <thead>
-                <tr className="text-xs uppercase tracking-wider text-muted">
+                <tr className="border-b border-border/60 bg-panel/70 text-[11px] uppercase tracking-[0.12em] text-muted">
                   {entetes.map((e) => (
                     <th key={e} scope="col" className="px-5 py-3.5 font-medium first:pl-6 last:pr-6">
                       {e}
@@ -137,7 +146,7 @@ export function DataPanel<T>({
               </thead>
               <tbody className="divide-y divide-border/70">
                 {visibles.map((ligne) => (
-                  <tr key={cle(ligne)} className="align-middle transition-colors hover:bg-white/60">
+                  <tr key={cle(ligne)} className="align-middle transition-colors hover:bg-mint/45">
                     {rendu(ligne)}
                   </tr>
                 ))}
@@ -180,8 +189,8 @@ export function ActionBouton({
       title={label}
       aria-label={label}
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pine/30",
-        tone === "default" && "bg-white text-ink hover:bg-sage",
+        "flex h-8 w-8 items-center justify-center rounded-xl border border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pine/30",
+        tone === "default" && "bg-panel text-muted hover:bg-sage hover:text-ink",
         tone === "success" && "bg-pine/10 text-pine-deep hover:bg-pine/20",
         tone === "danger" && "bg-red-50 text-red-600 hover:bg-red-100",
       )}

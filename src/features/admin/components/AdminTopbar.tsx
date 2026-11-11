@@ -4,6 +4,7 @@ import {
   Bell,
   Building2,
   ChevronDown,
+  Clock3,
   CreditCard,
   History,
   LogOut,
@@ -45,7 +46,7 @@ const normaliser = (valeur: string) =>
 type ResultatRecherche = { id: string; titre: string; detail: string; to: string; icone: ReactNode };
 
 function RechercheGlobale() {
-  const { fournisseurs, abonnements, paiements } = useAdminData();
+  const { fournisseurs, abonnements, paiements, demandes } = useAdminData();
   const navigate = useNavigate();
   const [requete, setRequete] = useState("");
   const [ouvert, setOuvert] = useState(false);
@@ -79,6 +80,24 @@ function RechercheGlobale() {
         icone: <CreditCard className="h-4 w-4" />,
       }));
 
+    const dem: ResultatRecherche[] = demandes
+      .filter((x) =>
+        contient(
+          x.reference,
+          x.reference_transaction,
+          x.fournisseur.nom_entreprise,
+          x.fournisseur.code_entreprise,
+        ),
+      )
+      .slice(0, 4)
+      .map((x) => ({
+        id: `d-${x.id}`,
+        titre: x.reference,
+        detail: `${x.fournisseur.nom_entreprise} — ${x.statut_display}`,
+        to: `/admin/demandes?q=${encodeURIComponent(x.reference)}`,
+        icone: <Clock3 className="h-4 w-4" />,
+      }));
+
     const p: ResultatRecherche[] = paiements
       .filter((x) => contient(x.reference, x.reference_transaction, x.fournisseur.nom_entreprise))
       .slice(0, 4)
@@ -91,11 +110,12 @@ function RechercheGlobale() {
       }));
 
     return [
+      { titre: "Demandes d'abonnement", items: dem },
       { titre: "Fournisseurs", items: f },
       { titre: "Abonnements", items: a },
       { titre: "Paiements", items: p },
     ].filter((g) => g.items.length);
-  }, [requete, fournisseurs, abonnements, paiements]);
+  }, [requete, demandes, fournisseurs, abonnements, paiements]);
 
   const aller = (to: string) => {
     setOuvert(false);
@@ -163,12 +183,12 @@ const boutonIcone =
   "relative flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-panel text-ink transition-colors hover:bg-sage focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pine/30";
 
 function Notifications() {
-  const { abonnements, paiements, fournisseurs } = useAdminData();
+  const { abonnements, paiements, fournisseurs, demandes } = useAdminData();
   const [ouvert, setOuvert] = useState(false);
   const ref = useFermetureExterieure(ouvert, () => setOuvert(false));
   const alertes = useMemo(
-    () => calculerAlertes(abonnements, paiements, fournisseurs),
-    [abonnements, paiements, fournisseurs],
+    () => calculerAlertes(abonnements, paiements, fournisseurs, demandes),
+    [abonnements, paiements, fournisseurs, demandes],
   );
   const total = alertes.reduce((somme, a) => somme + a.nombre, 0);
 
@@ -182,7 +202,11 @@ function Notifications() {
         onClick={() => setOuvert((v) => !v)}
       >
         <Bell className="h-4.5 w-4.5" />
-        {total > 0 && <span className="absolute right-3 top-3 h-2 w-2 rounded-full bg-sun ring-2 ring-panel" />}
+        {total > 0 && (
+          <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-sun px-1 text-[10px] font-bold text-pine-deep ring-2 ring-white">
+            {total > 9 ? "9+" : total}
+          </span>
+        )}
       </button>
 
       {ouvert && (
@@ -266,7 +290,7 @@ function ProfilMenu({ onLogout }: { onLogout: () => void }) {
 
 export function AdminTopbar({ onMenu, onLogout }: { onMenu: () => void; onLogout: () => void }) {
   return (
-    <header className="flex shrink-0 items-center gap-2.5 px-4 pb-3 pt-4 sm:gap-3 sm:px-6 lg:pl-8 lg:pr-8 lg:pt-6">
+    <header className="flex shrink-0 items-center gap-2.5 border-b border-border/60 bg-white px-4 pb-3.5 pt-4 sm:gap-3 sm:px-6 lg:pl-8 lg:pr-8 lg:pt-5">
       <button
         type="button"
         onClick={onMenu}

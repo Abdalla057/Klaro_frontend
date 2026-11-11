@@ -8,27 +8,30 @@ import { SectionTitle } from "./common";
 
 const PLANS = [
   {
-    name: "Formule 1",
-    price: "[PRIX]",
-    duration: "[DURÉE]",
-    clients: "[QUOTA CLIENTS]",
-    agents: "[QUOTA AGENTS]",
+    name: "Simple",
+    description: "Pour les petites structures",
+    price: "5 000 FCFA",
+    duration: "30 jours",
+    clients: "100 clients maximum",
+    agents: "2 agents maximum",
     featured: false,
   },
   {
-    name: "Formule 2",
-    price: "[PRIX]",
-    duration: "[DURÉE]",
-    clients: "[QUOTA CLIENTS]",
-    agents: "[QUOTA AGENTS]",
+    name: "Premium",
+    description: "Pour les structures en croissance",
+    price: "10 000 FCFA",
+    duration: "30 jours",
+    clients: "500 clients maximum",
+    agents: "5 agents maximum",
     featured: true,
   },
   {
-    name: "Formule 3",
-    price: "[PRIX]",
-    duration: "[DURÉE]",
-    clients: "[QUOTA CLIENTS]",
-    agents: "[QUOTA AGENTS]",
+    name: "Pro",
+    description: "Pour les activités à fort volume",
+    price: "15 000 FCFA",
+    duration: "30 jours",
+    clients: "Clients illimités",
+    agents: "Agents illimités",
     featured: false,
   },
 ];
@@ -40,7 +43,7 @@ export function Plans() {
         <SectionTitle
           eyebrow="Abonnements"
           title="Des formules adaptées à votre activité"
-          sub="Les tarifs et quotas ci-dessous sont des emplacements à renseigner avec la configuration réelle."
+          sub="Chaque nouvelle entreprise bénéficie de 30 jours d'essai gratuit. Choisissez ensuite la formule qui correspond à votre volume d'activité."
         />
 
         <div className="grid gap-5 md:grid-cols-3">
@@ -59,6 +62,7 @@ export function Plans() {
               )}
 
               <h3 className="text-lg font-semibold text-ink">{plan.name}</h3>
+              <p className="mt-1 text-sm text-muted">{plan.description}</p>
               <p className="mt-4 flex items-baseline gap-1">
                 <span className="text-3xl font-bold text-ink">{plan.price}</span>
                 <span className="text-sm text-muted">/ {plan.duration}</span>
@@ -66,9 +70,10 @@ export function Plans() {
 
               <ul className="mt-6 flex-1 space-y-3 text-sm">
                 {[
-                  `${plan.clients} clients maximum`,
-                  `${plan.agents} agents maximum`,
+                  plan.clients,
+                  plan.agents,
                   "Suivi des encaissements",
+                  "Gestion des clients et des agents",
                   "Confirmation par code",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-muted">
@@ -81,6 +86,9 @@ export function Plans() {
               <Button asChild variant={plan.featured ? "default" : "outline"} className={cn("mt-7 w-full", plan.featured && PRIMARY_CTA)}>
                 <Link to={ROUTES.register}>Choisir cette formule</Link>
               </Button>
+              <p className="mt-3 text-center text-xs text-muted">
+                Essai gratuit de 30 jours inclus, sans engagement.
+              </p>
             </article>
           ))}
         </div>

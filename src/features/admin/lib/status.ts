@@ -5,7 +5,7 @@ import type {
   PaiementTypeOperation,
 } from "../../../types/superAdmin";
 
-type Tone = "success" | "warning" | "danger" | "neutral" | "brand";
+type Tone = "success" | "warning" | "danger" | "neutral" | "brand" | "info";
 
 export const ABONNEMENT_STATUS: Record<
   AbonnementStatut,
@@ -21,10 +21,14 @@ export const PAIEMENT_STATUS: Record<
   PaiementStatut,
   { label: string; tone: Tone }
 > = {
+  INITIE: { label: "Initié", tone: "info" },
   EN_ATTENTE: { label: "En attente", tone: "warning" },
+  EN_VERIFICATION: { label: "En vérification", tone: "warning" },
   CONFIRME: { label: "Confirmé", tone: "success" },
   REFUSE: { label: "Refusé", tone: "danger" },
+  ECHEC: { label: "Échec", tone: "danger" },
   ANNULE: { label: "Annulé", tone: "neutral" },
+  REMBOURSE: { label: "Remboursé", tone: "brand" },
 };
 
 export const TYPE_OPERATION: Record<PaiementTypeOperation, string> = {

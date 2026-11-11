@@ -30,10 +30,10 @@ function CarteVerte({
   return (
     <div className="relative mx-auto w-full max-w-[17rem] pb-3 sm:mx-0">
       {/* Cartes empilées derrière */}
-      <div className="absolute inset-x-3 bottom-0 top-8 rounded-2xl bg-[#f4c9c9]" />
+      <div className="absolute inset-x-3 bottom-0 top-8 rounded-2xl bg-[#f1d7ca]" />
       <div className="absolute inset-x-1.5 bottom-1.5 top-5 rounded-2xl bg-sun" />
 
-      <div className="relative overflow-hidden rounded-2xl bg-pine p-4 text-white shadow-[0_14px_30px_-14px_rgba(40,110,90,0.7)]">
+      <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-pine-deep via-pine to-pine-deep p-4 text-white shadow-[0_14px_30px_-14px_rgba(26,71,59,0.6)]">
         <svg
           aria-hidden="true"
           viewBox="0 0 300 180"
@@ -94,8 +94,11 @@ export function HeroFinancier({
 
   return (
     <Panel className="p-6">
-      <div className="flex flex-wrap items-baseline gap-x-3">
-        <PanelTitle className="text-3xl">Vue d'ensemble</PanelTitle>
+      <div>
+        <PanelTitle className="text-2xl sm:text-3xl">Vue d'ensemble</PanelTitle>
+        <p className="mt-1 text-sm text-muted">
+          Votre activité, vos revenus et les actions à mener en un coup d'œil.
+        </p>
       </div>
 
       <div className="mt-5 grid items-center gap-6 md:grid-cols-[17rem_minmax(0,1fr)] xl:grid-cols-[17rem_minmax(0,1fr)_15rem]">
@@ -135,7 +138,7 @@ export function HeroFinancier({
               <Link
                 key={to}
                 to={to}
-                className="group flex min-h-[5.5rem] flex-col justify-between rounded-[1.4rem] bg-sage p-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#d6e6e3]"
+                className="group flex min-h-[5.5rem] flex-col justify-between rounded-[1.4rem] border border-border/60 bg-mint/60 p-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-pine/20 hover:bg-mint"
               >
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-pine text-white transition-transform group-hover:scale-105">
                   <Icon className="h-4 w-4" aria-hidden="true" />

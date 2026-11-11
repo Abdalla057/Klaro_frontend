@@ -33,6 +33,7 @@ import { AdminLayout } from "../../features/admin/layouts/AdminLayout";
 import { AdminHome } from "../../features/admin/pages/AdminHome";
 import { AdminFournisseursPage } from "../../features/admin/pages/AdminFournisseursPage";
 import { AdminAbonnementsPage } from "../../features/admin/pages/AdminAbonnementsPage";
+import { AdminDemandesPage } from "../../features/admin/pages/AdminDemandesPage";
 import { AdminPlansPage } from "../../features/admin/pages/AdminPlansPage";
 import { AdminPaiementsPage } from "../../features/admin/pages/AdminPaiementsPage";
 
@@ -140,6 +141,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminHome /> },
       { path: "fournisseurs", element: <AdminFournisseursPage /> },
+      { path: "demandes", element: <AdminDemandesPage /> },
       { path: "abonnements", element: <AdminAbonnementsPage /> },
       { path: "plans", element: <AdminPlansPage /> },
       { path: "paiements", element: <AdminPaiementsPage /> },

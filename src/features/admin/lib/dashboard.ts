@@ -1,3 +1,4 @@
+import type { DemandeAbonnement } from "../../../types/demandesAbonnement";
 import type {
   AbonnementAdmin,
   AbonnementStatut,
@@ -166,8 +167,8 @@ export function indicateursPeriode(
 export const STATUTS_ORDRE: AbonnementStatut[] = ["ACTIF", "EXPIRE", "SUSPENDU", "ANNULE"];
 
 export const STATUT_COULEUR: Record<AbonnementStatut, string> = {
-  ACTIF: "#4a9a81",
-  EXPIRE: "#f9cf4a",
+  ACTIF: "var(--color-pine)",
+  EXPIRE: "var(--color-sun)",
   SUSPENDU: "#f2a98b",
   ANNULE: "#b7c4c1",
 };
@@ -296,8 +297,23 @@ export function calculerAlertes(
   abonnements: AbonnementAdmin[],
   paiements: PaiementAbonnement[],
   fournisseurs: FournisseurSupervision[],
+  demandes: DemandeAbonnement[] = [],
 ): AlerteAdmin[] {
   const alertes: AlerteAdmin[] = [];
+
+  const demandesEnAttente = demandes.filter(
+    (d) => d.statut === "EN_ATTENTE" || d.statut === "EN_VERIFICATION",
+  );
+  if (demandesEnAttente.length) {
+    alertes.push({
+      id: "demandes",
+      niveau: "warning",
+      titre: "Demandes d'abonnement à traiter",
+      detail: `${demandesEnAttente.length} demande(s) en attente ou en vérification`,
+      nombre: demandesEnAttente.length,
+      to: "/admin/demandes",
+    });
+  }
 
   const bientotExpires = abonnements.filter(
     (a) =>

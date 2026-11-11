@@ -3,8 +3,8 @@ export function AdminLogo({ className = "h-10 w-10" }: { className?: string }) {
     <svg viewBox="0 0 48 48" className={className} aria-hidden="true">
       <path
         d="M24 3.5 44.5 24 24 44.5 3.5 24Z"
-        fill="#f9cf4a"
-        stroke="#f9cf4a"
+        fill="var(--color-sun)"
+        stroke="var(--color-sun)"
         strokeWidth="3"
         strokeLinejoin="round"
       />

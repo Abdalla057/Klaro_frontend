@@ -68,8 +68,8 @@ export function ChiffreAffairesPanel({
             <AreaChart data={points} margin={{ top: 8, right: 4, left: 4, bottom: 0 }}>
               <defs>
                 <linearGradient id={gradient} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#4a9a81" stopOpacity={0.35} />
-                  <stop offset="100%" stopColor="#4a9a81" stopOpacity={0} />
+                  <stop offset="0%" stopColor="var(--color-pine)" stopOpacity={0.35} />
+                  <stop offset="100%" stopColor="var(--color-pine)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis
@@ -78,10 +78,10 @@ export function ChiffreAffairesPanel({
                 axisLine={false}
                 interval="preserveStartEnd"
                 minTickGap={14}
-                tick={{ fontSize: 11, fill: "#8b9a95" }}
+                tick={{ fontSize: 11, fill: "var(--color-muted)" }}
               />
               <Tooltip
-                cursor={{ stroke: "#4a9a81", strokeDasharray: "3 3" }}
+                cursor={{ stroke: "var(--color-pine)", strokeDasharray: "3 3" }}
                 content={
                   <ChartTooltip
                     titre={(p) => String(p.titre ?? "")}
@@ -94,10 +94,10 @@ export function ChiffreAffairesPanel({
                 type="monotone"
                 dataKey="montant"
                 name="Revenus"
-                stroke="#3b8069"
+                stroke="var(--color-pine-deep)"
                 strokeWidth={2}
                 fill={`url(#${gradient})`}
-                activeDot={{ r: 5, fill: "#3b8069", stroke: "#fff", strokeWidth: 2 }}
+                activeDot={{ r: 5, fill: "var(--color-pine-deep)", stroke: "#fff", strokeWidth: 2 }}
                 isAnimationActive
                 animationDuration={700}
               />

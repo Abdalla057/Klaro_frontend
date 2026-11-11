@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import type { DemandeAbonnement } from "../../../types/demandesAbonnement";
 import type {
   AbonnementAdmin,
   FournisseurSupervision,
@@ -15,6 +16,7 @@ export interface AdminDataValue {
   abonnements: AbonnementAdmin[];
   paiements: PaiementAbonnement[];
   plans: PlanAbonnement[];
+  demandes: DemandeAbonnement[];
   /** Vrai tant que le premier chargement n'est pas terminé. */
   loading: boolean;
   error: string | null;

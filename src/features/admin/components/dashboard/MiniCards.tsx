@@ -30,8 +30,8 @@ function Sparkline({
           <AreaChart data={data} margin={{ top: 6, right: 2, left: 2, bottom: 0 }}>
             <defs>
               <linearGradient id={gradient} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#4a9a81" stopOpacity={0.4} />
-                <stop offset="100%" stopColor="#4a9a81" stopOpacity={0} />
+                <stop offset="0%" stopColor="var(--color-pine)" stopOpacity={0.4} />
+                <stop offset="100%" stopColor="var(--color-pine)" stopOpacity={0} />
               </linearGradient>
             </defs>
             <Tooltip
@@ -42,10 +42,10 @@ function Sparkline({
               type="monotone"
               dataKey={cle}
               name={nom}
-              stroke="#3b8069"
+              stroke="var(--color-pine-deep)"
               strokeWidth={2}
               fill={`url(#${gradient})`}
-              activeDot={{ r: 4, fill: "#3b8069", stroke: "#fff", strokeWidth: 2 }}
+              activeDot={{ r: 4, fill: "var(--color-pine-deep)", stroke: "#fff", strokeWidth: 2 }}
               animationDuration={700}
             />
           </AreaChart>

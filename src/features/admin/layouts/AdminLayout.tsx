@@ -21,7 +21,7 @@ export function AdminLayout() {
   return (
     <AdminProvider>
       <div className="min-h-screen bg-mint font-admin text-ink sm:p-4 lg:p-6">
-        <div className="mx-auto flex min-h-screen max-w-[1500px] overflow-clip bg-white shadow-[0_30px_80px_-40px_rgba(40,120,100,0.45)] sm:min-h-[calc(100dvh-2rem)] sm:rounded-[2rem] lg:h-[calc(100dvh-3rem)] lg:min-h-0 lg:rounded-[2.25rem]">
+        <div className="mx-auto flex min-h-screen max-w-[1500px] overflow-clip bg-white shadow-[0_30px_80px_-40px_rgba(26,71,59,0.35)] sm:min-h-[calc(100dvh-2rem)] sm:rounded-[2rem] lg:h-[calc(100dvh-3rem)] lg:min-h-0 lg:rounded-[2.25rem]">
           <AdminSidebar />
           <AdminMobileNav
             open={menuOuvert}
@@ -31,8 +31,10 @@ export function AdminLayout() {
 
           <div className="flex min-w-0 flex-1 flex-col">
             <AdminTopbar onMenu={() => setMenuOuvert(true)} onLogout={deconnexion} />
-            <main className="flex-1 px-4 pb-6 pt-2 sm:px-6 lg:overflow-y-auto lg:pb-8 lg:pl-8 lg:pr-8">
-              <AnimatedOutlet />
+            <main className="flex-1 bg-panel px-4 pb-6 pt-2 sm:px-6 lg:overflow-y-auto lg:pb-8 lg:pl-8 lg:pr-8">
+              <div className="mx-auto w-full max-w-[1440px]">
+                <AnimatedOutlet />
+              </div>
             </main>
           </div>
         </div>

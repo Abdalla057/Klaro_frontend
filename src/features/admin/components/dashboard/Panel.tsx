@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "../../../../shared/utils/cn";
 
-/** Carte arrondie gris très clair, brique de base du dashboard. */
+/** Carte blanche arrondie, brique de base du dashboard. */
 export function Panel({
   children,
   className,
@@ -13,7 +13,16 @@ export function Panel({
   className?: string;
   as?: "section" | "div";
 }) {
-  return <Tag className={cn("min-w-0 rounded-[1.75rem] bg-panel p-5", className)}>{children}</Tag>;
+  return (
+    <Tag
+      className={cn(
+        "min-w-0 rounded-[1.75rem] border border-border/70 bg-white p-5 shadow-[0_1px_2px_rgba(12,59,46,0.03),0_20px_45px_-38px_rgba(12,59,46,0.3)]",
+        className,
+      )}
+    >
+      {children}
+    </Tag>
+  );
 }
 
 export function PanelTitle({ children, className }: { children: ReactNode; className?: string }) {

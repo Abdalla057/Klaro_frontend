@@ -78,7 +78,7 @@ export function AdminFournisseursPage() {
   if (error && fournisseurs.length === 0) return <ErrorState message={error} onRetry={() => void refresh(false)} />;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <ListPageHeader
         titre="Fournisseurs"
         description="Suivi des fournisseurs, de leur abonnement et de leur activité. Suspendez ou réactivez un compte si nécessaire."

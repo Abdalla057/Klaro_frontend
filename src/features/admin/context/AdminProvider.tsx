@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { getApiError } from "../../../services/apiError";
+import { getDemandesAdmin } from "../../../services/abonnementDemandeService";
 import {
   getAllAbonnements,
   getAllFournisseursSupervision,
@@ -8,6 +9,7 @@ import {
   getStatistiquesFinancieres,
   getTableauDeBord,
 } from "../../../services/superAdminService";
+import type { DemandeAbonnement } from "../../../types/demandesAbonnement";
 import type {
   AbonnementAdmin,
   FournisseurSupervision,
@@ -34,6 +36,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [abonnements, setAbonnements] = useState<AbonnementAdmin[]>([]);
   const [paiements, setPaiements] = useState<PaiementAbonnement[]>([]);
   const [plans, setPlans] = useState<PlanAbonnement[]>([]);
+  const [demandes, setDemandes] = useState<DemandeAbonnement[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -43,11 +46,12 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const signature = useRef<string | null>(null);
 
   const chargerListes = useCallback(async () => {
-    const [f, a, p, pl] = await Promise.allSettled([
+    const [f, a, p, pl, d] = await Promise.allSettled([
       getAllFournisseursSupervision(),
       getAllAbonnements(),
       getAllPaiements(),
       getAllPlans(),
+      getDemandesAdmin(),
     ]);
     if (!actif.current) return null;
 
@@ -55,8 +59,9 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     if (a.status === "fulfilled") setAbonnements(a.value.items);
     if (p.status === "fulfilled") setPaiements(p.value.items);
     if (pl.status === "fulfilled") setPlans(pl.value.items);
+    if (d.status === "fulfilled") setDemandes(d.value.items);
 
-    const echec = [f, a, p, pl].find((r) => r.status === "rejected");
+    const echec = [f, a, p, pl, d].find((r) => r.status === "rejected");
     return echec && echec.status === "rejected" ? getApiError(echec.reason).message : null;
   }, []);
 
@@ -151,13 +156,14 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       abonnements,
       paiements,
       plans,
+      demandes,
       loading,
       error,
       lastUpdated,
       version,
       refresh,
     }),
-    [tableau, finances, fournisseurs, abonnements, paiements, plans, loading, error, lastUpdated, version, refresh],
+    [tableau, finances, fournisseurs, abonnements, paiements, plans, demandes, loading, error, lastUpdated, version, refresh],
   );
 
   return <AdminDataContext.Provider value={value}>{children}</AdminDataContext.Provider>;

@@ -110,7 +110,15 @@ export interface TableauDeBord {
 }
 
 export type AbonnementStatut = "ACTIF" | "EXPIRE" | "SUSPENDU" | "ANNULE";
-export type PaiementStatut = "EN_ATTENTE" | "CONFIRME" | "REFUSE" | "ANNULE";
+export type PaiementStatut =
+  | "INITIE"
+  | "EN_ATTENTE"
+  | "EN_VERIFICATION"
+  | "CONFIRME"
+  | "REFUSE"
+  | "ECHEC"
+  | "ANNULE"
+  | "REMBOURSE";
 export type PaiementTypeOperation = "SOUSCRIPTION" | "RENOUVELLEMENT" | "REGULARISATION";
 export type MoyenPaiement = "MOBILE_MONEY" | "VIREMENT" | "ESPECES" | "CARTE" | "AUTRE";
 
@@ -200,7 +208,9 @@ export interface PaiementAbonnement {
   id: number;
   reference: string;
   fournisseur: FournisseurResume;
-  abonnement: number;
+  abonnement: number | null;
+  demande_abonnement: string | null;
+  demande_reference: string | null;
   plan: number;
   plan_nom: string;
   montant: string;
@@ -211,11 +221,14 @@ export interface PaiementAbonnement {
   type_operation_display: string;
   moyen_paiement: MoyenPaiement | "";
   moyen_paiement_display: string;
+  prestataire: string;
+  provider_transaction_id: string;
   reference_transaction: string;
   cle_idempotence: string;
   commentaire: string;
   confirme_par: UtilisateurResume | null;
   date_creation: string;
+  date_initiation: string | null;
   date_confirmation: string | null;
   date_modification: string;
 }

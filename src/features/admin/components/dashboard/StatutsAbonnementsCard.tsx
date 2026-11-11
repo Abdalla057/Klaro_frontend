@@ -61,7 +61,7 @@ export function StatutsAbonnementsCard({ abonnements }: { abonnements: Abonnemen
               tickLine={false}
               axisLine={false}
               interval={0}
-              tick={{ fontSize: 10, fill: "#8b9a95" }}
+              tick={{ fontSize: 10, fill: "var(--color-muted)" }}
             />
             <Tooltip
               cursor={false}
@@ -87,7 +87,7 @@ export function StatutsAbonnementsCard({ abonnements }: { abonnements: Abonnemen
             <Bar
               dataKey="piste"
               stackId="statuts"
-              fill="#e3ecec"
+              fill="var(--color-sage)"
               maxBarSize={30}
               radius={[10, 10, 0, 0]}
               legendType="none"

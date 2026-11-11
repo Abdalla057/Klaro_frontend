@@ -5,6 +5,7 @@ import { Button } from "../../../shared/ui/button/button";
 import { ErrorState } from "../../../shared/ui/error-state";
 import { Skeleton } from "../../../shared/ui/loading";
 import { formatMoney } from "../../../shared/utils/format";
+import { cn } from "../../../shared/utils/cn";
 import { ListPageHeader } from "../components/ListPage";
 import { Panel } from "../components/dashboard/Panel";
 import { useAdminData } from "../context/adminContextCore";
@@ -25,7 +26,7 @@ export function AdminPlansPage() {
   if (error && plans.length === 0) return <ErrorState message={error} onRetry={() => void refresh(false)} />;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <ListPageHeader
         titre="Plans d'abonnement"
         description="Offres proposées aux fournisseurs, avec leur prix, leur durée et leurs limites."
@@ -42,8 +43,18 @@ export function AdminPlansPage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {plans.map((plan) => (
-            <Panel key={plan.id} className="flex flex-col">
-              <div className="flex items-start justify-between gap-3">
+            <Panel
+              key={plan.id}
+              className="relative flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-float"
+            >
+              <span
+                className={cn(
+                  "absolute inset-x-0 top-0 h-1",
+                  plan.est_essai ? "bg-sun" : plan.actif ? "bg-pine/60" : "bg-border",
+                )}
+                aria-hidden="true"
+              />
+              <div className="flex items-start justify-between gap-3 pt-1">
                 <div className="min-w-0">
                   <h2 className="truncate text-xl font-semibold text-ink">{plan.nom}</h2>
                   <p className="text-xs text-muted">Code {plan.code}</p>
@@ -72,7 +83,7 @@ export function AdminPlansPage() {
                 </li>
               </ul>
 
-              <div className="mt-5 rounded-2xl bg-sage/70 px-4 py-3 text-sm text-ink">
+              <div className="mt-5 rounded-2xl border border-border/60 bg-mint/60 px-4 py-3 text-sm text-ink">
                 <span className="font-semibold">{abonnesParPlan.get(plan.id) ?? 0}</span>{" "}
                 <span className="text-muted">abonnement(s) actif(s)</span>
               </div>
