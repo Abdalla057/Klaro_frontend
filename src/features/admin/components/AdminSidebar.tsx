@@ -10,6 +10,7 @@ import {
   LogOut,
   Receipt,
   ShieldCheck,
+  ShoppingBag,
   X,
 } from "lucide-react";
 import { BRAND } from "../../../shared/constants";
@@ -25,6 +26,7 @@ const ADMIN_NAV_GROUPS: { titre: string; items: NavItem[] }[] = [
     items: [
       { to: "/admin", label: "Vue d'ensemble", icon: LayoutGrid, end: true },
       { to: "/admin/fournisseurs", label: "Fournisseurs", icon: Building2 },
+      { to: "/admin/commerce", label: "Supervision commerce", icon: ShoppingBag },
     ],
   },
   {

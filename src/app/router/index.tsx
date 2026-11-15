@@ -20,6 +20,8 @@ import { SoldePage } from "../../features/client/pages/SoldePage";
 import { DemandeDecaissementPage } from "../../features/client/pages/DemandeDecaissementPage";
 import { MesDemandesPage } from "../../features/client/pages/MesDemandesPage";
 import { TransactionsClientPage } from "../../features/client/pages/TransactionsClientPage";
+import { MesFacturesPage } from "../../features/client/pages/MesFacturesPage";
+import { NotificationsPage } from "../../features/client/pages/NotificationsPage";
 import { ProfilClientPage } from "../../features/client/pages/ProfilClientPage";
 import { FournisseurLayout } from "../../features/fournisseur/layouts/FournisseurLayout";
 import { FournisseurDashboard } from "../../features/fournisseur/pages/FournisseurDashboard";
@@ -27,6 +29,10 @@ import { ClientsPage } from "../../features/fournisseur/pages/ClientsPage";
 import { AgentPage } from "../../features/fournisseur/pages/AgentPage";
 import { EncaissementsPage } from "../../features/fournisseur/pages/EncaissementsPage";
 import { FinancesPage } from "../../features/fournisseur/pages/FinancesPage";
+import { ProduitsPage } from "../../features/fournisseur/pages/ProduitsPage";
+import { AchatsPage } from "../../features/fournisseur/pages/AchatsPage";
+import { VentesPage } from "../../features/fournisseur/pages/VentesPage";
+import { FacturesCommercePage } from "../../features/fournisseur/pages/FacturesCommercePage";
 import { AbonnementPage } from "../../features/fournisseur/pages/AbonnementPage";
 import { ProfilPage } from "../../features/fournisseur/pages/ProfilPage";
 import { AdminLayout } from "../../features/admin/layouts/AdminLayout";
@@ -36,6 +42,7 @@ import { AdminAbonnementsPage } from "../../features/admin/pages/AdminAbonnement
 import { AdminDemandesPage } from "../../features/admin/pages/AdminDemandesPage";
 import { AdminPlansPage } from "../../features/admin/pages/AdminPlansPage";
 import { AdminPaiementsPage } from "../../features/admin/pages/AdminPaiementsPage";
+import { AdminCommercePage } from "../../features/admin/pages/AdminCommercePage";
 
 /**
  * Table de routage de l'application.
@@ -110,6 +117,8 @@ export const router = createBrowserRouter([
       { path: "demandes/nouvelle", element: <DemandeDecaissementPage /> },
       { path: "demandes", element: <MesDemandesPage /> },
       { path: "transactions", element: <TransactionsClientPage /> },
+      { path: "factures", element: <MesFacturesPage /> },
+      { path: "notifications", element: <NotificationsPage /> },
       { path: "profil", element: <ProfilClientPage /> },
     ],
   },
@@ -127,6 +136,10 @@ export const router = createBrowserRouter([
       { path: "agents", element: <AgentPage /> },
       { path: "encaissements", element: <EncaissementsPage /> },
       { path: "finances", element: <FinancesPage /> },
+      { path: "produits", element: <ProduitsPage /> },
+      { path: "achats", element: <AchatsPage /> },
+      { path: "ventes", element: <VentesPage /> },
+      { path: "factures", element: <FacturesCommercePage /> },
       { path: "abonnement", element: <AbonnementPage /> },
       { path: "profil", element: <ProfilPage /> },
     ],
@@ -141,6 +154,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminHome /> },
       { path: "fournisseurs", element: <AdminFournisseursPage /> },
+      { path: "commerce", element: <AdminCommercePage /> },
       { path: "demandes", element: <AdminDemandesPage /> },
       { path: "abonnements", element: <AdminAbonnementsPage /> },
       { path: "plans", element: <AdminPlansPage /> },

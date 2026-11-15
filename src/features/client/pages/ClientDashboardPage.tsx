@@ -30,6 +30,7 @@ import { cn } from "../../../shared/utils/cn";
 import { useClient } from "../context/clientContextCore";
 import { ClientBalanceCard } from "../components/ClientBalanceCard";
 import { ClientDemandeDetailModal } from "../components/ClientDemandeDetailModal";
+import { NouvelleFactureBanner } from "../components/NouvelleFactureBanner";
 import {
   buildRecentTransactions,
   clientFirstName,
@@ -179,6 +180,8 @@ export function ClientDashboardPage() {
           </Button>
         </div>
       </section>
+
+      <NouvelleFactureBanner />
 
       {!profil?.compte_active && (
         <Alert variant="warning" title="Compte en attente d'activation">

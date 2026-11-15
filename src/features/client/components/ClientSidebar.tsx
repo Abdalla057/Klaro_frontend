@@ -1,7 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeftRight,
+  Bell,
   FileClock,
+  FileText,
   LayoutDashboard,
   LogOut,
   Plus,
@@ -29,6 +31,8 @@ const NAV_ITEMS: SidebarNavItem[] = [
   { to: "/client/demandes/nouvelle", label: "Demander un décaissement", icon: Plus, end: true },
   { to: "/client/demandes", label: "Mes demandes", icon: FileClock, end: true },
   { to: "/client/transactions", label: "Historique des transactions", icon: ArrowLeftRight },
+  { to: "/client/factures", label: "Mes factures", icon: FileText },
+  { to: "/client/notifications", label: "Notifications", icon: Bell },
   { to: "/client/profil", label: "Mon profil", icon: UserRound },
 ];
 
