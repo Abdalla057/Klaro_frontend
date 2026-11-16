@@ -267,8 +267,8 @@ export function MesFacturesPage() {
                   <tr>
                     <th className="px-4 py-2 font-medium">Produit</th>
                     <th className="px-4 py-2 font-medium">Qté</th>
-                    <th className="px-4 py-2 font-medium">Prix</th>
-                    <th className="px-4 py-2 font-medium">Sous-total</th>
+                    <th className="px-4 py-2 font-medium">Prix unitaire</th>
+                    <th className="px-4 py-2 font-medium">Prix total</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">

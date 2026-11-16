@@ -68,6 +68,7 @@ interface ProduitFormState {
   prix_achat: string;
   prix_vente: string;
   seuil_alerte: string;
+  stock_initial: string;
   actif: boolean;
 }
 
@@ -79,6 +80,7 @@ const EMPTY_PRODUIT: ProduitFormState = {
   prix_achat: "0",
   prix_vente: "0",
   seuil_alerte: "0",
+  stock_initial: "0",
   actif: true,
 };
 
@@ -174,6 +176,9 @@ export function ProduitsPage() {
   );
   const devise = abonnement?.plan?.devise ?? abonnement?.abonnement?.devise ?? "FCFA";
   const canWrite = Boolean(abonnement?.est_actif);
+  const unitesProduitABase = Boolean(
+    unitesProduit?.unites.some((unite) => unite.est_base),
+  );
 
   const refreshAll = () => {
     produits.refetch();
@@ -248,6 +253,7 @@ export function ProduitsPage() {
       prix_achat: produit.prix_achat,
       prix_vente: produit.prix_vente,
       seuil_alerte: produit.seuil_alerte,
+      stock_initial: "0",
       actif: produit.actif,
     });
     setProduitModalOpen(true);
@@ -267,6 +273,9 @@ export function ProduitsPage() {
       prix_vente: produitForm.prix_vente || "0",
       seuil_alerte: produitForm.seuil_alerte || "0",
       actif: produitForm.actif,
+      ...(editingProduit
+        ? {}
+        : { stock_initial: produitForm.stock_initial || "0" }),
     };
 
     try {
@@ -339,7 +348,7 @@ export function ProduitsPage() {
         symbole: uniteForm.symbole.trim(),
         facteur_conversion: uniteForm.facteur_conversion || "1",
         prix_vente: uniteForm.prix_vente || null,
-        est_base: uniteForm.est_base,
+        est_base: unitesProduitABase ? false : uniteForm.est_base,
       });
       setUnitesProduit((produit) =>
         produit
@@ -722,7 +731,7 @@ export function ProduitsPage() {
                               }}
                             >
                               <Truck className="h-4 w-4" />
-                              Entrée
+                              Entrée stock
                             </Button>
                             <Button
                               type="button"
@@ -958,6 +967,27 @@ export function ProduitsPage() {
                 placeholder="Ex. sac, pièce, kg"
               />
             </div>
+            {!editingProduit && (
+              <div>
+                <label htmlFor="produit-stock-initial" className="block text-sm font-medium text-ink">
+                  Stock initial
+                </label>
+                <Input
+                  id="produit-stock-initial"
+                  type="number"
+                  min="0"
+                  step="0.001"
+                  value={produitForm.stock_initial}
+                  onChange={(event) =>
+                    setProduitForm((form) => ({ ...form, stock_initial: event.target.value }))
+                  }
+                  className="mt-1"
+                />
+                <p className="mt-1 text-xs text-muted">
+                  Quantité déjà disponible, en unité de base.
+                </p>
+              </div>
+            )}
             <div>
               <label htmlFor="produit-prix-achat" className="block text-sm font-medium text-ink">
                 Prix d'achat
@@ -1218,14 +1248,19 @@ export function ProduitsPage() {
               <input
                 id="unite-base"
                 type="checkbox"
-                checked={uniteForm.est_base}
+                checked={!unitesProduitABase && uniteForm.est_base}
+                disabled={unitesProduitABase}
                 onChange={(event) =>
                   setUniteForm((form) => ({ ...form, est_base: event.target.checked }))
                 }
-                className="h-4 w-4 rounded border-border text-brand focus:ring-brand"
+                className="h-4 w-4 rounded border-border text-brand focus:ring-brand disabled:cursor-not-allowed disabled:opacity-60"
               />
-              <label htmlFor="unite-base" className="text-sm text-ink">
+              <label
+                htmlFor="unite-base"
+                className={`text-sm ${unitesProduitABase ? "text-muted" : "text-ink"}`}
+              >
                 Définir comme unité de base
+                {unitesProduitABase && " (une unité de base existe déjà)"}
               </label>
             </div>
             <div className="sm:col-span-2">

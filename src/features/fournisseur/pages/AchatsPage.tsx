@@ -188,6 +188,21 @@ export function AchatsPage() {
   };
 
   const handleSaveCommande = async () => {
+    const lignesValides = commandeLignes.filter(
+      (ligne) => ligne.produit && ligne.unite && Number(ligne.quantite) > 0,
+    );
+
+    if (!commandeFournisseur) {
+      setActionError("Sélectionnez un fournisseur de marchandises.");
+      return;
+    }
+    if (lignesValides.length === 0) {
+      setActionError(
+        "Ajoutez au moins une ligne valide avec un produit, une unité et une quantité.",
+      );
+      return;
+    }
+
     setCommandeSaving(true);
     setActionError(null);
     setSuccess(null);
@@ -196,14 +211,12 @@ export function AchatsPage() {
       const commande = await createCommandeAchat({
         fournisseur_marchandise: Number(commandeFournisseur),
         notes: commandeNotes.trim(),
-        lignes: commandeLignes
-          .filter((ligne) => ligne.produit && ligne.unite && Number(ligne.quantite) > 0)
-          .map((ligne) => ({
-            produit: Number(ligne.produit),
-            unite: Number(ligne.unite),
-            quantite: ligne.quantite,
-            prix_achat_unitaire: ligne.prix_achat_unitaire || undefined,
-          })),
+        lignes: lignesValides.map((ligne) => ({
+          produit: Number(ligne.produit),
+          unite: Number(ligne.unite),
+          quantite: ligne.quantite,
+          prix_achat_unitaire: ligne.prix_achat_unitaire || undefined,
+        })),
       });
       setSuccess(`La commande ${commande.reference} a été créée.`);
       setCommandeModalOpen(false);

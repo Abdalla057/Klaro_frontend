@@ -90,6 +90,7 @@ export interface ProduitPayload {
   prix_achat: string;
   prix_vente: string;
   seuil_alerte?: string;
+  stock_initial?: string;
   actif?: boolean;
   unites_ecriture?: ProduitUnitePayload[];
 }

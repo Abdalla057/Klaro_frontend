@@ -36,13 +36,18 @@ export function Modal({
   const titleId = useId();
   const descriptionId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(onClose);
   const reduce = useReducedMotion();
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     if (!open) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") onCloseRef.current();
     };
 
     const previousOverflow = document.body.style.overflow;
@@ -51,14 +56,18 @@ export function Modal({
 
     // Le focus part sur le panneau afin que la navigation clavier reste dans
     // la modale et que les lecteurs d'écran annoncent son contenu.
-    const focusTimer = window.setTimeout(() => panelRef.current?.focus(), 30);
+    const focusTimer = window.setTimeout(() => {
+      const panel = panelRef.current;
+      if (!panel || panel.contains(document.activeElement)) return;
+      panel.focus();
+    }, 30);
 
     return () => {
       window.clearTimeout(focusTimer);
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [open, onClose]);
+  }, [open]);
 
   return (
     <AnimatePresence>

@@ -55,6 +55,9 @@ import {
 
 const PAGE_SIZE = 10;
 
+const formatQuantite = (value: number) =>
+  new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 3 }).format(value);
+
 interface LigneVenteForm {
   produit: string;
   unite: string;
@@ -155,6 +158,59 @@ export function VentesPage() {
     [venteTotal, venteMontantPaye],
   );
 
+  const clientSelectionne = useMemo(
+    () => clientItems.find((client) => String(client.id) === venteClient) ?? null,
+    [clientItems, venteClient],
+  );
+
+  const lignesVenteAnalysees = useMemo(() => {
+    const demandes = new Map<number, number>();
+    const bases = venteLignes.map((ligne) => {
+      const produit = produitItems.find(
+        (item) => String(item.id) === ligne.produit,
+      );
+      const unite = produit?.unites.find(
+        (item) => String(item.id) === ligne.unite,
+      );
+      const facteur = Number(unite?.facteur_conversion) || 1;
+      const quantite = Number(ligne.quantite);
+      const quantiteBase = Number.isFinite(quantite)
+        ? quantite * facteur
+        : 0;
+      if (produit) {
+        demandes.set(
+          produit.id,
+          (demandes.get(produit.id) ?? 0) + quantiteBase,
+        );
+      }
+      const prixUnitaire = Number(ligne.prix_unitaire);
+      const prixTotal =
+        Number.isFinite(quantite) && Number.isFinite(prixUnitaire)
+          ? quantite * prixUnitaire
+          : 0;
+
+      return { produit, unite, facteur, quantite, quantiteBase, prixTotal };
+    });
+
+    return bases.map((ligne) => {
+      if (!ligne.produit || !ligne.unite) {
+        return { ...ligne, disponible: null, depassement: false };
+      }
+
+      const autres = (demandes.get(ligne.produit.id) ?? 0) - ligne.quantiteBase;
+      const disponibleBase = Number(ligne.produit.stock_actuel) - autres;
+      const disponible = Math.max(0, disponibleBase / ligne.facteur);
+
+      return {
+        ...ligne,
+        disponible,
+        depassement: ligne.quantite > disponible + 0.0005,
+      };
+    });
+  }, [venteLignes, produitItems]);
+
+  const hasStockError = lignesVenteAnalysees.some((ligne) => ligne.depassement);
+
   const refreshAll = () => {
     ventes.refetch();
     produits.refetch();
@@ -227,6 +283,20 @@ export function VentesPage() {
       setActionError("Ajoutez au moins un produit vendu.");
       return;
     }
+
+    const ligneEnDepassement = lignesVenteAnalysees.find(
+      (ligne) => ligne.depassement,
+    );
+    if (ligneEnDepassement?.produit && ligneEnDepassement.unite) {
+      setActionError(
+        `Stock insuffisant pour « ${ligneEnDepassement.produit.nom} » : ` +
+          `disponible ${formatQuantite(ligneEnDepassement.disponible ?? 0)} ${
+            ligneEnDepassement.unite.nom
+          }, demandé ${formatQuantite(ligneEnDepassement.quantite)}.`,
+      );
+      return;
+    }
+
     if (venteTotal <= 0) {
       setActionError("Le montant total de la vente doit être supérieur à 0.");
       return;
@@ -693,6 +763,19 @@ export function VentesPage() {
             </div>
           </div>
 
+          {clientSelectionne && (
+            <p className="rounded-xl bg-surface px-3 py-2 text-xs text-muted">
+              Client :{" "}
+              <span className="font-medium text-ink">
+                {clientSelectionne.nom} {clientSelectionne.prenom}
+              </span>{" "}
+              · {clientSelectionne.telephone} · Solde dû :{" "}
+              <span className="font-medium text-ink">
+                {formatMoney(clientSelectionne.solde_du, devise)}
+              </span>
+            </p>
+          )}
+
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-ink">Produits vendus</p>
@@ -707,17 +790,37 @@ export function VentesPage() {
               </Button>
             </div>
 
+            {!produits.loading &&
+              produitItems.length > 0 &&
+              produitsDisponibles.length === 0 && (
+                <p className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                  Tous les produits sont en rupture de stock. Enregistrez
+                  d'abord une réception d'achat pour pouvoir vendre.
+                </p>
+              )}
+
+            <div className="hidden gap-2 px-3 text-xs font-medium uppercase tracking-wide text-muted sm:grid sm:grid-cols-[2fr_1fr_1fr_1fr_1fr_auto]">
+              <span>Produit</span>
+              <span>Unité</span>
+              <span>Quantité</span>
+              <span>Prix unitaire</span>
+              <span>Prix total</span>
+              <span />
+            </div>
+
             {venteLignes.map((ligne, index) => {
               const produit = produitItems.find(
                 (item) => String(item.id) === ligne.produit,
               );
               const unites = produit?.unites ?? [];
+              const analyse = lignesVenteAnalysees[index];
 
               return (
                 <div
                   key={index}
-                  className="grid gap-2 rounded-xl border border-border p-3 sm:grid-cols-[2fr_1fr_1fr_1fr_auto]"
+                  className="rounded-xl border border-border p-3"
                 >
+                  <div className="grid gap-2 sm:grid-cols-[2fr_1fr_1fr_1fr_1fr_auto]">
                   <Select
                     value={ligne.produit}
                     onChange={(event) =>
@@ -732,11 +835,16 @@ export function VentesPage() {
                     aria-label="Produit"
                   >
                     <option value="">Produit...</option>
-                    {produitsDisponibles.map((item: Produit) => (
-                      <option key={item.id} value={item.id}>
-                        {item.nom} ({item.stock_actuel} {item.unite_base})
-                      </option>
-                    ))}
+                    {produitItems.map((item: Produit) => {
+                      const rupture = Number(item.stock_actuel) <= 0;
+
+                      return (
+                        <option key={item.id} value={item.id} disabled={rupture}>
+                          {item.nom} ({formatQuantite(Number(item.stock_actuel))}{" "}
+                          {item.unite_base}){rupture ? " — rupture" : ""}
+                        </option>
+                      );
+                    })}
                   </Select>
                   <Select
                     value={ligne.unite}
@@ -802,6 +910,17 @@ export function VentesPage() {
                     placeholder="Prix unitaire"
                     aria-label="Prix unitaire"
                   />
+                  <Input
+                    readOnly
+                    value={
+                      analyse?.unite
+                        ? formatMoney(analyse.prixTotal, devise)
+                        : ""
+                    }
+                    placeholder="Prix total"
+                    aria-label="Prix total"
+                    className="bg-surface text-right font-medium"
+                  />
                   <Button
                     type="button"
                     variant="ghost"
@@ -815,6 +934,26 @@ export function VentesPage() {
                   >
                     <Trash2 className="h-4 w-4 text-red-500" />
                   </Button>
+                  </div>
+                  <p
+                    className={`mt-2 text-xs ${
+                      analyse?.depassement ? "text-red-600" : "text-muted"
+                    }`}
+                  >
+                    {analyse?.produit && analyse.unite ? (
+                      <>
+                        Disponible pour cette unité :{" "}
+                        <span className="font-medium">
+                          {formatQuantite(analyse.disponible ?? 0)}{" "}
+                          {analyse.unite.nom}
+                        </span>
+                        {analyse.depassement &&
+                          " — quantité demandée supérieure au stock."}
+                      </>
+                    ) : (
+                      "Sélectionnez un produit et une unité pour voir le stock disponible."
+                    )}
+                  </p>
                 </div>
               );
             })}
@@ -884,7 +1023,8 @@ export function VentesPage() {
                 venteSaving ||
                 !venteClient ||
                 venteTotal <= 0 ||
-                Number(venteMontantPaye) > venteTotal
+                Number(venteMontantPaye) > venteTotal ||
+                hasStockError
               }
             >
               {venteSaving ? "Validation..." : "Valider la vente"}
@@ -925,8 +1065,8 @@ export function VentesPage() {
                   <tr>
                     <th className="px-4 py-2 font-medium">Produit</th>
                     <th className="px-4 py-2 font-medium">Qté</th>
-                    <th className="px-4 py-2 font-medium">Prix</th>
-                    <th className="px-4 py-2 font-medium">Sous-total</th>
+                    <th className="px-4 py-2 font-medium">Prix unitaire</th>
+                    <th className="px-4 py-2 font-medium">Prix total</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
