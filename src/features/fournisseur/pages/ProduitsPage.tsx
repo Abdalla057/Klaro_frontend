@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   AlertTriangle,
   Boxes,
+  Image as ImageIcon,
   Layers,
   Package,
   Pencil,
@@ -118,6 +119,9 @@ export function ProduitsPage() {
   const [produitModalOpen, setProduitModalOpen] = useState(false);
   const [editingProduit, setEditingProduit] = useState<Produit | null>(null);
   const [produitForm, setProduitForm] = useState<ProduitFormState>(EMPTY_PRODUIT);
+  const [produitImage, setProduitImage] = useState<File | null>(null);
+  const [produitImagePreview, setProduitImagePreview] = useState<string | null>(null);
+  const [supprimerImage, setSupprimerImage] = useState(false);
   const [produitSaving, setProduitSaving] = useState(false);
 
   const [deletingProduit, setDeletingProduit] = useState<Produit | null>(null);
@@ -167,6 +171,14 @@ export function ProduitsPage() {
       cancelled = true;
     };
   }, [statsKey]);
+
+  useEffect(() => {
+    return () => {
+      if (produitImagePreview?.startsWith("blob:")) {
+        URL.revokeObjectURL(produitImagePreview);
+      }
+    };
+  }, [produitImagePreview]);
 
   const produitItems = useMemo(() => produits.data?.items ?? [], [produits.data]);
   const categorieItems = useMemo(() => categories.data?.items ?? [], [categories.data]);
@@ -240,11 +252,17 @@ export function ProduitsPage() {
   const openCreateProduit = () => {
     setEditingProduit(null);
     setProduitForm(EMPTY_PRODUIT);
+    setProduitImage(null);
+    setProduitImagePreview(null);
+    setSupprimerImage(false);
     setProduitModalOpen(true);
   };
 
   const openEditProduit = (produit: Produit) => {
     setEditingProduit(produit);
+    setProduitImage(null);
+    setProduitImagePreview(produit.image);
+    setSupprimerImage(false);
     setProduitForm({
       nom: produit.nom,
       categorie: produit.categorie ? String(produit.categorie) : "",
@@ -257,6 +275,18 @@ export function ProduitsPage() {
       actif: produit.actif,
     });
     setProduitModalOpen(true);
+  };
+
+  const handleProduitImageSelection = (file: File | null) => {
+    setProduitImage(file);
+    setProduitImagePreview(file ? URL.createObjectURL(file) : null);
+    setSupprimerImage(false);
+  };
+
+  const handleSupprimerImage = () => {
+    setProduitImage(null);
+    setProduitImagePreview(null);
+    setSupprimerImage(Boolean(editingProduit?.image));
   };
 
   const handleSaveProduit = async () => {
@@ -276,6 +306,8 @@ export function ProduitsPage() {
       ...(editingProduit
         ? {}
         : { stock_initial: produitForm.stock_initial || "0" }),
+      ...(produitImage ? { image: produitImage } : {}),
+      ...(supprimerImage ? { supprimer_image: true } : {}),
     };
 
     try {
@@ -287,6 +319,9 @@ export function ProduitsPage() {
         setSuccess(`Le produit « ${payload.nom} » a été créé.`);
       }
       setProduitModalOpen(false);
+      setProduitImage(null);
+      setProduitImagePreview(null);
+      setSupprimerImage(false);
       refreshAll();
     } catch (error) {
       setActionError(getApiError(error).message);
@@ -679,8 +714,23 @@ export function ProduitsPage() {
                         className="transition-colors hover:bg-surface/60"
                       >
                         <td className="px-5 py-3">
-                          <p className="font-medium text-ink">{produit.nom}</p>
-                          <p className="text-xs text-muted">{produit.reference}</p>
+                          <div className="flex items-center gap-3">
+                            {produit.image ? (
+                              <img
+                                src={produit.image}
+                                alt={produit.nom}
+                                className="h-10 w-10 shrink-0 rounded-lg border border-border object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-surface text-muted">
+                                <Package className="h-5 w-5" />
+                              </div>
+                            )}
+                            <div>
+                              <p className="font-medium text-ink">{produit.nom}</p>
+                              <p className="text-xs text-muted">{produit.reference}</p>
+                            </div>
+                          </div>
                         </td>
                         <td className="whitespace-nowrap px-5 py-3 text-muted">
                           {produit.categorie_nom ?? "—"}
@@ -918,6 +968,50 @@ export function ProduitsPage() {
         size="lg"
       >
         <div className="space-y-4">
+          <div>
+            <label htmlFor="produit-image" className="block text-sm font-medium text-ink">
+              Image (optionnelle)
+            </label>
+            <div className="mt-2 flex flex-wrap items-center gap-4">
+              {produitImagePreview ? (
+                <img
+                  src={produitImagePreview}
+                  alt="Aperçu du produit"
+                  className="h-20 w-20 rounded-xl border border-border object-cover"
+                />
+              ) : (
+                <div className="flex h-20 w-20 items-center justify-center rounded-xl border border-dashed border-border bg-surface text-muted">
+                  <ImageIcon className="h-7 w-7" />
+                </div>
+              )}
+              <div className="flex flex-col items-start gap-2">
+                <input
+                  id="produit-image"
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => {
+                    handleProduitImageSelection(
+                      event.target.files?.[0] ?? null,
+                    );
+                    event.target.value = "";
+                  }}
+                  className="max-w-full text-sm text-muted file:mr-3 file:rounded-lg file:border-0 file:bg-ink file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:opacity-90"
+                />
+                {produitImagePreview && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleSupprimerImage}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    Supprimer l'image
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <label htmlFor="produit-nom" className="block text-sm font-medium text-ink">

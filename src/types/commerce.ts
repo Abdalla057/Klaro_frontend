@@ -69,6 +69,7 @@ export interface Produit {
   nom: string;
   reference: string;
   description: string;
+  image: string | null;
   unite_base: string;
   prix_achat: string;
   prix_vente: string;
@@ -86,6 +87,8 @@ export interface ProduitPayload {
   categorie?: number | null;
   nom: string;
   description?: string;
+  image?: File | null;
+  supprimer_image?: boolean;
   unite_base: string;
   prix_achat: string;
   prix_vente: string;

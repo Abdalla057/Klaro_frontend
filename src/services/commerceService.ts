@@ -107,8 +107,31 @@ export function getAllProduits(
   return fetchAllPagesWithParams<Produit>(`${BASE}/produits/`, filters);
 }
 
+function produitRequestData(payload: Partial<ProduitPayload>) {
+  const hasImageChange =
+    payload.image instanceof File || payload.supprimer_image;
+
+  if (!hasImageChange) return payload;
+
+  const formData = new FormData();
+  Object.entries(payload).forEach(([key, value]) => {
+    if (value === undefined || value === null) return;
+    if (value instanceof File) {
+      formData.append(key, value);
+    } else if (key === "unites_ecriture") {
+      formData.append(key, JSON.stringify(value));
+    } else {
+      formData.append(key, String(value));
+    }
+  });
+  return formData;
+}
+
 export async function createProduit(payload: ProduitPayload): Promise<Produit> {
-  const response = await api.post<Produit>(`${BASE}/produits/`, payload);
+  const response = await api.post<Produit>(
+    `${BASE}/produits/`,
+    produitRequestData(payload),
+  );
   return response.data;
 }
 
@@ -116,7 +139,10 @@ export async function updateProduit(
   id: number,
   payload: Partial<ProduitPayload>,
 ): Promise<Produit> {
-  const response = await api.patch<Produit>(`${BASE}/produits/${id}/`, payload);
+  const response = await api.patch<Produit>(
+    `${BASE}/produits/${id}/`,
+    produitRequestData(payload),
+  );
   return response.data;
 }
 
