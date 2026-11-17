@@ -14,7 +14,11 @@ import {
   suspendreAbonnement,
 } from "../../../services/superAdminService";
 import { formatDate, formatMoney } from "../../../shared/utils/format";
-import type { AbonnementAdmin } from "../../../types/superAdmin";
+import type {
+  AbonnementAdmin,
+  RenouvellementPayload,
+} from "../../../types/superAdmin";
+import { RenouvellementAbonnementModal } from "../components/RenouvellementAbonnementModal";
 import {
   ActionBouton,
   Cell,
@@ -81,11 +85,18 @@ export function AdminAbonnementsPage() {
     setAction(null);
   };
 
-  const executer = async (motif?: string) => {
+  const executer = async (
+    motif?: string,
+    renouvellement?: RenouvellementPayload,
+  ) => {
     if (!cible || !action) return;
     setEnCours(true);
     try {
-      if (action === "renouveler") await renouvelerAbonnement(cible.id, { cle_idempotence: identifiantUnique() });
+      if (action === "renouveler")
+        await renouvelerAbonnement(cible.id, {
+          cle_idempotence: identifiantUnique(),
+          ...renouvellement,
+        });
       else if (action === "suspendre") await suspendreAbonnement(cible.id, motif ?? "");
       else if (action === "annuler") await annulerAbonnement(cible.id, motif ?? "");
       else await reactiverAbonnement(cible.id);
@@ -227,14 +238,11 @@ export function AdminAbonnementsPage() {
         onConfirm={(m) => void executer(m)}
         onClose={fermer}
       />
-      <ConfirmDialog
-        open={action === "renouveler" && !!cible}
-        title="Renouveler l'abonnement"
-        description={`L'abonnement de ${nom} sera renouvelé avec son plan actuel. Le paiement associé apparaîtra dans la liste des paiements.`}
-        confirmLabel="Renouveler"
-        tone="default"
+      <RenouvellementAbonnementModal
+        key={cible?.id ?? "aucun"}
+        abonnement={action === "renouveler" ? cible : null}
         loading={enCours}
-        onConfirm={() => void executer()}
+        onConfirm={(payload) => void executer(undefined, payload)}
         onClose={fermer}
       />
       <ConfirmDialog
