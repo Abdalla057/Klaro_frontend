@@ -107,17 +107,30 @@ export function getAllProduits(
   return fetchAllPagesWithParams<Produit>(`${BASE}/produits/`, filters);
 }
 
+function isFileLike(value: unknown): value is Blob {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as Blob).size === "number" &&
+    typeof (value as Blob).type === "string" &&
+    typeof (value as Blob).arrayBuffer === "function"
+  );
+}
+
 function produitRequestData(payload: Partial<ProduitPayload>) {
-  const hasImageChange =
-    payload.image instanceof File || payload.supprimer_image;
+  const hasImageChange = isFileLike(payload.image) || payload.supprimer_image;
 
   if (!hasImageChange) return payload;
 
   const formData = new FormData();
   Object.entries(payload).forEach(([key, value]) => {
     if (value === undefined || value === null) return;
-    if (value instanceof File) {
-      formData.append(key, value);
+    if (isFileLike(value)) {
+      const filename =
+        typeof (value as File).name === "string" && (value as File).name
+          ? (value as File).name
+          : "image";
+      formData.append(key, value, filename);
     } else if (key === "unites_ecriture") {
       formData.append(key, JSON.stringify(value));
     } else {
