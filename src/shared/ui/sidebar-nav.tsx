@@ -65,7 +65,7 @@ export function SidebarNavLink({
 /** Titre de section discret à l'intérieur d'une sidebar. */
 export function SidebarSectionLabel({ children }: { children: string }) {
   return (
-    <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/40">
+    <p className="px-3 pb-2 text-eyebrow uppercase text-white/45">
       {children}
     </p>
   );

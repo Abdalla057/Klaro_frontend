@@ -22,16 +22,16 @@ export function Steps() {
           <div className="absolute left-0 right-0 top-11 hidden h-px bg-brand/15 md:block" aria-hidden="true" />
           <ol className="relative grid gap-6 md:grid-cols-3">
             {STEPS.map(({ icon: Icon, title, text }, index) => (
-              <li key={title} className="rounded-2xl border border-white bg-white p-6 shadow-sm">
+              <li key={title} className="rounded-card border border-white bg-white p-6 shadow-card">
                 <div className="flex items-center justify-between">
-                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand text-white">
+                  <span className="grid h-11 w-11 place-items-center rounded-[0.65rem] bg-brand text-white">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <span className="text-3xl font-black text-brand/10" aria-hidden="true">
+                  <span className="text-2xl font-semibold tabular-nums text-brand/15" aria-hidden="true">
                     0{index + 1}
                   </span>
                 </div>
-                <h3 className="mt-4 text-lg font-semibold text-ink">
+                <h3 className="mt-4 text-base font-semibold tracking-[-0.012em] text-ink">
                   Étape {index + 1} — {title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{text}</p>

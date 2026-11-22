@@ -134,6 +134,7 @@ export interface FournisseurResume {
   nom_entreprise: string;
   code_entreprise: string;
   telephone: string;
+  pays?: string;
 }
 
 export interface PlanAbonnement {
@@ -143,6 +144,8 @@ export interface PlanAbonnement {
   description: string;
   prix: string;
   devise: string;
+  prix_local: string | null;
+  devise_locale: string;
   duree_jours: number;
   max_clients: number | null;
   max_agents: number | null;
@@ -213,8 +216,12 @@ export interface PaiementAbonnement {
   demande_reference: string | null;
   plan: number;
   plan_nom: string;
+  pays: string;
   montant: string;
   devise: string;
+  provider_session_id: string;
+  provider_checkout_url: string;
+  provider_statut: string;
   statut: PaiementStatut;
   statut_display: string;
   type_operation: PaiementTypeOperation;

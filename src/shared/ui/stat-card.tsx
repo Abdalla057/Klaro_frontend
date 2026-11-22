@@ -6,10 +6,10 @@ type StatTone = "brand" | "success" | "warning" | "danger" | "neutral";
 
 const tones: Record<StatTone, string> = {
   brand: "bg-brand-soft text-brand",
-  success: "bg-emerald-50 text-emerald-600",
-  warning: "bg-amber-50 text-amber-600",
-  danger: "bg-red-50 text-red-600",
-  neutral: "bg-gray-100 text-gray-600",
+  success: "bg-success-soft text-success",
+  warning: "bg-warning-soft text-warning",
+  danger: "bg-danger-soft text-danger",
+  neutral: "bg-surface text-muted",
 };
 
 /**
@@ -49,27 +49,21 @@ export function StatCard({
     <motion.div
       initial={reduce ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.35, delay, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-card transition-shadow duration-300 hover:shadow-float",
+        "rounded-card border border-border bg-white p-5 shadow-card transition-shadow duration-200 ease-klaro hover:shadow-float",
         className,
       )}
     >
-      <div
-        className="pointer-events-none absolute -right-10 -top-12 h-28 w-28 rounded-full bg-brand-soft/60 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100"
-        aria-hidden="true"
-      />
-      <div className="relative flex items-start justify-between gap-3">
+      <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-sm font-medium text-muted">{label}</p>
-          <div className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-[1.7rem]">
-            {value}
-          </div>
+          <p className="text-[13px] font-medium text-muted">{label}</p>
+          <div className="mt-2 text-kpi tabular-nums text-ink sm:text-[1.65rem]">{value}</div>
         </div>
         {icon && (
           <span
             className={cn(
-              "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105",
+              "flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.65rem]",
               tones[tone],
             )}
           >
@@ -77,7 +71,7 @@ export function StatCard({
           </span>
         )}
       </div>
-      {hint && <div className="relative mt-2 text-xs leading-relaxed text-muted">{hint}</div>}
+      {hint && <div className="mt-2.5 text-xs leading-relaxed text-muted">{hint}</div>}
     </motion.div>
   );
 }

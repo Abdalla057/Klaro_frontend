@@ -45,7 +45,7 @@ function Sparkline({
               stroke="var(--color-pine-deep)"
               strokeWidth={2}
               fill={`url(#${gradient})`}
-              activeDot={{ r: 4, fill: "var(--color-pine-deep)", stroke: "#fff", strokeWidth: 2 }}
+              activeDot={{ r: 4, fill: "var(--color-pine-deep)", stroke: "var(--color-white)", strokeWidth: 2 }}
               animationDuration={700}
             />
           </AreaChart>
@@ -64,7 +64,7 @@ function Variation({ valeur }: { valeur: number | null }) {
     <span
       className={cn(
         "inline-flex items-center gap-0.5 rounded-lg px-2 py-1 text-xs font-medium",
-        hausse ? "bg-[#d9efd2] text-[#3d7a35]" : "bg-[#f6ded6] text-[#a8553a]",
+        hausse ? "bg-success-soft text-success" : "bg-danger-soft text-danger",
       )}
       title="Variation par rapport à la période précédente"
     >
@@ -111,7 +111,7 @@ export function RevenusCard({
         />
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-x-2.5 gap-y-1">
-        <p className="text-xl font-semibold tracking-tight text-ink">{formatMoney(montant ?? 0, devise)}</p>
+        <p className="text-xl font-semibold tracking-[-0.02em] tabular-nums text-ink">{formatMoney(montant ?? 0, devise)}</p>
         <Variation valeur={evolution} />
       </div>
     </Panel>
@@ -140,10 +140,10 @@ export function AbonnementsCard({ stats }: { stats: StatistiquesAbonnements | nu
       </div>
       <div className="mt-3">
         <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-          <p className="text-xl font-semibold tracking-tight text-ink">
+          <p className="text-xl font-semibold tracking-[-0.02em] tabular-nums text-ink">
             {stats?.statuts.actifs ?? 0} <span className="text-sm font-medium text-muted">actifs</span>
           </p>
-          <span className="inline-flex rounded-lg bg-[#d9efd2] px-2 py-1 text-xs font-medium text-[#3d7a35]">
+          <span className="inline-flex rounded-lg bg-success-soft px-2 py-1 text-xs font-medium text-success">
             +{stats?.periode_courante.nouvelles_souscriptions ?? 0} nouv.
           </span>
         </div>

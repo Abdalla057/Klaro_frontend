@@ -20,8 +20,8 @@ export function AdminLayout() {
 
   return (
     <AdminProvider>
-      <div className="min-h-screen bg-mint font-admin text-ink sm:p-4 lg:p-6">
-        <div className="mx-auto flex min-h-screen max-w-[1500px] overflow-clip bg-white shadow-[0_30px_80px_-40px_rgba(26,71,59,0.35)] sm:min-h-[calc(100dvh-2rem)] sm:rounded-[2rem] lg:h-[calc(100dvh-3rem)] lg:min-h-0 lg:rounded-[2.25rem]">
+      <div className="min-h-screen bg-mint text-ink sm:p-4 lg:p-6">
+        <div className="mx-auto flex min-h-screen max-w-[1500px] overflow-clip bg-white shadow-menu sm:min-h-[calc(100dvh-2rem)] sm:rounded-panel lg:h-[calc(100dvh-3rem)] lg:min-h-0 lg:rounded-panel">
           <AdminSidebar />
           <AdminMobileNav
             open={menuOuvert}

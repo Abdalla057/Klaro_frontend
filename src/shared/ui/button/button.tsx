@@ -13,16 +13,16 @@ import { cn } from "../../utils/cn";
  * focus visible sont intégrés pour toutes les variantes.
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold transition-[background-color,color,box-shadow,transform] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-[0.7rem] text-sm font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-150 ease-klaro focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-45 active:scale-[0.985] motion-reduce:transition-none motion-reduce:active:scale-100 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default: "bg-brand text-white shadow-sm hover:bg-brand-dark",
-        destructive: "bg-red-600 text-white shadow-sm hover:bg-red-700",
+        destructive: "bg-danger text-white shadow-sm hover:bg-danger/90",
         outline:
-          "border border-border bg-white text-ink shadow-sm hover:border-brand/25 hover:bg-brand-soft/50 hover:text-brand",
+          "border border-border-strong bg-white text-ink shadow-sm hover:border-brand-accent/40 hover:bg-brand-soft/40 hover:text-brand",
         secondary: "bg-brand-soft text-brand hover:bg-brand-soft/70",
-        ghost: "text-ink hover:bg-brand-soft/60 hover:text-brand",
+        ghost: "text-muted hover:bg-surface hover:text-ink",
         link: "text-brand underline-offset-4 hover:underline",
       },
       size: {

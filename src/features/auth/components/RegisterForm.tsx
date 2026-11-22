@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { Button } from "../../../shared/ui/button/button";
 import { Input } from "../components/Input";
+import { Select } from "../../../shared/ui/select";
 import { AuthAlert } from "./AuthAlert";
 import { login, register as registerAccount } from "../../../services/authService";
 import { getApiError } from "../../../services/apiError";
@@ -25,6 +26,9 @@ const schema = z
       .min(1, "Nom de l'entreprise requis")
       .max(255, "Nom de l'entreprise trop long"),
     adresse: z.string().trim().min(1, "Adresse requise").max(255, "Adresse trop longue"),
+    pays: z.enum(["SN", "CI", "GN"], {
+      message: "Pays requis",
+    }),
     password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
     password2: z.string().min(1, "Confirmation requise"),
   })
@@ -47,6 +51,9 @@ export function RegisterForm() {
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      pays: "SN",
+    },
   });
 
   const onSubmit = async (data: FormData) => {
@@ -57,6 +64,7 @@ export function RegisterForm() {
       password: data.password,
       nom_entreprise: data.nom_entreprise,
       adresse: data.adresse,
+      pays: data.pays,
     };
 
     try {
@@ -76,7 +84,7 @@ export function RegisterForm() {
       const { message, fields } = getApiError(error);
       setFormError(message);
 
-      (["telephone", "nom_entreprise", "adresse", "password"] as const).forEach((field) => {
+      (["telephone", "nom_entreprise", "adresse", "pays", "password"] as const).forEach((field) => {
         if (fields[field]) setError(field, { message: fields[field] });
       });
     }
@@ -141,6 +149,28 @@ export function RegisterForm() {
         {errors.adresse && (
           <p id="register-adresse-error" className="mt-1 text-xs text-red-600">
             {errors.adresse.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="register-pays" className="mb-1.5 block text-sm font-medium text-ink">
+          Pays
+        </label>
+        <Select
+          id="register-pays"
+          autoComplete="country"
+          aria-invalid={!!errors.pays}
+          aria-describedby={errors.pays ? "register-pays-error" : undefined}
+          {...register("pays")}
+        >
+          <option value="SN">Senegal (XOF)</option>
+          <option value="CI">Cote d'Ivoire (XOF)</option>
+          <option value="GN">Guinee (GNF)</option>
+        </Select>
+        {errors.pays && (
+          <p id="register-pays-error" className="mt-1 text-xs text-red-600">
+            {errors.pays.message}
           </p>
         )}
       </div>

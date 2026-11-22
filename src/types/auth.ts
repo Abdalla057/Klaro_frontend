@@ -1,4 +1,5 @@
 export type UserRole = "agent" | "client" | "fournisseur" | "super_admin";
+export type Pays = "SN" | "CI" | "GN";
 
 export interface Utilisateur {
   id: number;
@@ -25,6 +26,7 @@ export interface RegisterRequest {
   password: string;
   nom_entreprise: string;
   adresse: string;
+  pays: Pays;
 }
 
 export interface RegisterResponse {

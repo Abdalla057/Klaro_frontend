@@ -48,10 +48,6 @@ export function AuthShell({
         aria-hidden="true"
         className="relative hidden overflow-hidden bg-brand px-12 py-12 text-white lg:flex lg:flex-col lg:justify-between"
       >
-        <div className="pointer-events-none absolute -left-24 top-24 h-72 w-72 rounded-full bg-brand-accent/30 blur-3xl" />
-        <div className="pointer-events-none absolute -right-20 bottom-10 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:48px_48px]" />
-
         <div className="relative">
           <KlaroLogo variant="glass" subtitle="Gestion d'encaissements" subtitleClassName="text-white/50" />
         </div>
@@ -61,12 +57,12 @@ export function AuthShell({
             <Sparkles className="h-3.5 w-3.5 text-sun" aria-hidden="true" />
             La finance de terrain, simplifiée
           </span>
-          <h2 className="mt-5 text-3xl font-semibold leading-tight tracking-tight xl:text-4xl">
+          <h2 className="mt-5 text-3xl font-semibold leading-[1.12] tracking-[-0.03em] xl:text-4xl">
             Encaissez plus vite.
             <br />
             Pilotez avec clarté.
           </h2>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/65">
+          <p className="mt-3 max-w-md text-[13px] leading-relaxed text-white/65">
             Klaro centralise vos encaissements, décaissements et soldes clients dans une interface
             unique, lisible et sécurisée.
           </p>
@@ -112,17 +108,17 @@ export function AuthShell({
           <Reveal className="w-full max-w-md">
             <div className="mb-6">
               {eyebrow && (
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-accent">
+                <p className="text-eyebrow uppercase text-brand-accent">
                   {eyebrow}
                 </p>
               )}
-              <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+              <h1 className="mt-1 text-2xl font-semibold tracking-[-0.025em] text-ink sm:text-3xl">
                 {title}
               </h1>
-              {subtitle && <p className="mt-2 text-sm leading-relaxed text-muted">{subtitle}</p>}
+              {subtitle && <p className="mt-2 text-[13px] leading-relaxed text-muted">{subtitle}</p>}
             </div>
 
-            <div className="rounded-2xl border border-border bg-white p-6 shadow-card sm:p-8">
+            <div className="rounded-card border border-border bg-white p-6 shadow-card sm:p-8">
               {children}
             </div>
 

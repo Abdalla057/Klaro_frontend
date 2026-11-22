@@ -39,7 +39,7 @@ export function SectionTitle({ eyebrow, title, sub, align = "center", className 
   return (
     <div className={cn("mb-12 max-w-2xl", align === "center" && "mx-auto text-center", className)}>
       {eyebrow && (
-        <span className="mb-4 inline-flex items-center rounded-full border border-brand/10 bg-brand-soft px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand">
+        <span className="mb-4 inline-flex items-center rounded-full border border-brand/10 bg-brand-soft px-3 py-1.5 text-eyebrow uppercase text-brand">
           {eyebrow}
         </span>
       )}
@@ -65,7 +65,7 @@ export function IconBox({ icon: Icon, tone = "light", className }: IconBoxProps)
   return (
     <span
       className={cn(
-        "grid h-12 w-12 shrink-0 place-items-center rounded-xl",
+        "grid h-12 w-12 shrink-0 place-items-center rounded-[0.65rem]",
         tone === "dark" ? "bg-brand text-white" : "bg-brand-soft text-brand",
         className,
       )}

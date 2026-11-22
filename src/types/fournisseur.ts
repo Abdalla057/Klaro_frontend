@@ -223,6 +223,8 @@ export interface PlanAbonnement {
   description?: string;
   prix?: string;
   devise?: string;
+  prix_local?: string | null;
+  devise_locale?: string;
   duree_jours?: number;
   max_clients?: number | null;
   max_agents?: number | null;

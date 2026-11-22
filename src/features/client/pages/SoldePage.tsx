@@ -11,6 +11,7 @@ import {
 import { formatMoney } from "../../../shared/utils/format";
 import { Alert } from "../../../shared/ui/alert";
 import { Button } from "../../../shared/ui/button/button";
+import { Card } from "../../../shared/ui/card";
 import { CardSkeleton } from "../../../shared/ui/loading";
 import { EmptyState } from "../../../shared/ui/empty-state";
 import { ErrorState } from "../../../shared/ui/error-state";
@@ -79,15 +80,11 @@ export function SoldePage() {
         </Alert>
       )}
 
-      <section className="relative overflow-hidden rounded-3xl bg-brand p-6 text-white sm:p-8">
-        <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-white/10" />
-        <div className="pointer-events-none absolute -bottom-24 right-32 h-48 w-48 rounded-full bg-brand-accent/30 blur-2xl" />
-        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <section className="rounded-panel bg-brand p-6 text-white sm:p-8">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
-              Solde disponible
-            </p>
-            <p className="mt-2 text-4xl font-semibold tracking-tight">
+            <p className="text-eyebrow uppercase text-white/50">Solde disponible</p>
+            <p className="mt-2 text-4xl font-semibold tracking-[-0.03em] tabular-nums">
               {formatMoney(solde.solde_disponible)}
             </p>
             <p className="mt-2 flex items-center gap-1.5 text-sm text-white/65">
@@ -95,13 +92,13 @@ export function SoldePage() {
               {profil?.compte_active ? "Compte activé et opérationnel" : "Activation requise"}
             </p>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm">
+          <div className="rounded-card border border-white/10 bg-white/10 px-4 py-3 text-sm">
             <p className="text-white/55">Téléphone associé</p>
             <p className="mt-0.5 font-medium">{solde.telephone}</p>
           </div>
         </div>
 
-        <div className="relative mt-6 border-t border-white/10 pt-4">
+        <div className="mt-6 border-t border-white/10 pt-4">
           <div className="flex items-center justify-between text-xs text-white/60">
             <span>Part encore mobilisable</span>
             <span>{du > 0 ? `${Math.round(ratio)} %` : "—"}</span>
@@ -116,48 +113,42 @@ export function SoldePage() {
       </section>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <section className="rounded-2xl border border-border bg-white p-5 shadow-sm">
+        <Card className="p-5">
           <div className="flex items-start justify-between">
-            <p className="text-sm font-medium text-muted">Solde dû</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-soft text-brand">
+            <p className="text-[13px] font-medium text-muted">Solde dû</p>
+            <span className="flex h-9 w-9 items-center justify-center rounded-[0.65rem] bg-brand-soft text-brand">
               <Wallet className="h-4 w-4" aria-hidden="true" />
             </span>
           </div>
-          <p className="mt-2 text-2xl font-semibold tracking-tight text-ink">
-            {formatMoney(solde.solde_du)}
-          </p>
-          <p className="mt-1 text-xs text-muted">Montant total restant à rembourser.</p>
-        </section>
+          <p className="mt-2 text-kpi tabular-nums text-ink">{formatMoney(solde.solde_du)}</p>
+          <p className="mt-2 text-xs text-muted">Montant total restant à rembourser.</p>
+        </Card>
 
-        <section className="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm">
+        <Card className="border-warning/15 bg-warning-soft/50 p-5">
           <div className="flex items-start justify-between">
-            <p className="text-sm font-medium text-amber-700">Montant en cours</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+            <p className="text-[13px] font-medium text-warning">Montant en cours</p>
+            <span className="flex h-9 w-9 items-center justify-center rounded-[0.65rem] bg-warning-soft text-warning">
               <Clock3 className="h-4 w-4" aria-hidden="true" />
             </span>
           </div>
-          <p className="mt-2 text-2xl font-semibold tracking-tight text-amber-900">
+          <p className="mt-2 text-kpi tabular-nums text-ink">
             {formatMoney(solde.montant_en_cours)}
           </p>
-          <p className="mt-1 text-xs text-amber-700">
-            Demandes de décaissement non finalisées.
-          </p>
-        </section>
+          <p className="mt-2 text-xs text-muted">Demandes de décaissement non finalisées.</p>
+        </Card>
 
-        <section className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 shadow-sm">
+        <Card className="border-success/15 bg-success-soft/50 p-5">
           <div className="flex items-start justify-between">
-            <p className="text-sm font-medium text-emerald-700">Solde disponible</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+            <p className="text-[13px] font-medium text-success">Solde disponible</p>
+            <span className="flex h-9 w-9 items-center justify-center rounded-[0.65rem] bg-success-soft text-success">
               <Banknote className="h-4 w-4" aria-hidden="true" />
             </span>
           </div>
-          <p className="mt-2 text-2xl font-semibold tracking-tight text-emerald-900">
+          <p className="mt-2 text-kpi tabular-nums text-ink">
             {formatMoney(solde.solde_disponible)}
           </p>
-          <p className="mt-1 text-xs text-emerald-700">
-            Montant maximal que vous pouvez demander.
-          </p>
-        </section>
+          <p className="mt-2 text-xs text-muted">Montant maximal que vous pouvez demander.</p>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.3fr_1fr]">

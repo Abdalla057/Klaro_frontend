@@ -68,7 +68,7 @@ export function KlaroLogo({
         {subtitle && (
           <span
             className={cn(
-              "block text-[10px] font-medium uppercase tracking-[0.18em] text-muted",
+              "block text-eyebrow uppercase text-muted",
               subtitleClassName,
             )}
           >

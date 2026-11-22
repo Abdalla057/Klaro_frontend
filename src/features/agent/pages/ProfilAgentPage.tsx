@@ -73,16 +73,14 @@ export function ProfilAgentPage() {
         description="Consultez vos informations d'agent et sécurisez votre compte."
       />
 
-      <section className="relative overflow-hidden rounded-3xl bg-brand p-6 text-white sm:p-8">
-        <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-white/10" />
-        <div className="pointer-events-none absolute -bottom-24 right-32 h-48 w-48 rounded-full bg-brand-accent/30 blur-2xl" />
-        <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+      <section className="rounded-panel bg-brand p-6 text-white sm:p-8">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-xl font-semibold text-brand shadow-lg">
               {agentInitials(profil)}
             </span>
             <div>
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/55">
+              <p className="text-eyebrow uppercase text-white/55">
                 Agent d'encaissement
               </p>
               <h2 className="mt-1 text-2xl font-semibold tracking-tight">{fullName}</h2>

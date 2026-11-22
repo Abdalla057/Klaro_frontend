@@ -62,25 +62,21 @@ export function NouvelleFactureBanner() {
   if (loading || !notification) return null;
 
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-brand/15 bg-brand-soft/50 p-5 shadow-card">
-      <div
-        className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-brand/10 blur-2xl"
-        aria-hidden="true"
-      />
-      <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <section className="rounded-card border border-brand/15 bg-brand-soft/50 p-5 shadow-card">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3">
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand text-white">
             <ReceiptText className="h-5 w-5" aria-hidden="true" />
           </span>
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
+            <p className="text-eyebrow uppercase text-brand">
               NOUVELLE FACTURE DISPONIBLE
             </p>
             <p className="mt-1 text-sm font-medium text-ink">
               {notification.facture_numero ?? notification.titre}
             </p>
             <p className="mt-0.5 text-sm text-muted">{notification.message}</p>
-            {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+            {error && <p className="mt-1 text-xs text-danger">{error}</p>}
           </div>
         </div>
 

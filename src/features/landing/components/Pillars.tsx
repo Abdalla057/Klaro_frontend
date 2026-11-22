@@ -11,14 +11,14 @@ const PILLARS: { icon: LucideIcon; title: string; text: string }[] = [
 
 export function Pillars() {
   return (
-    <section className="border-y border-gray-100 bg-white">
+    <section className="border-y border-border bg-white">
       <h2 className="sr-only">Points clés de la plateforme</h2>
       <Container className="grid gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
         {PILLARS.map((pillar) => (
           <div key={pillar.title} className="flex items-start gap-3">
-            <IconBox icon={pillar.icon} className="h-11 w-11 rounded-lg" />
+            <IconBox icon={pillar.icon} className="h-11 w-11" />
             <div>
-              <h3 className="font-semibold text-ink">{pillar.title}</h3>
+              <h3 className="text-sm font-semibold text-ink">{pillar.title}</h3>
               <p className="mt-1 text-sm leading-relaxed text-muted">{pillar.text}</p>
             </div>
           </div>

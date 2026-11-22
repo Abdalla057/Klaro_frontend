@@ -5,6 +5,7 @@ import type {
   DemandeAbonnement,
   DemandeAbonnementCreationPayload,
   EvenementDemande,
+  PrestatairesPaiementDisponibles,
   SoumissionPaiementPayload,
 } from "../types/demandesAbonnement";
 import type {
@@ -92,6 +93,24 @@ export async function soumettrePaiementDemande(
       prestataire: payload.prestataire,
       commentaire: payload.commentaire,
     }),
+  );
+  return response.data;
+}
+
+export async function getPrestatairesPaiement(): Promise<PrestatairesPaiementDisponibles> {
+  const response = await api.get<PrestatairesPaiementDisponibles>(
+    `${DEMANDES_FOURNISSEUR}prestataires-paiement/`,
+  );
+  return response.data;
+}
+
+export async function initierPaiementDemande(
+  id: string,
+  prestataire: string,
+): Promise<DemandeAbonnement> {
+  const response = await api.post<DemandeAbonnement>(
+    `${DEMANDES_FOURNISSEUR}${id}/initier-paiement/`,
+    { prestataire },
   );
   return response.data;
 }

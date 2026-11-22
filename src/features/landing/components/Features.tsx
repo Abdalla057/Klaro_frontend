@@ -25,14 +25,14 @@ export function Features() {
           {FEATURES.map((feature) => (
             <article
               key={feature.title}
-              className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-brand/20 hover:shadow-xl hover:shadow-brand/5"
+              className="group relative overflow-hidden rounded-card border border-border bg-white p-6 shadow-card transition-colors duration-300 ease-klaro hover:border-brand/20"
             >
               <span
-                className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-brand-accent transition-transform duration-300 group-hover:scale-x-100"
+                className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-brand-accent transition-transform duration-300 ease-klaro group-hover:scale-x-100"
                 aria-hidden="true"
               />
               <IconBox icon={feature.icon} />
-              <h3 className="mt-5 text-lg font-semibold text-ink">{feature.title}</h3>
+              <h3 className="mt-5 text-base font-semibold tracking-[-0.012em] text-ink">{feature.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{feature.text}</p>
             </article>
           ))}

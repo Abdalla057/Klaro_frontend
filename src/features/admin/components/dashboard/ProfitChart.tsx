@@ -97,7 +97,7 @@ export function ChiffreAffairesPanel({
                 stroke="var(--color-pine-deep)"
                 strokeWidth={2}
                 fill={`url(#${gradient})`}
-                activeDot={{ r: 5, fill: "var(--color-pine-deep)", stroke: "#fff", strokeWidth: 2 }}
+                activeDot={{ r: 5, fill: "var(--color-pine-deep)", stroke: "var(--color-white)", strokeWidth: 2 }}
                 isAnimationActive
                 animationDuration={700}
               />

@@ -22,6 +22,7 @@ import { formatMoney, formatRelativeDate } from "../../../shared/utils/format";
 import { Alert } from "../../../shared/ui/alert";
 import { Badge } from "../../../shared/ui/badge";
 import { Button } from "../../../shared/ui/button/button";
+import { Card } from "../../../shared/ui/card";
 import { EmptyState } from "../../../shared/ui/empty-state";
 import { ErrorState } from "../../../shared/ui/error-state";
 import { CardSkeleton, Skeleton } from "../../../shared/ui/loading";
@@ -152,15 +153,13 @@ export function ClientDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <section className="flex flex-col gap-4 rounded-2xl border border-border bg-white p-5 shadow-card sm:flex-row sm:items-center sm:justify-between">
+      <Card className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-accent">
-            Bonjour, {firstName}
-          </p>
-          <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink">
+          <p className="text-eyebrow uppercase text-brand-accent">Bonjour, {firstName}</p>
+          <h1 className="mt-1 text-2xl font-semibold tracking-[-0.025em] text-ink">
             Votre espace remboursement
           </h1>
-          <p className="mt-1 text-sm text-muted">
+          <p className="mt-1 text-[13px] text-muted">
             Suivi de {clientFullName(profil)} — {today}.
           </p>
         </div>
@@ -179,7 +178,7 @@ export function ClientDashboardPage() {
             </Link>
           </Button>
         </div>
-      </section>
+      </Card>
 
       <NouvelleFactureBanner />
 
@@ -240,11 +239,11 @@ export function ClientDashboardPage() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
-        <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
+        <Card className="overflow-hidden">
           <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
             <div>
-              <h2 className="text-base font-semibold text-ink">Mes dernières demandes</h2>
-              <p className="mt-0.5 text-sm text-muted">Suivi des décaissements demandés.</p>
+              <h2 className="text-[15px] font-semibold tracking-[-0.012em] text-ink">Mes dernières demandes</h2>
+              <p className="mt-0.5 text-[13px] text-muted">Suivi des décaissements demandés.</p>
             </div>
             <Button asChild variant="ghost" size="sm">
               <Link to="/client/demandes">
@@ -272,7 +271,7 @@ export function ClientDashboardPage() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-surface text-xs uppercase tracking-wide text-muted">
+                <thead className="bg-surface/70 text-[11px] uppercase tracking-[0.12em] text-muted">
                   <tr>
                     <th className="px-5 py-3 font-medium">Référence</th>
                     <th className="px-5 py-3 font-medium">Montant</th>
@@ -291,7 +290,7 @@ export function ClientDashboardPage() {
                           <p className="font-medium text-ink">{demande.reference}</p>
                           <p className="mt-0.5 text-xs text-muted">#{demande.id}</p>
                         </td>
-                        <td className="whitespace-nowrap px-5 py-3 font-semibold text-ink">
+                        <td className="whitespace-nowrap px-5 py-3 font-semibold tabular-nums text-ink">
                           {formatMoney(demande.montant)}
                         </td>
                         <td className="px-5 py-3">
@@ -317,14 +316,14 @@ export function ClientDashboardPage() {
                 </tbody>
               </table>
             </div>
-          )}
-        </section>
+            )}
+          </Card>
 
-        <div className="space-y-6">
-          <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
+          <div className="space-y-6">
+            <Card className="p-5">
             <div>
-              <h2 className="text-base font-semibold text-ink">Actions rapides</h2>
-              <p className="mt-0.5 text-sm text-muted">Les gestes essentiels de votre compte.</p>
+              <h2 className="text-[15px] font-semibold tracking-[-0.012em] text-ink">Actions rapides</h2>
+              <p className="mt-0.5 text-[13px] text-muted">Les gestes essentiels de votre compte.</p>
             </div>
             <div className="mt-4 grid gap-2">
               <QuickAction
@@ -352,11 +351,11 @@ export function ClientDashboardPage() {
                 icon={ArrowLeftRight}
               />
             </div>
-          </section>
+          </Card>
 
-          <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
-            <h2 className="text-base font-semibold text-ink">Activité récente</h2>
-            <p className="mt-0.5 text-sm text-muted">Derniers mouvements sur votre compte.</p>
+          <Card className="p-5">
+            <h2 className="text-[15px] font-semibold tracking-[-0.012em] text-ink">Activité récente</h2>
+            <p className="mt-0.5 text-[13px] text-muted">Derniers mouvements sur votre compte.</p>
 
             {recentTransactions.length === 0 ? (
               <div className="mt-4">
@@ -379,8 +378,8 @@ export function ClientDashboardPage() {
                         className={cn(
                           "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
                           isCredit
-                            ? "bg-emerald-50 text-emerald-600"
-                            : "bg-red-50 text-red-600",
+                            ? "bg-success-soft text-success"
+                            : "bg-danger-soft text-danger",
                         )}
                       >
                         {isCredit ? (
@@ -400,8 +399,8 @@ export function ClientDashboardPage() {
                       </span>
                       <span
                         className={cn(
-                          "shrink-0 text-sm font-semibold",
-                          isCredit ? "text-emerald-700" : "text-red-700",
+                          "shrink-0 text-sm font-semibold tabular-nums",
+                          isCredit ? "text-success" : "text-danger",
                         )}
                       >
                         {isCredit ? "+" : "−"}
@@ -416,10 +415,10 @@ export function ClientDashboardPage() {
             <Button asChild variant="ghost" size="sm" className="mt-3 w-full">
               <Link to="/client/transactions">
                 Voir toutes les transactions
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </section>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+          </Card>
         </div>
       </div>
 

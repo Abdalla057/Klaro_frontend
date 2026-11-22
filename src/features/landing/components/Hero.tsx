@@ -12,11 +12,6 @@ const HIGHLIGHTS = ["Sans installation", "Accès par rôle", "Données centralis
 export function Hero() {
   return (
     <section id="accueil" className="relative overflow-hidden bg-surface">
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand-soft blur-3xl" />
-        <div className="absolute -bottom-40 left-1/4 h-80 w-80 rounded-full bg-emerald-100/60 blur-3xl" />
-      </div>
-
       <Container className="relative grid items-center gap-14 py-16 lg:grid-cols-[1fr_1.05fr] lg:gap-16 lg:py-24">
         <div className="animate-fade-up">
           <span className="inline-flex items-center gap-2 rounded-full border border-brand/10 bg-white px-3 py-1.5 text-xs font-semibold text-brand shadow-sm">

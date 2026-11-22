@@ -74,7 +74,7 @@ export function Modal({
       {open && (
         <motion.div
           key="modal-overlay"
-          className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 p-4 backdrop-blur-[2px] sm:items-center"
+          className="fixed inset-0 z-[60] flex items-end justify-center bg-ink/45 p-4 backdrop-blur-[2px] sm:items-center"
           role="presentation"
           initial={reduce ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -96,7 +96,7 @@ export function Modal({
             exit={reduce ? { opacity: 1 } : { opacity: 0, y: 12, scale: 0.98 }}
             transition={{ duration: 0.24, ease: EASE_OUT }}
             className={cn(
-              "max-h-[calc(100dvh-2rem)] w-full overflow-y-auto rounded-2xl bg-white shadow-2xl outline-none",
+              "max-h-[calc(100dvh-2rem)] w-full overflow-y-auto rounded-panel bg-white shadow-menu outline-none",
               sizes[size],
             )}
           >

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Ban, Download, Loader2, Upload } from "lucide-react";
+import { Ban, CreditCard, Download, Loader2, Upload } from "lucide-react";
 import { Alert } from "../../../../shared/ui/alert";
 import { Badge } from "../../../../shared/ui/badge";
 import { Button } from "../../../../shared/ui/button/button";
 import { Modal } from "../../../../shared/ui/modal";
+import { Select } from "../../../../shared/ui/select";
 import { getApiError } from "../../../../services/apiError";
 import {
   getEvenementsDemandeFournisseur,
@@ -12,6 +13,7 @@ import {
 import type {
   DemandeAbonnement,
   EvenementDemande,
+  PrestatairePaiement,
 } from "../../../../types/demandesAbonnement";
 import {
   demandeStatus,
@@ -25,18 +27,28 @@ export function DemandeFournisseurDetailModal({
   loadingAction,
   onClose,
   onSoumettrePaiement,
+  onPayerEnLigne,
   onAnnuler,
+  prestataires,
+  paiementEnLigneActif,
 }: {
   demande: DemandeAbonnement | null;
   loadingAction: boolean;
   onClose: () => void;
   onSoumettrePaiement: (demande: DemandeAbonnement) => void;
+  onPayerEnLigne: (demande: DemandeAbonnement, prestataire: string) => void;
   onAnnuler: (demande: DemandeAbonnement) => void;
+  prestataires: PrestatairePaiement[];
+  paiementEnLigneActif: boolean;
 }) {
   const [evenements, setEvenements] = useState<EvenementDemande[]>([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const [telechargement, setTelechargement] = useState(false);
+  const [prestataireSelectionne, setPrestataireSelectionne] = useState("");
+  const prestataireChoisi = prestataires.some((item) => item.code === prestataireSelectionne)
+    ? prestataireSelectionne
+    : (prestataires[0]?.code ?? "");
 
   useEffect(() => {
     if (!demande) return;
@@ -73,6 +85,8 @@ export function DemandeFournisseurDetailModal({
 
   const config = demande ? demandeStatus(demande.statut) : null;
   const active = demande ? estDemandeActive(demande.statut) : false;
+  const paiementEnLigneDisponible = paiementEnLigneActif && prestataires.length > 0;
+  const prestataireActif = prestataires.find((item) => item.code === prestataireChoisi);
 
   return (
     <Modal
@@ -172,6 +186,30 @@ export function DemandeFournisseurDetailModal({
             )}
           </section>
 
+          {active && paiementEnLigneDisponible && (
+            <label className="block text-sm font-medium text-ink">
+              Prestataire de paiement
+              <Select
+                className="mt-1.5"
+                value={prestataireChoisi}
+                onChange={(e) => setPrestataireSelectionne(e.target.value)}
+              >
+                {prestataires.map((prestataire) => (
+                  <option key={prestataire.code} value={prestataire.code}>
+                    {prestataire.nom}
+                  </option>
+                ))}
+              </Select>
+            </label>
+          )}
+
+          {active && !paiementEnLigneDisponible && (
+            <p className="rounded-xl bg-surface px-4 py-3 text-xs text-muted">
+              Le paiement en ligne n'est pas disponible pour votre pays. Vous pouvez transmettre
+              une référence de transaction et un justificatif pour vérification manuelle.
+            </p>
+          )}
+
           <div className="flex flex-col-reverse gap-2 border-t border-border pt-4 sm:flex-row sm:justify-end">
             <Button type="button" variant="outline" onClick={onClose} disabled={loadingAction}>
               Fermer
@@ -182,8 +220,23 @@ export function DemandeFournisseurDetailModal({
                 Annuler
               </Button>
             )}
+            {active && paiementEnLigneDisponible && (
+              <Button
+                type="button"
+                onClick={() => onPayerEnLigne(demande, prestataireChoisi)}
+                disabled={loadingAction || !prestataireChoisi}
+              >
+                <CreditCard className="h-4 w-4" aria-hidden="true" />
+                {prestataireActif ? `Payer avec ${prestataireActif.nom}` : "Payer en ligne"}
+              </Button>
+            )}
             {active && (
-              <Button type="button" onClick={() => onSoumettrePaiement(demande)} disabled={loadingAction}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onSoumettrePaiement(demande)}
+                disabled={loadingAction}
+              >
                 <Upload className="h-4 w-4" aria-hidden="true" />
                 {demande.preuve_paiement ? "Remplacer le justificatif" : "Transmettre le justificatif"}
               </Button>

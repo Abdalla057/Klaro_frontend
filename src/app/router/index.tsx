@@ -167,7 +167,7 @@ export const router = createBrowserRouter([
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-surface px-6 text-center">
         <KlaroMark className="h-12 w-12" />
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-accent">
+          <p className="text-eyebrow uppercase text-brand-accent">
             Erreur 404
           </p>
           <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink">

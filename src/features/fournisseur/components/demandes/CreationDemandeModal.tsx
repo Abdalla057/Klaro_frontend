@@ -110,7 +110,12 @@ export function CreationDemandeModal({
                   {plan.max_agents === null ? "agents illimités" : `${plan.max_agents} agents`}
                 </p>
               </div>
-              <p className="font-semibold text-ink">{formatMoney(plan.prix, plan.devise)}</p>
+              <p className="font-semibold text-ink">
+                {formatMoney(
+                  plan.prix_local ?? plan.prix,
+                  plan.prix_local ? plan.devise_locale : plan.devise,
+                )}
+              </p>
             </div>
           </div>
 

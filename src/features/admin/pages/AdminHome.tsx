@@ -33,18 +33,18 @@ function DashboardSkeleton() {
   return (
     <div className="space-y-5" aria-busy="true" aria-label="Chargement du tableau de bord">
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,2.55fr)_minmax(0,1fr)]">
-        <Skeleton className="h-72 rounded-[1.75rem]" />
-        <Skeleton className="h-72 rounded-[1.75rem]" />
+        <Skeleton className="h-72 rounded-card" />
+        <Skeleton className="h-72 rounded-card" />
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <Skeleton className="h-64 rounded-[1.75rem]" />
-        <Skeleton className="h-64 rounded-[1.75rem]" />
-        <Skeleton className="h-64 rounded-[1.75rem] md:col-span-2" />
+        <Skeleton className="h-64 rounded-card" />
+        <Skeleton className="h-64 rounded-card" />
+        <Skeleton className="h-64 rounded-card md:col-span-2" />
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <Skeleton className="h-72 rounded-[1.75rem]" />
-        <Skeleton className="h-72 rounded-[1.75rem] md:col-span-2" />
-        <Skeleton className="h-72 rounded-[1.75rem]" />
+        <Skeleton className="h-72 rounded-card" />
+        <Skeleton className="h-72 rounded-card md:col-span-2" />
+        <Skeleton className="h-72 rounded-card" />
       </div>
     </div>
   );
@@ -135,7 +135,7 @@ export function AdminHome() {
       {demandesATraiter > 0 && (
         <Link
           to="/admin/demandes"
-          className="flex items-center justify-between gap-4 rounded-[1.75rem] border border-sun/40 bg-sun/20 px-5 py-4 text-ink shadow-sm transition-colors hover:border-sun/60 hover:bg-sun/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pine/30"
+          className="flex items-center justify-between gap-4 rounded-card border border-sun/40 bg-sun/20 px-5 py-4 text-ink shadow-sm transition-colors hover:border-sun/60 hover:bg-sun/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pine/30"
         >
           <span className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-amber-600">

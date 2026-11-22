@@ -16,6 +16,18 @@ export type DemandeStatut =
 
 export type DemandeTypeOperation = "SOUSCRIPTION" | "RENOUVELLEMENT";
 
+export interface PrestatairePaiement {
+  code: string;
+  nom: string;
+  moyen_paiement: string;
+}
+
+export interface PrestatairesPaiementDisponibles {
+  pays: string;
+  actif: boolean;
+  prestataires: PrestatairePaiement[];
+}
+
 export interface DemandeAbonnement {
   id: string;
   reference: string;
@@ -26,8 +38,11 @@ export interface DemandeAbonnement {
   type_operation_display: string;
   abonnement_cible: number | null;
   abonnement_genere: number | null;
+  pays: string;
   montant: string;
+  montant_reference: string;
   devise: string;
+  taux_conversion: string;
   moyen_paiement: MoyenPaiement | "";
   moyen_paiement_display: string;
   prestataire: string;

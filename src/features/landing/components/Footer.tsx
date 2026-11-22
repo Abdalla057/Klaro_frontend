@@ -65,7 +65,7 @@ export function Footer() {
         </div>
       </Container>
 
-      <div className="border-t border-gray-100 py-6">
+      <div className="border-t border-border py-6">
         <Container className="flex flex-col items-center justify-between gap-3 sm:flex-row">
           <p className="text-sm text-muted">
             © {new Date().getFullYear()} Klaro. Tous droits réservés.

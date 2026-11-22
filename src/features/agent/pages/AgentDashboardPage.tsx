@@ -32,6 +32,7 @@ import { formatMoney, formatRelativeDate } from "../../../shared/utils/format";
 import { Alert } from "../../../shared/ui/alert";
 import { Badge } from "../../../shared/ui/badge";
 import { Button } from "../../../shared/ui/button/button";
+import { Card } from "../../../shared/ui/card";
 import { CardSkeleton, Skeleton } from "../../../shared/ui/loading";
 import { EmptyState } from "../../../shared/ui/empty-state";
 import { ErrorState } from "../../../shared/ui/error-state";
@@ -179,18 +180,14 @@ export function AgentDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <section className="relative overflow-hidden rounded-3xl bg-brand p-6 text-white sm:p-8">
-        <div className="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full bg-white/10" />
-        <div className="pointer-events-none absolute -bottom-28 right-28 h-56 w-56 rounded-full bg-brand-accent/40 blur-2xl" />
-        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <section className="rounded-panel bg-brand p-6 text-white sm:p-8">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
-              Tableau de bord
-            </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+            <p className="text-eyebrow uppercase text-white/50">Tableau de bord</p>
+            <h1 className="mt-2 text-2xl font-semibold tracking-[-0.025em] sm:text-3xl">
               Bonjour, {firstName}
             </h1>
-            <p className="mt-2 text-sm text-white/65">
+            <p className="mt-2 text-[13px] text-white/65">
               Voici l'activité de {fullName === "Agent" ? "votre zone" : "votre périmètre"} pour{" "}
               {today}.
             </p>
@@ -286,11 +283,11 @@ export function AgentDashboardPage() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-        <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
+        <Card className="p-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="text-base font-semibold text-ink">Collectes des 7 derniers jours</h2>
-              <p className="mt-0.5 text-sm text-muted">
+              <h2 className="text-[15px] font-semibold tracking-[-0.012em] text-ink">Collectes des 7 derniers jours</h2>
+              <p className="mt-0.5 text-[13px] text-muted">
                 Montants confirmés sur votre périmètre, toutes zones confondues.
               </p>
             </div>
@@ -315,55 +312,55 @@ export function AgentDashboardPage() {
                 <AreaChart data={series} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
                   <defs>
                     <linearGradient id="agentCollection" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#2f7d5b" stopOpacity={0.28} />
-                      <stop offset="100%" stopColor="#2f7d5b" stopOpacity={0} />
+                      <stop offset="0%" stopColor="var(--color-brand-accent)" stopOpacity={0.24} />
+                      <stop offset="100%" stopColor="var(--color-brand-accent)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5ebe7" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" />
                   <XAxis
                     dataKey="jour"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: "#68756e", fontSize: 11 }}
+                    tick={{ fill: "var(--color-muted)", fontSize: 11 }}
                     dy={8}
                   />
                   <YAxis
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: "#68756e", fontSize: 11 }}
+                    tick={{ fill: "var(--color-muted)", fontSize: 11 }}
                     tickFormatter={(value: number) => compactNumber.format(value)}
                     width={48}
                   />
                   <Tooltip
-                    cursor={{ stroke: "#2f7d5b", strokeDasharray: "3 3" }}
+                    cursor={{ stroke: "var(--color-brand-accent)", strokeDasharray: "3 3" }}
                     contentStyle={{
                       borderRadius: 12,
-                      border: "1px solid #e5ebe7",
-                      boxShadow: "0 8px 24px rgba(12, 59, 46, 0.08)",
+                      border: "1px solid var(--color-border)",
+                      boxShadow: "0 12px 32px -20px rgba(12, 59, 46, 0.3)",
                       fontSize: 12,
                     }}
-                    labelStyle={{ color: "#17211d", fontWeight: 600 }}
+                    labelStyle={{ color: "var(--color-ink)", fontWeight: 600 }}
                     formatter={(value) => [formatMoney(Number(value)), "Montant"]}
                   />
                   <Area
                     type="monotone"
                     dataKey="montant"
-                    stroke="#2f7d5b"
-                    strokeWidth={2.5}
+                    stroke="var(--color-brand-accent)"
+                    strokeWidth={2}
                     fill="url(#agentCollection)"
-                    activeDot={{ r: 4, strokeWidth: 2, fill: "#ffffff" }}
+                    activeDot={{ r: 4, strokeWidth: 2, fill: "var(--color-white)" }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
             )}
           </div>
-        </section>
+        </Card>
 
-        <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
+        <Card className="p-5">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-base font-semibold text-ink">Activité récente</h2>
-              <p className="mt-0.5 text-sm text-muted">Derniers mouvements de votre fournisseur.</p>
+              <h2 className="text-[15px] font-semibold tracking-[-0.012em] text-ink">Activité récente</h2>
+              <p className="mt-0.5 text-[13px] text-muted">Derniers mouvements de votre fournisseur.</p>
             </div>
           </div>
 
@@ -389,8 +386,8 @@ export function AgentDashboardPage() {
                         className={cn(
                           "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
                           isEncaissement
-                            ? "bg-emerald-50 text-emerald-600"
-                            : "bg-amber-50 text-amber-600",
+                            ? "bg-success-soft text-success"
+                            : "bg-warning-soft text-warning",
                         )}
                       >
                         {isEncaissement ? (
@@ -407,7 +404,7 @@ export function AgentDashboardPage() {
                           {item.title} · {formatRelativeDate(item.date)}
                         </span>
                       </span>
-                      <span className="shrink-0 text-sm font-semibold text-ink">
+                      <span className="shrink-0 text-sm font-semibold tabular-nums text-ink">
                         {formatMoney(item.montant)}
                       </span>
                     </Link>
@@ -423,15 +420,15 @@ export function AgentDashboardPage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
-        </section>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-        <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
+        <Card className="overflow-hidden">
           <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
             <div>
-              <h2 className="text-base font-semibold text-ink">Mes dernières transactions</h2>
-              <p className="mt-0.5 text-sm text-muted">Mouvements liés à votre profil agent.</p>
+              <h2 className="text-[15px] font-semibold tracking-[-0.012em] text-ink">Mes dernières transactions</h2>
+              <p className="mt-0.5 text-[13px] text-muted">Mouvements liés à votre profil agent.</p>
             </div>
             <Button asChild variant="ghost" size="sm">
               <Link to="/agent/transactions">
@@ -451,7 +448,7 @@ export function AgentDashboardPage() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-surface text-xs uppercase tracking-wide text-muted">
+                <thead className="bg-surface/70 text-[11px] uppercase tracking-[0.12em] text-muted">
                   <tr>
                     <th className="px-5 py-3 font-medium">Référence</th>
                     <th className="px-5 py-3 font-medium">Client</th>
@@ -473,7 +470,7 @@ export function AgentDashboardPage() {
                           <p className="font-medium text-ink">{transaction.client_nom}</p>
                           <p className="text-xs text-muted">{transaction.type_transaction_display}</p>
                         </td>
-                        <td className="whitespace-nowrap px-5 py-3 font-semibold text-ink">
+                        <td className="whitespace-nowrap px-5 py-3 font-semibold tabular-nums text-ink">
                           {formatMoney(transaction.montant)}
                         </td>
                         <td className="px-5 py-3">
@@ -489,12 +486,12 @@ export function AgentDashboardPage() {
               </table>
             </div>
           )}
-        </section>
+        </Card>
 
-        <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
+        <Card className="p-5">
           <div>
-            <h2 className="text-base font-semibold text-ink">Actions rapides</h2>
-            <p className="mt-0.5 text-sm text-muted">Les gestes essentiels de votre journée.</p>
+            <h2 className="text-[15px] font-semibold tracking-[-0.012em] text-ink">Actions rapides</h2>
+            <p className="mt-0.5 text-[13px] text-muted">Les gestes essentiels de votre journée.</p>
           </div>
           <div className="mt-4 grid gap-2">
             <QuickAction
@@ -536,7 +533,7 @@ export function AgentDashboardPage() {
               décaissements sont réservées au fournisseur.
             </p>
           </div>
-        </section>
+        </Card>
       </div>
     </div>
   );

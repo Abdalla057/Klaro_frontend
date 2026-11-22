@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   CalendarDays,
   Check,
@@ -27,12 +28,15 @@ import {
   getHistoriqueAbonnementsFournisseur,
   getHistoriquePaiementsFournisseur,
   getPlansDisponibles,
+  getPrestatairesPaiement,
+  initierPaiementDemande,
   soumettrePaiementDemande,
 } from "../../../services/abonnementDemandeService";
 import type {
   DemandeAbonnement,
   DemandeAbonnementCreationPayload,
   DemandeTypeOperation,
+  PrestatairePaiement,
   SoumissionPaiementPayload,
 } from "../../../types/demandesAbonnement";
 import type {
@@ -53,7 +57,7 @@ import { DemandeFournisseurDetailModal } from "../components/demandes/DemandeFou
 import { SoumissionPaiementModal } from "../components/demandes/SoumissionPaiementModal";
 
 type Onglet = "demandes" | "abonnements" | "paiements";
-type Message = { type: "success" | "error" | "warning"; texte: string };
+type Message = { type: "success" | "error" | "warning" | "info"; texte: string };
 
 const TON_PAIEMENT: Record<string, "success" | "warning" | "danger" | "neutral" | "info"> = {
   INITIE: "info",
@@ -67,18 +71,21 @@ const TON_PAIEMENT: Record<string, "success" | "warning" | "danger" | "neutral" 
 };
 
 async function recupererListes() {
-  const [p, d, a, pa] = await Promise.allSettled([
+  const [p, d, a, pa, pr] = await Promise.allSettled([
     getPlansDisponibles(),
     getDemandesFournisseur(),
     getHistoriqueAbonnementsFournisseur(),
     getHistoriquePaiementsFournisseur(),
+    getPrestatairesPaiement(),
   ]);
-  const echec = [p, d, a, pa].find((resultat) => resultat.status === "rejected");
+  const echec = [p, d, a, pa, pr].find((resultat) => resultat.status === "rejected");
   return {
     plans: p.status === "fulfilled" ? p.value.items : null,
     demandes: d.status === "fulfilled" ? d.value.items : null,
     abonnements: a.status === "fulfilled" ? a.value.items : null,
     paiements: pa.status === "fulfilled" ? pa.value.items : null,
+    prestataires: pr.status === "fulfilled" ? pr.value.prestataires : null,
+    paiementEnLigneActif: pr.status === "fulfilled" ? pr.value.actif : false,
     erreur:
       echec && echec.status === "rejected" ? getApiError(echec.reason).message : null,
   };
@@ -127,10 +134,13 @@ function QuotaBar({
 
 export function AbonnementPage() {
   const { abonnement, loading, error, refresh } = useFournisseur();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [plans, setPlans] = useState<PlanAbonnement[]>([]);
   const [demandes, setDemandes] = useState<DemandeAbonnement[]>([]);
   const [historiqueAbonnements, setHistoriqueAbonnements] = useState<AbonnementAdmin[]>([]);
   const [historiquePaiements, setHistoriquePaiements] = useState<PaiementAbonnement[]>([]);
+  const [prestataires, setPrestataires] = useState<PrestatairePaiement[]>([]);
+  const [paiementEnLigneActif, setPaiementEnLigneActif] = useState(false);
   const [chargementListes, setChargementListes] = useState(true);
   const [erreurListes, setErreurListes] = useState<string | null>(null);
   const [onglet, setOnglet] = useState<Onglet>("demandes");
@@ -141,16 +151,36 @@ export function AbonnementPage() {
   const [enCours, setEnCours] = useState(false);
   const [message, setMessage] = useState<Message | null>(null);
 
+  const refreshRef = useRef(refresh);
+  const demandesRef = useRef(demandes);
+
+  useEffect(() => {
+    refreshRef.current = refresh;
+  }, [refresh]);
+
+  useEffect(() => {
+    demandesRef.current = demandes;
+  }, [demandes]);
+
+  const appliquerListes = useCallback(
+    (resultat: Awaited<ReturnType<typeof recupererListes>>) => {
+      if (resultat.plans) setPlans(resultat.plans);
+      if (resultat.demandes) setDemandes(resultat.demandes);
+      if (resultat.abonnements) setHistoriqueAbonnements(resultat.abonnements);
+      if (resultat.paiements) setHistoriquePaiements(resultat.paiements);
+      if (resultat.prestataires) setPrestataires(resultat.prestataires);
+      setPaiementEnLigneActif(resultat.paiementEnLigneActif);
+      setErreurListes(resultat.erreur);
+    },
+    [],
+  );
+
   useEffect(() => {
     let annule = false;
     recupererListes()
       .then((resultat) => {
         if (annule) return;
-        if (resultat.plans) setPlans(resultat.plans);
-        if (resultat.demandes) setDemandes(resultat.demandes);
-        if (resultat.abonnements) setHistoriqueAbonnements(resultat.abonnements);
-        if (resultat.paiements) setHistoriquePaiements(resultat.paiements);
-        setErreurListes(resultat.erreur);
+        appliquerListes(resultat);
         setChargementListes(false);
       })
       .catch((e: unknown) => {
@@ -162,16 +192,12 @@ export function AbonnementPage() {
     return () => {
       annule = true;
     };
-  }, []);
+  }, [appliquerListes]);
 
   const rafraichir = async () => {
     const resultat = await recupererListes();
-    if (resultat.plans) setPlans(resultat.plans);
-    if (resultat.demandes) setDemandes(resultat.demandes);
-    if (resultat.abonnements) setHistoriqueAbonnements(resultat.abonnements);
-    if (resultat.paiements) setHistoriquePaiements(resultat.paiements);
-    setErreurListes(resultat.erreur);
-    refresh();
+    appliquerListes(resultat);
+    refreshRef.current();
   };
 
   const demandesTriees = useMemo(
@@ -200,6 +226,85 @@ export function AbonnementPage() {
     () => demandesTriees.find((d) => estDemandeActive(d.statut)) ?? null,
     [demandesTriees],
   );
+
+  const paiementEnAttente = useMemo(
+    () =>
+      demandes.some(
+        (demande) =>
+          demande.paiement !== null &&
+          demande.paiement !== undefined &&
+          ["INITIE", "EN_ATTENTE", "EN_VERIFICATION"].includes(demande.paiement.statut),
+      ),
+    [demandes],
+  );
+
+  useEffect(() => {
+    if (!paiementEnAttente) return;
+    let annule = false;
+    const intervalle = window.setInterval(() => {
+      if (document.visibilityState === "hidden") return;
+      void getDemandesFournisseur()
+        .then(async (resultat) => {
+          if (annule) return;
+          const signature = (demande: DemandeAbonnement) =>
+            `${demande.statut}:${demande.paiement?.statut ?? ""}`;
+          const avant = new Map(demandesRef.current.map((demande) => [demande.id, signature(demande)]));
+          const modifie = resultat.items.some(
+            (demande) => avant.get(demande.id) !== signature(demande),
+          );
+          demandesRef.current = resultat.items;
+          setDemandes(resultat.items);
+          setDetail((courante) => {
+            if (!courante) return courante;
+            return resultat.items.find((demande) => demande.id === courante.id) ?? courante;
+          });
+          if (modifie) {
+            const complet = await recupererListes();
+            if (!annule) {
+              appliquerListes(complet);
+              refreshRef.current();
+            }
+          }
+        })
+        .catch(() => {});
+    }, 5000);
+
+    return () => {
+      annule = true;
+      window.clearInterval(intervalle);
+    };
+  }, [paiementEnAttente, appliquerListes]);
+
+  const retourPaiement = searchParams.get("paiement");
+  const retourDemande = searchParams.get("demande");
+
+  useEffect(() => {
+    if (chargementListes || !retourPaiement) return;
+    if (retourPaiement !== "succes" && retourPaiement !== "annulation") return;
+
+    const reference = retourDemande || "cette demande";
+    const demande = demandesRef.current.find((item) => item.reference === retourDemande);
+    queueMicrotask(() => {
+      setMessage(
+        retourPaiement === "succes"
+          ? {
+              type: "info",
+              texte: `Le prestataire a signalé un paiement réussi pour ${reference}. KLARO attend la confirmation serveur : l'abonnement sera activé automatiquement après vérification du webhook.`,
+            }
+          : {
+              type: "warning",
+              texte: `Le paiement de ${reference} a été annulé chez le prestataire. Aucun montant n'a été confirmé ; vous pouvez relancer le paiement depuis la demande.`,
+            },
+      );
+      setOnglet("demandes");
+      if (demande) setDetail(demande);
+      void recupererListes().then((resultat) => {
+        appliquerListes(resultat);
+        refreshRef.current();
+      });
+      setSearchParams({}, { replace: true });
+    });
+  }, [chargementListes, retourPaiement, retourDemande, setSearchParams, appliquerListes]);
 
   const abonnementExistant = abonnement?.abonnement ?? null;
   const essaiEnCours = Boolean(abonnementExistant?.est_essai || abonnement?.plan?.est_essai);
@@ -276,6 +381,45 @@ export function AbonnementPage() {
       });
     } catch (e) {
       setMessage({ type: "error", texte: getApiError(e).message });
+    } finally {
+      setEnCours(false);
+    }
+  };
+
+  const payerEnLigne = async (demande: DemandeAbonnement, prestataire: string) => {
+    const retournerAuFormulaire = (texte: string) => {
+      setMessage({ type: "error", texte });
+      setDetail(null);
+      setPaiementCible(demande);
+    };
+    setEnCours(true);
+    setMessage(null);
+    try {
+      const maj = await initierPaiementDemande(demande.id, prestataire);
+      const url = maj.paiement_url?.trim();
+      if (!url) {
+        setDetail(maj);
+        await rafraichir();
+        retournerAuFormulaire(
+          "Le prestataire n'a pas renvoyé d'URL de paiement. Vous pouvez transmettre le justificatif manuellement.",
+        );
+        return;
+      }
+      let cible: URL;
+      try {
+        cible = new URL(url);
+        if (!["http:", "https:"].includes(cible.protocol)) throw new Error("Protocole invalide");
+      } catch {
+        retournerAuFormulaire(
+          "L'URL de paiement renvoyée est invalide. Vous pouvez transmettre le justificatif manuellement.",
+        );
+        return;
+      }
+      window.location.assign(cible.href);
+    } catch (e) {
+      retournerAuFormulaire(
+        `${getApiError(e).message} Vous pouvez transmettre le justificatif manuellement.`,
+      );
     } finally {
       setEnCours(false);
     }
@@ -487,7 +631,7 @@ export function AbonnementPage() {
           </div>
           <p className="flex items-center gap-1.5 text-xs text-muted">
             <ShieldCheck className="h-4 w-4 text-brand" aria-hidden="true" />
-            Paiement manuel vérifié par KLARO
+            Paiement vérifié par KLARO
           </p>
         </div>
 
@@ -523,7 +667,10 @@ export function AbonnementPage() {
                   </div>
 
                   <p className="mt-4 text-2xl font-semibold tracking-tight text-ink">
-                    {formatMoney(plan.prix, plan.devise)}
+                    {formatMoney(
+                      plan.prix_local ?? plan.prix,
+                      plan.prix_local ? plan.devise_locale : plan.devise,
+                    )}
                   </p>
                   <p className="text-xs text-muted">pour {plan.duree_jours} jours</p>
 
@@ -571,10 +718,9 @@ export function AbonnementPage() {
         <div className="flex items-start gap-3 rounded-2xl bg-surface px-4 py-3 text-sm text-muted">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden="true" />
           <p>
-            Le paiement en ligne n'est pas proposé tant que les moyens de paiement ne sont pas
-            exposés par le backend. Transmettez une référence de transaction et un justificatif ;
-            ils seront vérifiés par KLARO. Un justificatif ne confirme jamais automatiquement le
-            paiement.
+            {paiementEnLigneActif && prestataires.length > 0
+              ? `Payez en ligne avec ${prestataires.map((prestataire) => prestataire.nom).join(" ou ")} depuis la demande d'abonnement. La confirmation est automatique après vérification serveur. Vous pouvez aussi transmettre une référence de transaction et un justificatif ; ils seront vérifiés par KLARO.`
+              : "Le paiement en ligne n'est pas disponible pour votre pays. Vous pouvez transmettre une référence de transaction et un justificatif ; ils seront vérifiés par KLARO."}
           </p>
         </div>
       </section>
@@ -755,10 +901,13 @@ export function AbonnementPage() {
           setDetail(null);
           setPaiementCible(demande);
         }}
+        onPayerEnLigne={(demande, prestataire) => void payerEnLigne(demande, prestataire)}
         onAnnuler={(demande) => {
           setDetail(null);
           setAnnulation(demande);
         }}
+        prestataires={prestataires}
+        paiementEnLigneActif={paiementEnLigneActif}
       />
 
       <SoumissionPaiementModal

@@ -20,6 +20,7 @@ import type { StatistiquesFournisseur } from "../../../types/fournisseur";
 import { Alert } from "../../../shared/ui/alert";
 import { Badge } from "../../../shared/ui/badge";
 import { Button } from "../../../shared/ui/button/button";
+import { Card } from "../../../shared/ui/card";
 import { CardSkeleton, Skeleton, TableSkeleton } from "../../../shared/ui/loading";
 import { EmptyState } from "../../../shared/ui/empty-state";
 import { ErrorState } from "../../../shared/ui/error-state";
@@ -74,7 +75,7 @@ function QuickLink({
   return (
     <Link
       to={to}
-      className="group flex items-center gap-3 rounded-xl border border-border px-3 py-2.5 transition-colors hover:border-brand/20 hover:bg-brand-soft/50"
+      className="group flex items-center gap-3 rounded-[0.7rem] border border-border px-3 py-2.5 transition-colors hover:border-brand-accent/30 hover:bg-brand-soft/40"
     >
       <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface text-brand transition-colors group-hover:bg-white">
         <Icon className="h-4 w-4" aria-hidden="true" />
@@ -101,13 +102,13 @@ function DashboardSkeleton() {
         ))}
       </div>
       <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-        <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
+        <Card className="overflow-hidden">
           <div className="border-b border-border px-5 py-4">
             <Skeleton className="h-5 w-48" />
             <Skeleton className="mt-2 h-3 w-64" />
           </div>
           <TableSkeleton rows={5} columns={4} />
-        </div>
+        </Card>
         <div className="space-y-6">
           <CardSkeleton />
           <CardSkeleton />
@@ -271,11 +272,11 @@ export function FournisseurDashboard() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-        <section className="overflow-hidden rounded-2xl border border-border bg-white shadow-card">
+        <Card className="overflow-hidden">
           <div className="flex flex-col gap-3 border-b border-border px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-base font-semibold text-ink">Encaissements récents</h2>
-              <p className="text-sm text-muted">Les dernières opérations de vos clients.</p>
+              <h2 className="text-[15px] font-semibold tracking-[-0.012em] text-ink">Encaissements récents</h2>
+              <p className="text-[13px] text-muted">Les dernières opérations de vos clients.</p>
             </div>
             <Button asChild variant="ghost" size="sm">
               <Link to="/fournisseur/encaissements">
@@ -295,7 +296,7 @@ export function FournisseurDashboard() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-surface text-xs uppercase tracking-wide text-muted">
+                <thead className="bg-surface/70 text-[11px] uppercase tracking-[0.12em] text-muted">
                   <tr>
                     <th className="px-5 py-3 font-medium">Référence</th>
                     <th className="px-5 py-3 font-medium">Client</th>
@@ -325,7 +326,7 @@ export function FournisseurDashboard() {
                             <p className="text-xs text-muted">{client.telephone}</p>
                           )}
                         </td>
-                        <td className="whitespace-nowrap px-5 py-3 font-medium text-ink">
+                        <td className="whitespace-nowrap px-5 py-3 font-medium tabular-nums text-ink">
                           {formatMoney(encaissement.montant, devise)}
                         </td>
                         <td className="whitespace-nowrap px-5 py-3 text-muted">
@@ -347,11 +348,11 @@ export function FournisseurDashboard() {
               {annules} encaissement{annules > 1 ? "s" : ""} annulé{annules > 1 ? "s" : ""}.
             </p>
           )}
-        </section>
+        </Card>
 
         <div className="space-y-6">
-          <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
-            <h2 className="text-base font-semibold text-ink">Raccourcis</h2>
+          <Card className="p-5">
+            <h2 className="text-[15px] font-semibold tracking-[-0.012em] text-ink">Raccourcis</h2>
             <div className="mt-4 grid gap-2">
               <QuickLink
                 to="/fournisseur/encaissements"
@@ -388,13 +389,13 @@ export function FournisseurDashboard() {
                 icon={CreditCard}
               />
             </div>
-          </section>
+          </Card>
 
-          <section className="rounded-2xl border border-border bg-white p-5 shadow-card">
+          <Card className="p-5">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <h2 className="text-base font-semibold text-ink">Mon abonnement</h2>
-                <p className="text-sm text-muted">{abonnement?.plan?.nom ?? "Aucun plan actif"}</p>
+                <h2 className="text-[15px] font-semibold tracking-[-0.012em] text-ink">Mon abonnement</h2>
+                <p className="text-[13px] text-muted">{abonnement?.plan?.nom ?? "Aucun plan actif"}</p>
               </div>
               <Badge tone={statutTone}>{statutLabel}</Badge>
             </div>
@@ -418,7 +419,7 @@ export function FournisseurDashboard() {
             <Button asChild variant="outline" size="sm" className="mt-4 w-full">
               <Link to="/fournisseur/abonnement">Voir le détail</Link>
             </Button>
-          </section>
+          </Card>
         </div>
       </div>
     </div>

@@ -22,14 +22,14 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-white/85 backdrop-blur transition-shadow",
-        scrolled ? "border-gray-200 shadow-sm shadow-black/5" : "border-transparent",
+        "sticky top-0 z-50 border-b bg-white/90 backdrop-blur transition-shadow duration-300 ease-klaro",
+        scrolled ? "border-border shadow-menu" : "border-transparent",
       )}
     >
       <Container className="flex h-16 items-center justify-between gap-4">
         <Link
           to="/"
-          className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
+          className="rounded-[0.65rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/40"
           aria-label="Klaro, accueil"
         >
           <KlaroLogo />
@@ -40,7 +40,7 @@ export function Navbar() {
             <AnchorLink
               key={item.id}
               id={item.id}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-brand-soft hover:text-brand"
+              className="rounded-[0.65rem] px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-brand-soft hover:text-brand"
             >
               {item.label}
             </AnchorLink>
@@ -58,7 +58,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="grid h-11 w-11 place-items-center rounded-lg border border-gray-200 text-ink lg:hidden"
+          className="grid h-11 w-11 place-items-center rounded-[0.65rem] border border-border-strong text-ink transition-colors hover:bg-surface lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
@@ -69,7 +69,7 @@ export function Navbar() {
       </Container>
 
       {open && (
-        <div id="mobile-menu" className="border-t border-gray-100 bg-white lg:hidden">
+        <div id="mobile-menu" className="border-t border-border bg-white lg:hidden">
           <Container>
             <nav aria-label="Menu mobile" className="flex flex-col py-2">
               {NAV.map((item) => (
@@ -77,7 +77,7 @@ export function Navbar() {
                   key={item.id}
                   id={item.id}
                   onClick={() => setOpen(false)}
-                  className="border-b border-gray-100 py-3 font-medium text-ink last:border-none"
+                  className="border-b border-border py-3 font-medium text-ink last:border-none"
                 >
                   {item.label}
                 </AnchorLink>

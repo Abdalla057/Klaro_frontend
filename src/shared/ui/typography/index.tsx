@@ -12,11 +12,16 @@ export function Heading({
 }) {
   const Comp = as;
   const sizeClass =
-    size === "4xl" ? "text-4xl sm:text-5xl" :
-    size === "5xl" ? "text-5xl sm:text-6xl" :
-    size === "3xl" ? "text-3xl sm:text-4xl" :
-    size === "xl" ? "text-xl" : "text-2xl";
-  return <Comp className={cn("font-semibold tracking-tight text-ink", sizeClass, className)} {...props} />;
+    size === "4xl"
+      ? "text-4xl leading-[1.08] tracking-[-0.035em] sm:text-5xl"
+      : size === "5xl"
+        ? "text-5xl leading-[1.05] tracking-[-0.04em] sm:text-6xl"
+        : size === "3xl"
+          ? "text-3xl leading-[1.15] tracking-[-0.03em] sm:text-4xl"
+          : size === "xl"
+            ? "text-xl leading-tight tracking-[-0.015em]"
+            : "text-2xl leading-[1.2] tracking-[-0.025em] sm:text-[1.75rem]";
+  return <Comp className={cn("font-semibold text-ink", sizeClass, className)} {...props} />;
 }
 
 export function Text({
@@ -24,8 +29,9 @@ export function Text({
   className,
   ...props
 }: React.HTMLAttributes<HTMLParagraphElement> & { size?: "sm" | "base" | "lg" }) {
-  const sizeClass = size === "sm" ? "text-sm" : size === "lg" ? "text-lg" : "text-base";
-  return <p className={cn("text-ink/75", sizeClass, className)} {...props} />;
+  const sizeClass =
+    size === "sm" ? "text-[13px] leading-relaxed" : size === "lg" ? "text-base leading-relaxed sm:text-lg" : "text-sm leading-relaxed";
+  return <p className={cn("text-muted", sizeClass, className)} {...props} />;
 }
 
 export default { Heading, Text };

@@ -51,20 +51,22 @@ export function Plans() {
             <article
               key={plan.name}
               className={cn(
-                "relative flex flex-col rounded-3xl border bg-white p-6",
-                plan.featured ? "border-brand shadow-xl shadow-brand/10 md:-translate-y-2" : "border-gray-100",
+                "relative flex flex-col rounded-panel border bg-white p-6 shadow-card",
+                plan.featured ? "border-brand shadow-menu" : "border-border",
               )}
             >
               {plan.featured && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-3 py-1.5 text-eyebrow uppercase text-white">
                   Recommandée
                 </span>
               )}
 
-              <h3 className="text-lg font-semibold text-ink">{plan.name}</h3>
+              <h3 className="text-base font-semibold tracking-[-0.012em] text-ink">{plan.name}</h3>
               <p className="mt-1 text-sm text-muted">{plan.description}</p>
-              <p className="mt-4 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-ink">{plan.price}</span>
+              <p className="mt-4 flex items-baseline gap-1.5">
+                <span className="text-[1.75rem] font-semibold tracking-[-0.025em] tabular-nums text-ink">
+                  {plan.price}
+                </span>
                 <span className="text-sm text-muted">/ {plan.duration}</span>
               </p>
 

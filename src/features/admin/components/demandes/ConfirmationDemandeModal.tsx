@@ -83,7 +83,7 @@ export function ConfirmationDemandeModal({
                 className="mt-1.5"
                 value={valeurs.prestataire}
                 onChange={(e) => modifier("prestataire", e.target.value)}
-                placeholder="wave, orange_money…"
+                placeholder="paytech, wave…"
               />
             </label>
             <label className="block text-sm font-medium text-ink">

@@ -12,7 +12,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSel
     <select
       ref={ref}
       className={cn(
-        "flex h-10 w-full appearance-none rounded-xl border border-border bg-white bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat px-3 pr-9 text-sm text-ink shadow-sm transition-[border-color,box-shadow] focus-visible:border-brand/40 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/10 disabled:cursor-not-allowed disabled:opacity-60 aria-invalid:border-red-300",
+        "flex h-10 w-full appearance-none rounded-[0.7rem] border border-border-strong bg-white bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat px-3 pr-9 text-sm text-ink shadow-sm transition-[border-color,box-shadow] focus:border-brand-accent/50 focus:outline-none focus:ring-4 focus:ring-brand-accent/10 disabled:cursor-not-allowed disabled:bg-surface disabled:opacity-60 aria-invalid:border-danger/50 aria-invalid:focus:ring-danger/10",
         className,
       )}
       style={{

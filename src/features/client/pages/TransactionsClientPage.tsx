@@ -19,6 +19,7 @@ import type {
 import { formatDate, formatMoney, toDateInputValue } from "../../../shared/utils/format";
 import { Badge } from "../../../shared/ui/badge";
 import { Button } from "../../../shared/ui/button/button";
+import { Card } from "../../../shared/ui/card";
 import { EmptyState } from "../../../shared/ui/empty-state";
 import { ErrorState } from "../../../shared/ui/error-state";
 import { Input } from "../../../shared/ui/input";
@@ -143,41 +144,39 @@ export function TransactionsClientPage() {
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-border bg-white p-5 shadow-sm">
+        <Card className="p-5">
           <div className="flex items-start justify-between">
-            <p className="text-sm font-medium text-muted">Transactions</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-soft text-brand">
+            <p className="text-[13px] font-medium text-muted">Transactions</p>
+            <span className="flex h-9 w-9 items-center justify-center rounded-[0.65rem] bg-brand-soft text-brand">
               <ArrowLeftRight className="h-4 w-4" aria-hidden="true" />
             </span>
           </div>
-          <p className="mt-2 text-2xl font-semibold text-ink">{summary.total}</p>
-          <p className="mt-1 text-xs text-muted">Mouvements enregistrés</p>
-        </div>
-        <div className="rounded-2xl border border-red-200 bg-red-50/70 p-5 shadow-sm">
+          <p className="mt-2 text-kpi tabular-nums text-ink">{summary.total}</p>
+          <p className="mt-2 text-xs text-muted">Mouvements enregistrés</p>
+        </Card>
+        <Card className="border-danger/15 bg-danger-soft/40 p-5">
           <div className="flex items-start justify-between">
-            <p className="text-sm font-medium text-red-700">Débits validés</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-100 text-red-700">
+            <p className="text-[13px] font-medium text-danger">Débits validés</p>
+            <span className="flex h-9 w-9 items-center justify-center rounded-[0.65rem] bg-danger-soft text-danger">
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </span>
           </div>
-          <p className="mt-2 text-2xl font-semibold text-red-900">{formatMoney(summary.debits)}</p>
-          <p className="mt-1 text-xs text-red-700">{summary.debitCount} transaction(s)</p>
-        </div>
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 shadow-sm">
+          <p className="mt-2 text-kpi tabular-nums text-ink">{formatMoney(summary.debits)}</p>
+          <p className="mt-2 text-xs text-muted">{summary.debitCount} transaction(s)</p>
+        </Card>
+        <Card className="border-success/15 bg-success-soft/40 p-5">
           <div className="flex items-start justify-between">
-            <p className="text-sm font-medium text-emerald-700">Crédits validés</p>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+            <p className="text-[13px] font-medium text-success">Crédits validés</p>
+            <span className="flex h-9 w-9 items-center justify-center rounded-[0.65rem] bg-success-soft text-success">
               <ArrowDownLeft className="h-4 w-4" aria-hidden="true" />
             </span>
           </div>
-          <p className="mt-2 text-2xl font-semibold text-emerald-900">
-            {formatMoney(summary.credits)}
-          </p>
-          <p className="mt-1 text-xs text-emerald-700">{summary.creditCount} transaction(s)</p>
-        </div>
+          <p className="mt-2 text-kpi tabular-nums text-ink">{formatMoney(summary.credits)}</p>
+          <p className="mt-2 text-xs text-muted">{summary.creditCount} transaction(s)</p>
+        </Card>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+      <Card className="overflow-hidden">
         <div className="border-b border-border p-4">
           <div className="grid gap-3 xl:grid-cols-[1fr_repeat(5,auto)]">
             <div className="relative">
@@ -299,9 +298,9 @@ export function TransactionsClientPage() {
         ) : (
           <>
             <div className="overflow-x-auto">
-              <table className="min-w-full text-sm">
+              <table className="w-full min-w-[52rem] text-left text-sm">
                 <thead>
-                  <tr className="border-b border-border bg-surface/70 text-left text-xs uppercase tracking-wider text-muted">
+                  <tr className="border-b border-border bg-surface/70 text-[11px] uppercase tracking-[0.12em] text-muted">
                     <th className="px-5 py-3 font-medium">Référence</th>
                     <th className="px-5 py-3 font-medium">Type</th>
                     <th className="px-5 py-3 font-medium">Sens</th>
@@ -331,8 +330,8 @@ export function TransactionsClientPage() {
                           <span
                             className={
                               transaction.sens === "DEBIT"
-                                ? "inline-flex items-center gap-1 text-xs font-medium text-red-600"
-                                : "inline-flex items-center gap-1 text-xs font-medium text-emerald-600"
+                                ? "inline-flex items-center gap-1 text-xs font-medium text-danger"
+                                : "inline-flex items-center gap-1 text-xs font-medium text-success"
                             }
                           >
                             {transaction.sens === "DEBIT" ? (
@@ -343,7 +342,7 @@ export function TransactionsClientPage() {
                             {TRANSACTION_CLIENT_SENS_LABELS[transaction.sens]}
                           </span>
                         </td>
-                        <td className="px-5 py-4 font-semibold text-ink">
+                        <td className="px-5 py-4 font-semibold tabular-nums text-ink">
                           {formatMoney(transaction.montant)}
                         </td>
                         <td className="px-5 py-4">
@@ -379,7 +378,7 @@ export function TransactionsClientPage() {
             />
           </>
         )}
-      </div>
+      </Card>
 
       <ClientTransactionDetailModal
         transaction={viewing}

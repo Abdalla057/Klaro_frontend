@@ -15,7 +15,6 @@ function nombre(valeur: number | undefined) {
   return new Intl.NumberFormat("fr-FR").format(valeur ?? 0);
 }
 
-/** Carte verte (clin d'œil à la carte bancaire de la référence) portant les 3 compteurs clés. */
 function CarteVerte({
   paiements,
   fournisseurs,
@@ -28,53 +27,28 @@ function CarteVerte({
   actualise: Date | null;
 }) {
   return (
-    <div className="relative mx-auto w-full max-w-[17rem] pb-3 sm:mx-0">
-      {/* Cartes empilées derrière */}
-      <div className="absolute inset-x-3 bottom-0 top-8 rounded-2xl bg-[#f1d7ca]" />
-      <div className="absolute inset-x-1.5 bottom-1.5 top-5 rounded-2xl bg-sun" />
+    <div className="mx-auto w-full max-w-[17rem] rounded-panel bg-pine-deep p-5 text-white shadow-card ring-1 ring-inset ring-white/10 sm:mx-0">
+      <div className="flex items-center justify-between text-xs font-medium text-white/70">
+        <span>Super Admin</span>
+        <span className="text-sm font-semibold tracking-[-0.01em] text-white">Klaro</span>
+      </div>
 
-      <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-pine-deep via-pine to-pine-deep p-4 text-white shadow-[0_14px_30px_-14px_rgba(26,71,59,0.6)]">
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 300 180"
-          preserveAspectRatio="none"
-          className="absolute inset-0 h-full w-full opacity-25"
-        >
-          {Array.from({ length: 9 }).map((_, i) => (
-            <path
-              key={i}
-              d={`M-10 ${20 + i * 20} C 50 ${i * 20 - 5}, 100 ${50 + i * 20}, 160 ${25 + i * 20} S 260 ${i * 20 - 10}, 320 ${30 + i * 20}`}
-              fill="none"
-              stroke="#fff"
-              strokeWidth="1"
-            />
-          ))}
-        </svg>
-
-        <div className="relative">
-          <div className="flex items-center justify-between text-xs font-medium">
-            <span className="opacity-90">Super Admin</span>
-            <span className="text-sm font-semibold tracking-wide">Klaro</span>
+      <div className="mt-6 grid grid-cols-3 gap-2">
+        {[
+          { v: paiements, l: "Paiements" },
+          { v: fournisseurs, l: "Fournisseurs" },
+          { v: abonnements, l: "Abonnements" },
+        ].map((item) => (
+          <div key={item.l}>
+            <p className="text-xl font-semibold leading-none tabular-nums">{nombre(item.v)}</p>
+            <p className="mt-1.5 truncate text-[11px] text-white/70">{item.l}</p>
           </div>
+        ))}
+      </div>
 
-          <div className="mt-6 grid grid-cols-3 gap-2">
-            {[
-              { v: paiements, l: "Paiements" },
-              { v: fournisseurs, l: "Fournisseurs" },
-              { v: abonnements, l: "Abonnements" },
-            ].map((item) => (
-              <div key={item.l}>
-                <p className="text-xl font-semibold leading-none">{nombre(item.v)}</p>
-                <p className="mt-1 truncate text-[10px] text-white/75">{item.l}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 flex items-center justify-between text-[10px] text-white/80">
-            <span>Confirmés · actifs</span>
-            <span>{actualise ? formatRelativeDate(actualise.toISOString()) : "…"}</span>
-          </div>
-        </div>
+      <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-3 text-[11px] text-white/60">
+        <span>Confirmés · actifs</span>
+        <span>{actualise ? formatRelativeDate(actualise.toISOString()) : "…"}</span>
       </div>
     </div>
   );
@@ -95,8 +69,8 @@ export function HeroFinancier({
   return (
     <Panel className="p-6">
       <div>
-        <PanelTitle className="text-2xl sm:text-3xl">Vue d'ensemble</PanelTitle>
-        <p className="mt-1 text-sm text-muted">
+        <PanelTitle className="text-[22px] tracking-[-0.025em] sm:text-3xl">Vue d'ensemble</PanelTitle>
+        <p className="mt-1 text-[13px] text-muted">
           Votre activité, vos revenus et les actions à mener en un coup d'œil.
         </p>
       </div>
@@ -110,8 +84,8 @@ export function HeroFinancier({
         />
 
         <div className="min-w-0">
-          <p className="text-sm text-muted">Chiffre d'affaires global</p>
-          <p className="mt-1 break-words text-3xl font-semibold leading-tight tracking-tight text-ink">
+          <p className="text-[13px] text-muted">Chiffre d'affaires global</p>
+          <p className="mt-1 break-words text-3xl font-semibold leading-tight tracking-[-0.03em] tabular-nums text-ink">
             {formatMoney(finances?.chiffre_affaires_total ?? 0)}
             <span className="ml-1.5 text-base font-medium text-muted">{devise}</span>
           </p>
@@ -138,7 +112,7 @@ export function HeroFinancier({
               <Link
                 key={to}
                 to={to}
-                className="group flex min-h-[5.5rem] flex-col justify-between rounded-[1.4rem] border border-border/60 bg-mint/60 p-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-pine/20 hover:bg-mint"
+                className="group flex min-h-[5.5rem] flex-col justify-between rounded-card border border-border/70 bg-mint/50 p-3.5 transition-all duration-200 ease-klaro hover:border-pine/20 hover:bg-mint"
               >
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-pine text-white transition-transform group-hover:scale-105">
                   <Icon className="h-4 w-4" aria-hidden="true" />

@@ -75,7 +75,7 @@ export function AdminSidebar() {
         <AdminLogo className="h-10 w-10" />
         <span className="min-w-0">
           <span className="block text-base font-semibold leading-tight tracking-tight text-ink">{BRAND}</span>
-          <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">
+          <span className="block text-eyebrow uppercase text-muted">
             Super admin
           </span>
         </span>
@@ -84,7 +84,7 @@ export function AdminSidebar() {
       <nav className="mt-8 flex-1 space-y-6">
         {ADMIN_NAV_GROUPS.map((groupe) => (
           <div key={groupe.titre}>
-            <p className="px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted/80">
+            <p className="px-3 text-eyebrow uppercase text-muted/80">
               {groupe.titre}
             </p>
             <div className="mt-2 space-y-1">
@@ -97,7 +97,7 @@ export function AdminSidebar() {
                     cn(
                       "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
                       isActive
-                        ? "bg-pine text-white shadow-[0_10px_24px_-14px_rgba(26,71,59,0.9)]"
+                        ? "bg-pine text-white shadow-card"
                         : "text-muted hover:bg-mint hover:text-ink",
                     )
                   }
@@ -124,7 +124,7 @@ export function AdminSidebar() {
         ))}
       </nav>
 
-      <div className="mt-6 rounded-2xl border border-pine/10 bg-mint/60 p-4">
+      <div className="mt-6 rounded-card border border-pine/10 bg-mint/60 p-4">
         <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-pine shadow-sm">
           <ShieldCheck className="h-4 w-4" aria-hidden="true" />
         </span>
@@ -164,7 +164,7 @@ export function AdminMobileNav({
       <aside
         aria-hidden={!open}
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col bg-linear-to-b from-pine-deep to-pine px-4 pb-5 pt-5 text-white shadow-2xl transition-transform duration-300",
+          "fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col bg-pine-deep px-4 pb-5 pt-5 text-white shadow-sidebar transition-transform duration-300 ease-klaro",
           open ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -191,7 +191,7 @@ export function AdminMobileNav({
         <nav className="mt-8 flex-1 space-y-6 overflow-y-auto">
           {ADMIN_NAV_GROUPS.map((groupe) => (
             <div key={groupe.titre}>
-              <p className="px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
+              <p className="px-3 text-eyebrow uppercase text-white/45">
                 {groupe.titre}
               </p>
               <div className="mt-2 space-y-1">

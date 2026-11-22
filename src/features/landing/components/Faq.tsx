@@ -29,8 +29,8 @@ export function Faq() {
               <div
                 key={item.q}
                 className={cn(
-                  "overflow-hidden rounded-xl border bg-white transition-colors",
-                  isOpen ? "border-brand/20 shadow-sm" : "border-gray-100",
+                  "overflow-hidden rounded-card border bg-white transition-colors duration-300 ease-klaro",
+                  isOpen ? "border-brand/20 shadow-menu" : "border-border",
                 )}
               >
                 <h3>

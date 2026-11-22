@@ -42,10 +42,10 @@ export function ForWho() {
           {AUDIENCES.map((audience) => (
             <article
               key={audience.title}
-              className="flex flex-col rounded-2xl border border-gray-100 bg-surface p-6 transition hover:border-brand/20 hover:shadow-lg hover:shadow-brand/5"
+              className="flex flex-col rounded-card border border-border bg-surface p-6 shadow-card transition-colors duration-300 ease-klaro hover:border-brand/20"
             >
               <IconBox icon={audience.icon} tone="dark" />
-              <h3 className="mt-5 text-lg font-semibold text-ink">{audience.title}</h3>
+              <h3 className="mt-5 text-base font-semibold tracking-[-0.012em] text-ink">{audience.title}</h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{audience.text}</p>
               <Link
                 to={audience.to}

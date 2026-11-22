@@ -1,7 +1,9 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Search, SearchX } from "lucide-react";
 import { Button } from "../../../shared/ui/button/button";
+import { Input } from "../../../shared/ui/input";
 import { Modal } from "../../../shared/ui/modal";
+import { Select } from "../../../shared/ui/select";
 import { Pagination } from "../../../shared/ui/pagination";
 import { Textarea } from "../../../shared/ui/textarea";
 import { cn } from "../../../shared/utils/cn";
@@ -21,7 +23,7 @@ export function ListPageHeader({
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div className="min-w-0">
-        <p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">
+        <p className="flex items-center gap-2 text-eyebrow uppercase text-muted">
           <span className="h-1.5 w-1.5 rounded-full bg-pine" aria-hidden="true" />
           Espace super admin
         </p>
@@ -46,16 +48,19 @@ export function Toolbar({
 }) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-      <label className="flex h-11 min-w-0 flex-1 items-center gap-2.5 rounded-2xl border border-border/70 bg-white px-3.5 text-sm shadow-sm transition-shadow focus-within:border-pine/30 focus-within:ring-2 focus-within:ring-pine/20">
-        <Search className="h-4 w-4 shrink-0 text-muted" aria-hidden="true" />
-        <input
+      <div className="relative min-w-0 flex-1">
+        <Search
+          className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+          aria-hidden="true"
+        />
+        <Input
           value={recherche}
           onChange={(e) => onRecherche(e.target.value)}
           placeholder={placeholder}
           aria-label={placeholder}
-          className="w-full min-w-0 bg-transparent text-ink outline-none placeholder:text-muted/80"
+          className="pl-9"
         />
-      </label>
+      </div>
       {children}
     </div>
   );
@@ -73,18 +78,13 @@ export function FiltreSelect({
   label: string;
 }) {
   return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      aria-label={label}
-      className="h-11 rounded-2xl border border-border/70 bg-white px-3.5 text-sm text-ink shadow-sm outline-none transition-shadow focus-visible:border-pine/30 focus-visible:ring-2 focus-visible:ring-pine/20"
-    >
+    <Select value={value} onChange={(e) => onChange(e.target.value)} aria-label={label} className="sm:w-48">
       {options.map((o) => (
         <option key={o.value} value={o.value}>
           {o.label}
         </option>
       ))}
-    </select>
+    </Select>
   );
 }
 

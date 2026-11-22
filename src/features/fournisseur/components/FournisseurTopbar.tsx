@@ -48,7 +48,7 @@ export function FournisseurTopbar({ onMenu }: { onMenu: () => void }) {
             <Menu className="h-5 w-5" />
           </button>
           <div className="min-w-0">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-accent">
+            <p className="text-eyebrow uppercase text-brand-accent">
               Espace fournisseur
             </p>
             <h1 className="truncate text-base font-semibold text-ink sm:text-lg">{title}</h1>
@@ -87,7 +87,7 @@ export function FournisseurTopbar({ onMenu }: { onMenu: () => void }) {
                 aria-label="Fermer le menu"
                 onClick={() => setMenuOpen(false)}
               />
-              <div className="absolute right-0 z-20 mt-2 w-64 overflow-hidden rounded-2xl border border-border bg-white py-1 shadow-xl">
+              <div className="absolute right-0 z-20 mt-2 w-64 overflow-hidden rounded-card border border-border bg-white py-1 shadow-menu">
                 <div className="border-b border-border px-3 py-2.5">
                   <p className="truncate text-sm font-medium text-ink">
                     {profil?.nom_entreprise ?? "Mon entreprise"}
@@ -108,7 +108,7 @@ export function FournisseurTopbar({ onMenu }: { onMenu: () => void }) {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-sm text-danger transition-colors hover:bg-danger-soft"
                 >
                   <LogOut className="h-4 w-4" aria-hidden="true" />
                   Déconnexion
