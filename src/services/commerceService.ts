@@ -1,5 +1,5 @@
 import api from "./api";
-import type { AllPagesResult } from "./pagination";
+import { fetchAllPages, type AllPagesResult } from "./pagination";
 import type {
   CategorieProduit,
   CategorieProduitPayload,
@@ -29,33 +29,12 @@ import type {
 
 const BASE = "/api/commerce";
 
-async function fetchAllPagesWithParams<T>(
+function fetchAllPagesWithParams<T>(
   url: string,
-  params: Record<string, string | number | boolean | undefined> = {},
+  params: CommerceFilters = {},
   maxPages = 50,
 ): Promise<AllPagesResult<T>> {
-  const items: T[] = [];
-  let count = 0;
-  let complete = false;
-
-  for (let page = 1; page <= maxPages; page += 1) {
-    const response = await api.get<{
-      count: number;
-      next: string | null;
-      results: T[];
-    }>(url, { params: { ...params, page } });
-    const data = response.data;
-
-    count = data.count;
-    items.push(...data.results);
-
-    if (!data.next) {
-      complete = true;
-      break;
-    }
-  }
-
-  return { items, count, complete };
+  return fetchAllPages<T>(url, maxPages, params);
 }
 
 export interface CommerceFilters {

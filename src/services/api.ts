@@ -3,9 +3,16 @@ import { storage } from "../utils/storage";
 
 export const API_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
 
+function lireTimeout(): number {
+  const valeur = Number(import.meta.env.VITE_API_TIMEOUT_MS);
+  return Number.isFinite(valeur) && valeur >= 1000 ? valeur : 60_000;
+}
+
+export const API_TIMEOUT_MS = lireTimeout();
+
 const api = axios.create({
   baseURL: API_URL,
-  timeout: 20000,
+  timeout: API_TIMEOUT_MS,
 });
 
 api.interceptors.request.use((config) => {
@@ -32,7 +39,7 @@ async function refreshAccessToken(): Promise<string> {
   const response = await axios.post<{ access: string }>(
     `${API_URL}/api/comptes/refresh/`,
     { refresh: refreshToken },
-    { headers: { "Content-Type": "application/json" }, timeout: 20000 },
+    { headers: { "Content-Type": "application/json" }, timeout: API_TIMEOUT_MS },
   );
 
   if (!response.data.access) throw new Error("Réponse de renouvellement invalide");

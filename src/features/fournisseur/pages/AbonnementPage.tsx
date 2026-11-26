@@ -241,8 +241,10 @@ export function AbonnementPage() {
   useEffect(() => {
     if (!paiementEnAttente) return;
     let annule = false;
+    let requeteEnCours = false;
     const intervalle = window.setInterval(() => {
-      if (document.visibilityState === "hidden") return;
+      if (document.visibilityState === "hidden" || requeteEnCours) return;
+      requeteEnCours = true;
       void getDemandesFournisseur()
         .then(async (resultat) => {
           if (annule) return;
@@ -266,8 +268,11 @@ export function AbonnementPage() {
             }
           }
         })
-        .catch(() => {});
-    }, 5000);
+        .catch(() => {})
+        .finally(() => {
+          requeteEnCours = false;
+        });
+    }, 30_000);
 
     return () => {
       annule = true;

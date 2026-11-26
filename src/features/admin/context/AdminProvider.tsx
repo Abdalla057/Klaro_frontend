@@ -20,13 +20,14 @@ import type {
 } from "../../../types/superAdmin";
 import { AdminDataContext } from "./adminContextCore";
 
-const INTERVALLE_STATS = 30_000;
-const INTERVALLE_LISTES = 60_000;
+const INTERVALLE_STATS = 60_000;
+const INTERVALLE_LISTES = 300_000;
+const DELAI_RETOUR = 30_000;
 
 /**
  * Source unique des données du Super Admin : tableau de bord, finances et listes
  * (fournisseurs, abonnements, paiements, plans). Synchronisation automatique :
- * les indicateurs sont relus toutes les 30 s ; dès qu'ils changent (ex. paiement
+ * les indicateurs sont relus toutes les minutes ; dès qu'ils changent (ex. paiement
  * confirmé depuis une autre session) les listes sont relues immédiatement.
  */
 export function AdminProvider({ children }: { children: ReactNode }) {
@@ -44,6 +45,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
 
   const actif = useRef(true);
   const signature = useRef<string | null>(null);
+  const chargementEnCours = useRef(false);
+  const dernierChargement = useRef(0);
 
   const chargerListes = useCallback(async () => {
     const [f, a, p, pl, d] = await Promise.allSettled([
@@ -79,6 +82,9 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   /** Synchronisation complète (statistiques + listes). */
   const refresh = useCallback(
     async (silencieux = true) => {
+      if (chargementEnCours.current) return;
+      chargementEnCours.current = true;
+      dernierChargement.current = Date.now();
       if (!silencieux) setLoading(true);
       try {
         await chargerStats();
@@ -90,6 +96,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       } catch (err) {
         if (actif.current) setError(getApiError(err).message);
       } finally {
+        chargementEnCours.current = false;
         if (actif.current) setLoading(false);
       }
     },
@@ -106,8 +113,10 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       void refresh(false);
     }, 0);
 
-    // Indicateurs : légers, relus souvent. Si quelque chose a changé, on relit les listes.
     const stats = window.setInterval(() => {
+      if (chargementEnCours.current) return;
+      chargementEnCours.current = true;
+      dernierChargement.current = Date.now();
       void (async () => {
         try {
           const change = await chargerStats();
@@ -122,18 +131,29 @@ export function AdminProvider({ children }: { children: ReactNode }) {
           }
         } catch (err) {
           if (actif.current) setError(getApiError(err).message);
+        } finally {
+          chargementEnCours.current = false;
         }
       })();
     }, INTERVALLE_STATS);
 
     const listes = window.setInterval(() => {
-      void chargerListes().then((e) => {
-        if (actif.current && e) setError(e);
-      });
+      if (chargementEnCours.current) return;
+      chargementEnCours.current = true;
+      dernierChargement.current = Date.now();
+      void chargerListes()
+        .then((e) => {
+          if (actif.current && e) setError(e);
+        })
+        .finally(() => {
+          chargementEnCours.current = false;
+        });
     }, INTERVALLE_LISTES);
 
     const surRetour = () => {
-      if (document.visibilityState === "visible") void refresh(true);
+      if (document.visibilityState !== "visible") return;
+      if (Date.now() - dernierChargement.current < DELAI_RETOUR) return;
+      void refresh(true);
     };
     window.addEventListener("focus", surRetour);
     document.addEventListener("visibilitychange", surRetour);

@@ -170,7 +170,7 @@ export function AdminCommercePage() {
           </p>
         </div>
 
-        {(stats?.par_fournisseur.length ?? 0) === 0 ? (
+        {(stats?.par_fournisseur?.length ?? 0) === 0 ? (
           <div className="p-5">
             <EmptyState
               title="Aucune activité commerciale"
